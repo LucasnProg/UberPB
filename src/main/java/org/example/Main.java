@@ -1,21 +1,26 @@
 package org.example;
 
+import org.example.model.entity.Motorista;
 import org.example.model.entity.Passageiro;
 import org.example.model.repository.PassageiroRepository;
+import org.example.model.service.MotoristaService;
+import org.example.model.service.PassageiroService;
 
 public class Main {
     public static void main(String[] args) {
-        Passageiro p1 = new Passageiro("Lucas", "lucas@gmail.com", "senha123", "12345678910", "83987380330");
-        Passageiro p2 = new Passageiro("Manoel", "lucas@gmail.com", "senha123", "12345678910", "83987380330");
-        Passageiro p3 = new Passageiro("Mateus", "lucas@gmail.com", "senha123", "12345678910", "83987380330");
-        Passageiro p4 = new Passageiro("Eric", "lucas@gmail.com", "senha123", "12345678910", "83987380330");
+        PassageiroService passageiroManager = new PassageiroService();
+        MotoristaService motoristaManager = new MotoristaService();
 
-        PassageiroRepository passageirosRepo = new PassageiroRepository();
+        passageiroManager.criarPassageiro("Lucas", "lucas@gmail.com", "senha123", "12345678910", "83987380330");
+        passageiroManager.criarPassageiro("Manoel", "lucas@gmail.com", "senha123", "12345678911", "83987380330");
+        passageiroManager.criarPassageiro("Mateus", "lucas@gmail.com", "senha123", "12345678912", "83987380330");
+        passageiroManager.criarPassageiro("Eric", "lucas@gmail.com", "senha123", "12345678913", "83987380330");
 
-        passageirosRepo.salvarPassageiro(p1);
-        passageirosRepo.salvarPassageiro(p2);
-        passageirosRepo.salvarPassageiro(p3);
-        passageirosRepo.salvarPassageiro(p4);
+
+        motoristaManager.criarMotorista("Lucas", "lucas@gmail.com", "senha123", "12345678910", "83987380330");
+        motoristaManager.criarMotorista("Rufino", "lucas@gmail.com", "senha123", "12345678911", "83987380330");
+        motoristaManager.criarMotorista("Manoel", "lucas@gmail.com", "senha123", "12345678912", "83987380330");
+        motoristaManager.criarMotorista("Eric", "lucas@gmail.com", "senha123", "12345678913", "83987380330");
     }
 
 }

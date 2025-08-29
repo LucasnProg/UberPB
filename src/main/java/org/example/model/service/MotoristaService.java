@@ -9,10 +9,9 @@ import java.util.List;
 
 public class MotoristaService {
 
-    private MotoristaRepository motoristas;
+    private final MotoristaRepository motoristas = new MotoristaRepository();
 
-    public MotoristaService(MotoristaRepository repository) {
-        this.motoristas = repository;
+    public MotoristaService() {
     }
 
     public void criarMotorista(String nome, String email, String senha, String cpf, String telefone) {

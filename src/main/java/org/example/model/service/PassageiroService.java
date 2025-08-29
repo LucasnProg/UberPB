@@ -8,10 +8,9 @@ import java.util.List;
 
 public class PassageiroService {
 
-    private PassageiroRepository passageiros;
+    private final PassageiroRepository passageiros = new PassageiroRepository();
 
-    public PassageiroService(PassageiroRepository repository) {
-        this.passageiros = repository;
+    public PassageiroService() {
     }
 
     public void criarPassageiro(String nome, String email, String senha, String cpf, String telefone) {
