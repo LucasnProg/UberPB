@@ -26,5 +26,37 @@
     "email": "lucas@gmail.com",
     "cpf": "12345678910",
     "telefone": "83987380330"
+  },
+  {
+    "id": 5,
+    "nome": "Lucas",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "12345678910",
+    "telefone": "83987380330"
+  },
+  {
+    "id": 6,
+    "nome": "Manoel",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "12345678910",
+    "telefone": "83987380330"
+  },
+  {
+    "id": 7,
+    "nome": "Mateus",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "12345678910",
+    "telefone": "83987380330"
+  },
+  {
+    "id": 8,
+    "nome": "Eric",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "12345678910",
+    "telefone": "83987380330"
   }
 ]

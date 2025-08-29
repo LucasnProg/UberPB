@@ -5,14 +5,24 @@ public class Usuario {
     private int id;
     private String nome;
     private String email;
+    private String senha;
     private String cpf;
     private String telefone;
 
-    public Usuario(String nome, String email, String cpf, String telefone) {
+    public Usuario(String nome, String email,String senha, String cpf, String telefone) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.telefone = telefone;
+        this.senha = senha;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getNome() {
