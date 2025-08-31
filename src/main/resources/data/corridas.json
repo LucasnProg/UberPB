@@ -1,0 +1,29 @@
+[{
+  "id": 1,
+  "passageiro": {
+    "id": 1,
+    "nome": "Lucas",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "12345678910",
+    "telefone": "83987380330",
+    "localizacaoAtual": "CCT"
+  },
+  "motorista": {
+    "id": 2,
+    "nome": "Rufino",
+    "email": "rufino@gmail.com",
+    "senha": "senha456",
+    "cpf": "12345678911",
+    "telefone": "83987380331",
+    "localizacaoAtual": "EntradaUEPB",
+    "categoriaVeiculo": "UberX"
+  },
+  "origem": "CCT",
+  "destino": "CIAC",
+  "valor": 18.50,
+  "horaInicio": "2025-08-29T12:50:00.000000",
+  "horaFim": "2025-08-29T21:13:00.000000",
+  "categoriaVeiculo": "UberX",
+  "status": "CONCLUIDA"
+}]
