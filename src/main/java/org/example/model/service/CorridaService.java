@@ -79,6 +79,32 @@ public class CorridaService {
         System.out.println("Corrida finalizada");
     }
 
+    private double calcularDistanciaEstimada(String origem, String destino) {
+        if (origem.equalsIgnoreCase("Centro") && destino.equalsIgnoreCase("Aeroporto")) 
+        {
+            return 12.0;
+        } 
+        else if (origem.equalsIgnoreCase("Centro") && destino.equalsIgnoreCase("Shopping")) 
+        {
+            return 5.5;
+        } 
+        else if (origem.equalsIgnoreCase("Universidade") && destino.equalsIgnoreCase("Centro")) 
+        {
+            return 8.0;
+        } 
+        else 
+        {
+            //Se desconhecido, gera distância aleatória entre 2 e 15km
+            int hash = Math.abs((origem + destino).hashCode());
+            return 2 + (hash % 14); 
+        }
+    }
+
+    private double calcularTempoEstimado(double distanciaKm) {
+        double velocidadeMediaKmH = 50.0; 
+        return (distanciaKm / velocidadeMediaKmH) * 60;
+    }
+
     private double calcularPreco(String origem, String destino, String categoria) {
         //TODO = calculo de preço por corrida
         double preco = 0;
