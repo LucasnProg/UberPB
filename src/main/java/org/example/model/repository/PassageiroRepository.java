@@ -24,6 +24,18 @@ public class PassageiroRepository implements UsuarioRepository{
         return null;
     }
 
+    public Passageiro buscarPorId(int id) {
+        atualizarPassageirosCarregados();
+
+        for (Passageiro p : passageirosCarregados){
+            if (p.getId() == id){
+                return p;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public void remover(String cpf) {
         atualizarPassageirosCarregados();

@@ -6,49 +6,47 @@ import java.time.LocalDateTime;
 
 public class Corrida {
     private int id;
-    private Passageiro passageiro;
-    private Motorista motorista;
-    private String origem;
+    private int passageiroId;
+    private int motoristaId;
+    private String origem; //Trocar tipo no futuro para localização
     private String destino;
     private double valor;
     private LocalDateTime horaInicio;
     private LocalDateTime horaFim;
     private String categoriaVeiculo;
     private StatusCorrida status;
-    private boolean concluida;
 
-    public Corrida(Passageiro passageiro, String origem, String destino, String categoriaVeiculo) {
-        this.passageiro = passageiro;
+    public Corrida(int passageiroId, String origem, String destino, String categoriaVeiculo) {
+        this.passageiroId = passageiroId;
         this.origem = origem;
         this.destino = destino;
         this.categoriaVeiculo = categoriaVeiculo;
         this.horaInicio = LocalDateTime.now();
         this.status = StatusCorrida.SOLICITADA; // quando uma instancia de corrida for criada ela será por padrão classificada como solicitaada
-        this.concluida = false;
     }
 
     public int getId() {
         return id;
     }
 
+    public int getPassageiroId() {
+        return passageiroId;
+    }
+
+    public void setPassageiroId(int passageiroId) {
+        this.passageiroId = passageiroId;
+    }
+
+    public int getMotoristaId() {
+        return motoristaId;
+    }
+
+    public void setMotoristaId(int motoristaId) {
+        this.motoristaId = motoristaId;
+    }
+
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Passageiro getPassageiro() {
-        return passageiro;
-    }
-
-    public void setPassageiro(Passageiro passageiro) {
-        this.passageiro = passageiro;
-    }
-
-    public Motorista getMotorista() {
-        return motorista;
-    }
-
-    public void setMotorista(Motorista motorista) {
-        this.motorista = motorista;
     }
 
     public String getOrigem() {

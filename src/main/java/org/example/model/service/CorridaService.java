@@ -16,15 +16,12 @@ public class CorridaService {
     private final MotoristaService motoristaService = new MotoristaService();
     private final CorridaRepository corridaRepository = new CorridaRepository();
 
-    public Corrida solicitarCorrida(String cpfPassageiro, String origem, String destino, String categoriaVeiculo) {
-        Passageiro passageiro = passageiroService.getPassageiro(cpfPassageiro);
-        if (passageiro == null) {
-            throw new CrudUserError("Passageiro não encontrado.");
-        }
+    public Corrida solicitarCorrida(int idPassageiro, String origem, String destino, String categoriaVeiculoDesejada) {
 
-        double precoEstimado = calcularPreco(origem, destino, categoriaVeiculo);
 
-        Corrida novaCorrida = new Corrida(passageiro, origem, destino, categoriaVeiculo);
+        double precoEstimado = calcularPreco(origem, destino, categoriaVeiculoDesejada);
+
+        Corrida novaCorrida = new Corrida(idPassageiro, origem, destino, categoriaVeiculoDesejada);
         novaCorrida.setValor(precoEstimado);
 
         Motorista motoristaEncontrado = encontrarMotoristaParaCorrida();
@@ -48,7 +45,7 @@ public class CorridaService {
             throw new CrudUserError("Motorista não encontrado.");
         }
 
-        corrida.setMotorista(motorista);
+        corrida.setMotoristaId(motorista.getId());
         corrida.setStatus(StatusCorrida.ACEITA);
 
         List<Corrida> corridas = corridaRepository.carregar();
