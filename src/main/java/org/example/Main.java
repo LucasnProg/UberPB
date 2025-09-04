@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.model.entity.Passageiro;
+import org.example.model.service.CorridaService;
 import org.example.model.service.GerenteService;
 import org.example.model.service.MotoristaService;
 import org.example.model.service.PassageiroService;
