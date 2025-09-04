@@ -2,8 +2,6 @@ package org.example.model.repository;
 
 import org.example.model.entity.Corrida;
 import java.util.List;
-import java.util.ArrayList;
-
 public class CorridaRepository implements Repository<Corrida> {
 
     private JsonRepository<Corrida> corridasDB = new JsonRepository<>("src/main/resources/data/corridas.json", Corrida.class);

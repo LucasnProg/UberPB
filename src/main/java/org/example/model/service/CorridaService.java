@@ -1,8 +1,8 @@
 package org.example.model.service;
 
+import org.example.controller.Sistema;
 import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
-import org.example.model.entity.Passageiro;
 import org.example.model.repository.CorridaRepository;
 import org.example.util.CrudUserError;
 import org.example.util.StatusCorrida;
@@ -12,27 +12,26 @@ import java.util.List;
 
 public class CorridaService {
 
-    private final PassageiroService passageiroService = new PassageiroService();
     private final MotoristaService motoristaService = new MotoristaService();
     private final CorridaRepository corridaRepository = new CorridaRepository();
 
-    public Corrida solicitarCorrida(int idPassageiro, String origem, String destino, String categoriaVeiculoDesejada) {
+    public static boolean procurarCorrida(int idPassageiro, String origem, String destino, String categoriaVeiculoDesejada) {
+        Corrida corridaSolicitada = new Corrida(idPassageiro,origem,destino,categoriaVeiculoDesejada);
+
+        Sistema.procurarMotoristas(corridaSolicitada);
 
 
         double precoEstimado = calcularPreco(origem, destino, categoriaVeiculoDesejada);
 
-        Corrida novaCorrida = new Corrida(idPassageiro, origem, destino, categoriaVeiculoDesejada);
-        novaCorrida.setValor(precoEstimado);
-
-        Motorista motoristaEncontrado = encontrarMotoristaParaCorrida();
+        /*Motorista motoristaEncontrado = encontrarMotoristaParaCorrida();
 
         if (motoristaEncontrado != null) {
             System.out.println("Encontrado motorista para a corrida! Aguardando aceite...");
         } else {
             throw new CrudUserError("Nenhum motorista disponível no momento.");
-        }
+        }*/
 
-        return novaCorrida;
+        return true;
     }
 
     public void aceitarCorrida(Corrida corrida, String cpfMotorista) {
@@ -79,6 +78,7 @@ public class CorridaService {
         System.out.println("Corrida finalizada");
     }
 
+<<<<<<< Updated upstream
     private double calcularDistanciaEstimada(String origem, String destino) {
         if (origem.equalsIgnoreCase("Centro") && destino.equalsIgnoreCase("Aeroporto")) 
         {
@@ -98,6 +98,12 @@ public class CorridaService {
             int hash = Math.abs((origem + destino).hashCode());
             return 2 + (hash % 14); 
         }
+=======
+    private static double calcularPreco(String origem, String destino, String categoria) {
+        //TODO = calculo de preço por corrida
+        double preco = 0;
+        return preco;
+>>>>>>> Stashed changes
     }
 
     private double calcularTempoEstimado(double distanciaKm) {

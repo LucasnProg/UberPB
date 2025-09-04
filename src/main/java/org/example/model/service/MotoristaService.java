@@ -1,48 +1,79 @@
 package org.example.model.service;
 
 import org.example.model.entity.Motorista;
-import org.example.model.entity.Passageiro;
 import org.example.model.repository.MotoristaRepository;
 import org.example.util.CrudUserError;
+import org.example.util.UsuarioNaoCadastrado;
 
 import java.util.List;
 
-public class MotoristaService {
+public class MotoristaService implements UsuarioService{
 
     private final MotoristaRepository motoristas = new MotoristaRepository();
 
     public MotoristaService() {
     }
 
-    public void criarMotorista(String nome, String email, String senha, String cpf, String telefone) {
-        if (motoristas.existeCpf(cpf)) {
-            throw new CrudUserError("Motorista já cadastrado.");
+    @Override
+    public void criar(String nome, String email, String senha, String cpf, String telefone) {
+        try{
+            if (motoristas.existeCpf(cpf)) {
+                throw new CrudUserError("Cpf como Motorista já cadastrado.");
+            } else if(motoristas.verificarEmail(email)){
+                throw new CrudUserError("Email como Motorista já cadastrado.");
+            }
+
+            Motorista motorista = new Motorista(nome, email, senha, cpf, telefone);
+
+            motoristas.salvarMotorista(motorista);
+        } catch (CrudUserError e){
+            System.out.println(e.getMessage());
         }
-
-        Motorista motorista = new Motorista(nome, email, senha, cpf, telefone);
-
-        motoristas.salvarMotorista(motorista);
     }
 
-    public List<Motorista> listarMotoristas() {
+    public List<Motorista> listar() {
         return motoristas.getMotoristas();
     }
 
     public Motorista getMotorista(String cpf){
-        if (!motoristas.existeCpf(cpf)) {
-            throw new CrudUserError("Motorista não cadastrado no sistema.");
+        try{
+            if (!motoristas.existeCpf(cpf)) {
+                throw new CrudUserError("Motorista não cadastrado no sistema.");
+            }
+
+            return motoristas.buscarPorCpf(cpf);
+        } catch (CrudUserError e) {
+            System.out.println(e.getMessage());
+            return null;
         }
 
-        return motoristas.buscarPorCpf(cpf);
     }
 
 
+    @Override
+    public void deletar(String cpf) {
+        try {
+            if (!motoristas.existeCpf(cpf)) {
+                throw new CrudUserError("Motorista não cadastrado no sistema.");
+            }
 
-    public void deletarMotorista(String cpf) {
-        if (!motoristas.existeCpf(cpf)) {
-            throw new CrudUserError("Motorista não cadastrado no sistema.");
+            motoristas.remover(cpf);
+        } catch (CrudUserError e) {
+            System.out.println(e.getMessage());
         }
 
-        motoristas.remover(cpf);
+    }
+
+    @Override
+    public boolean login(String email, String senha) {
+        try {
+            if (!motoristas.verificarEmail(email)) {
+                throw new UsuarioNaoCadastrado("Esse email não está cadastrado como motorista.");
+            }
+            return motoristas.realizarLogin(email,senha);
+        } catch (UsuarioNaoCadastrado e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }

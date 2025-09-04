@@ -2,33 +2,33 @@
   {
     "id": 1,
     "nome": "Lucas",
-    "email": "lucas@gmail.com",
+    "email": "lucas1@gmail.com",
     "senha": "senha123",
-    "cpf": "12345678910",
-    "telefone": "83987380330"
+    "cpf": "11111111111",
+    "telefone": "83987380331"
   },
   {
     "id": 2,
     "nome": "Manoel",
-    "email": "lucas@gmail.com",
+    "email": "Manoel1@gmail.com",
     "senha": "senha123",
-    "cpf": "12345678911",
-    "telefone": "83987380330"
+    "cpf": "22222222222",
+    "telefone": "83987380332"
   },
   {
     "id": 3,
     "nome": "Mateus",
-    "email": "lucas@gmail.com",
+    "email": "Mateus1@gmail.com",
     "senha": "senha123",
-    "cpf": "12345678912",
-    "telefone": "83987380330"
+    "cpf": "33333333333",
+    "telefone": "83987380333"
   },
   {
     "id": 4,
     "nome": "Eric",
-    "email": "lucas@gmail.com",
+    "email": "Eric1@gmail.com",
     "senha": "senha123",
-    "cpf": "12345678913",
-    "telefone": "83987380330"
+    "cpf": "44444444444",
+    "telefone": "83987380334"
   }
 ]

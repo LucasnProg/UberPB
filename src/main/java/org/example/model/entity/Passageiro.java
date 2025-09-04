@@ -1,5 +1,7 @@
 package org.example.model.entity;
 
+import org.example.model.service.CorridaService;
+
 public class Passageiro extends Usuario{
 
 
@@ -9,4 +11,7 @@ public class Passageiro extends Usuario{
     }
 
 
+    public void solicitarCorrida(String origem, String destino, String categoriaDeVeiculo){
+        CorridaService.procurarCorrida(this.getId(), origem, destino, categoriaDeVeiculo);
+    }
 }

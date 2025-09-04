@@ -1,12 +1,12 @@
 package org.example.model.repository;
 
-import org.example.model.entity.Motorista;
-import org.example.model.entity.Passageiro;
 import org.example.model.entity.Usuario;
-import java.util.List;
-import java.util.Optional;
 
 public interface UsuarioRepository {
-    Usuario buscarPorCpf(String cpf);
-    void remover(String id);
+    public Usuario buscarPorCpf(String cpf);
+    public Usuario buscarPorEmail(String email);
+    public void remover(String id);
+    public boolean verificarEmail(String email);
+    public boolean realizarLogin(String email, String senha);
+
 }

@@ -21,7 +21,7 @@ public class Corrida {
         this.origem = origem;
         this.destino = destino;
         this.categoriaVeiculo = categoriaVeiculo;
-        this.horaInicio = LocalDateTime.now();
+        //this.horaInicio = LocalDateTime.now(); //Mover para iniciarCorrida()
         this.status = StatusCorrida.SOLICITADA; // quando uma instancia de corrida for criada ela será por padrão classificada como solicitaada
     }
 

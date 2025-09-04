@@ -6,8 +6,8 @@ import java.util.List;
 
 public class PassageiroRepository implements UsuarioRepository{
 
-    private JsonRepository<Passageiro> passageirosDB = new JsonRepository<Passageiro>("src/main/resources/data/passageiros.json", Passageiro.class);
-    private List<Passageiro> passageirosCarregados = passageirosDB.carregar();
+    private static JsonRepository<Passageiro> passageirosDB = new JsonRepository<Passageiro>("src/main/resources/data/passageiros.json", Passageiro.class);
+    private static List<Passageiro> passageirosCarregados = passageirosDB.carregar();
 
 
 
@@ -17,6 +17,19 @@ public class PassageiroRepository implements UsuarioRepository{
 
         for (Passageiro p : passageirosCarregados){
             if (p.getCpf().equals(cpfBusca)){
+                return p;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Passageiro buscarPorEmail(String email) {
+        atualizarPassageirosCarregados();
+
+        for (Passageiro p : passageirosCarregados){
+            if (p.getEmail().equals(email)){
                 return p;
             }
         }
@@ -73,7 +86,42 @@ public class PassageiroRepository implements UsuarioRepository{
         return false;
     }
 
-    public void atualizarPassageirosCarregados(){
-        this.passageirosCarregados = passageirosDB.carregar();
+    public static void atualizarPassageirosCarregados(){
+        passageirosCarregados = passageirosDB.carregar();
     }
+
+    @Override
+    public boolean verificarEmail(String email) {
+        atualizarPassageirosCarregados();
+        for (Passageiro p : passageirosCarregados){
+            if (p.getEmail().equals(email)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public boolean realizarLogin(String email, String senha) {
+        atualizarPassageirosCarregados();
+        for (Passageiro p : passageirosCarregados){
+            if (p.getEmail().equals(email) && p.getSenha().equals(senha)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getIdByCpf(String cpf) {
+        atualizarPassageirosCarregados();
+        for (Passageiro p : passageirosCarregados){
+            if (p.getCpf().equals(cpf)){
+                return p.getId();
+            }
+        }
+
+        return 0;
+    }
+
+
 }
