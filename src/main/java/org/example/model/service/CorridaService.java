@@ -106,10 +106,31 @@ public class CorridaService {
     }
 
     private double calcularPreco(String origem, String destino, String categoria) {
-        //TODO = calculo de preço por corrida
-        double preco = 0;
-        return preco;
+        double distanciaKm = calcularDistanciaEstimada(origem, destino);
+        double tempoMinutos = calcularTempoEstimado(distanciaKm);
+
+        double tarifaBase = 5.0;
+        double precoPorKm = 2.0;
+        double precoPorMinuto = 0.5;
+
+        double preco = tarifaBase + (distanciaKm * precoPorKm) + (tempoMinutos * precoPorMinuto);
+
+        switch (categoria.toLowerCase()) {
+            case "Luxo":
+                preco *= 1.8;
+                break;
+            case "SUV":
+                preco *= 1.5;
+                break;
+            case "Economico":
+            default:
+                preco *= 1.0;
+                break;
+        }
+
+        return Math.round(preco * 100.0) / 100.0;
     }
+
 
     private Motorista encontrarMotoristaParaCorrida() {
         //TODO = metodo para encontrar o motorista mais próximo
