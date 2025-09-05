@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "passageiroId": 101,
+    "motoristaId": 201,
+    "origem": "Centro",
+    "destino": "Aeroporto",
+    "valor": 35.50,
+    "horaInicio": "2025-09-05T10:00:00",
+    "horaFim": "2025-09-05T10:25:00",
+    "categoriaVeiculo": "Economico",
+    "status": "CONCLUIDA"
+  },
+  {
+    "id": 2,
+    "passageiroId": 102,
+    "motoristaId": 202,
+    "origem": "Universidade",
+    "destino": "Shopping",
+    "valor": 20.00,
+    "horaInicio": "2025-09-05T11:15:00",
+    "horaFim": null,
+    "categoriaVeiculo": "Luxo",
+    "status": "ACEITA"
+  },
+  {
+    "id": 3,
+    "passageiroId": 103,
+    "motoristaId": 0,
+    "origem": "Centro",
+    "destino": "Estação",
+    "valor": 0.0,
+    "horaInicio": null,
+    "horaFim": null,
+    "categoriaVeiculo": "SUV",
+    "status": "SOLICITADA"
+  }
+]
