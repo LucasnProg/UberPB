@@ -1,6 +1,7 @@
 package org.example.model.service;
 
 import org.example.controller.Sistema;
+import org.example.model.entity.CategoriaVeiculo;
 import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
 import org.example.model.repository.CorridaRepository;
@@ -15,7 +16,7 @@ public class CorridaService {
     private final MotoristaService motoristaService = new MotoristaService();
     private final CorridaRepository corridaRepository = new CorridaRepository();
 
-    public static boolean procurarCorrida(int idPassageiro, String origem, String destino, String categoriaVeiculoDesejada) {
+    public static boolean procurarCorrida(int idPassageiro, String origem, String destino, CategoriaVeiculo categoriaVeiculoDesejada) {
         Corrida corridaSolicitada = new Corrida(idPassageiro, origem, destino, categoriaVeiculoDesejada);
 
         Sistema.procurarMotoristas(corridaSolicitada);
