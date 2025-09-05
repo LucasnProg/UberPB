@@ -10,8 +10,7 @@ public class Veiculo {
     private String cor;
     private CategoriaVeiculo categoria;
 
-    public Veiculo(int id ,String marca, String modelo, String placa, int anoFabricacao, String cor, CategoriaVeiculo categoria) {
-        this.id = id;
+    public Veiculo(String marca, String modelo, String placa, int anoFabricacao, String cor, CategoriaVeiculo categoria) {
         this.marca = marca;
         this.modelo = modelo;
         this.placa = placa;
