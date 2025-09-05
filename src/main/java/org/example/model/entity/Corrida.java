@@ -1,7 +1,5 @@
 package org.example.model.entity;
 
-import org.example.util.StatusCorrida;
-
 import java.time.LocalDateTime;
 
 public class Corrida {

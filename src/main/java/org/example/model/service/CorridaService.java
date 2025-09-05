@@ -5,7 +5,7 @@ import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
 import org.example.model.repository.CorridaRepository;
 import org.example.util.CrudUserError;
-import org.example.util.StatusCorrida;
+import org.example.model.entity.StatusCorrida;
 
 import java.time.LocalDateTime;
 import java.util.List;
