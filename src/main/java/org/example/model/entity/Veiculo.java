@@ -2,6 +2,7 @@ package org.example.model.entity;
 
 
 public class Veiculo {
+    private int id;
     private String marca;
     private String modelo;
     private String placa;
@@ -9,13 +10,22 @@ public class Veiculo {
     private String cor;
     private CategoriaVeiculo categoria;
 
-    public Veiculo(String marca, String modelo, String placa, int anoFabricacao, String cor, CategoriaVeiculo categoria) {
+    public Veiculo(int id ,String marca, String modelo, String placa, int anoFabricacao, String cor, CategoriaVeiculo categoria) {
+        this.id = id;
         this.marca = marca;
         this.modelo = modelo;
         this.placa = placa;
         this.anoFabricacao = anoFabricacao;
         this.cor = cor;
         this.categoria = categoria;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMarca() {
