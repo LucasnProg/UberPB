@@ -11,10 +11,10 @@ public class Corrida {
     private double valor;
     private LocalDateTime horaInicio;
     private LocalDateTime horaFim;
-    private String categoriaVeiculo;
+    private CategoriaVeiculo categoriaVeiculo;
     private StatusCorrida status;
 
-    public Corrida(int passageiroId, String origem, String destino, String categoriaVeiculo) {
+    public Corrida(int passageiroId, String origem, String destino, CategoriaVeiculo categoriaVeiculo) {
         this.passageiroId = passageiroId;
         this.origem = origem;
         this.destino = destino;
@@ -87,11 +87,11 @@ public class Corrida {
         this.horaFim = horaFim;
     }
 
-    public String getCategoriaVeiculo() {
+    public CategoriaVeiculo getCategoriaVeiculo() {
         return categoriaVeiculo;
     }
 
-    public void setCategoriaVeiculo(String categoriaVeiculo) {
+    public void setCategoriaVeiculo(CategoriaVeiculo categoriaVeiculo) {
         this.categoriaVeiculo = categoriaVeiculo;
     }
 
