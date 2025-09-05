@@ -3,6 +3,8 @@ package org.example.controller;
 import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
 import org.example.model.entity.Passageiro;
+import org.example.model.entity.Veiculo;
+import org.example.model.repository.VeiculoRepository;
 
 import java.util.List;
 
@@ -50,8 +52,11 @@ public class Sistema {
     public static void procurarMotoristas(Corrida corrida){
         adicionarCorridas(corrida);
         for(Motorista moto : motoristasOnline){
-            if (moto.getLocalizacao().equals(corrida.getOrigem()) && moto.getCatVeiculo().equals(corrida.getCategoriaVeiculo())){
-                notificarMotorista(corrida,moto);
+            if (moto.getLocalizacao().equals(corrida.getOrigem())){
+                Veiculo v = VeiculoRepository.buscarPorId(moto.getIdVeiculo());
+                if(v!= null && v.getCategoria().equals(corrida.getCategoriaVeiculo())) {
+                    notificarMotorista(corrida, moto);
+                }
             }
         }
     }
