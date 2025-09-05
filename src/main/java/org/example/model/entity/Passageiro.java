@@ -11,7 +11,7 @@ public class Passageiro extends Usuario{
     }
 
 
-    public void solicitarCorrida(String origem, String destino, String categoriaDeVeiculo){
+    public void solicitarCorrida(String origem, String destino, CategoriaVeiculo categoriaDeVeiculo){
         CorridaService.procurarCorrida(this.getId(), origem, destino, categoriaDeVeiculo);
     }
 }
