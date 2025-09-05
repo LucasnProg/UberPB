@@ -6,7 +6,7 @@ import java.util.List;
 public class Motorista extends Usuario{
 
     private String localizacao;
-    private String catVeiculo;
+    private int idVeiculo;
     private List<Corrida> corridasNotificadas = new ArrayList<Corrida>();
     private List<Corrida> corridasAceitas = new ArrayList<Corrida>();;
 
@@ -15,12 +15,12 @@ public class Motorista extends Usuario{
         super(nome, email, senha, cpf, telefone);
     }
 
-    public String getCatVeiculo() {
-        return catVeiculo;
+    public int getIdVeiculo() {
+        return idVeiculo;
     }
 
-    public void setCatVeiculo(String catVeiculo) {
-        this.catVeiculo = catVeiculo;
+    public void setIdVeiculo(int idVeiculo) {
+        this.idVeiculo = idVeiculo;
     }
 
     public String getLocalizacao() {
