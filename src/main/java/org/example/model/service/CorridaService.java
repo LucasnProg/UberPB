@@ -97,7 +97,7 @@ public class CorridaService {
         return (distanciaKm / velocidadeMediaKmH) * 60;
     }
 
-    private double calcularPreco(String origem, String destino, String categoria) {
+    public double calcularPreco(String origem, String destino, String categoria) {
         double distanciaKm = calcularDistanciaEstimada(origem, destino);
         double tempoMinutos = calcularTempoEstimado(distanciaKm);
 

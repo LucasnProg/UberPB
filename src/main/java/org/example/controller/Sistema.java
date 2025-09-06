@@ -4,12 +4,15 @@ import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
 import org.example.model.entity.Passageiro;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sistema {
-    public static List<Motorista> motoristasOnline;
-    public static List<Passageiro> passageirosOnline;
-    public static List<Corrida> corridas;
+
+    // Inicializa as listas para evitar NullPointerException
+    public static List<Motorista> motoristasOnline = new ArrayList<>();
+    public static List<Passageiro> passageirosOnline = new ArrayList<>();
+    public static List<Corrida> corridas = new ArrayList<>();
 
     public static List<Passageiro> getPassageirosOnline() {
         return passageirosOnline;
@@ -35,23 +38,30 @@ public class Sistema {
         Sistema.corridas = corridas;
     }
 
-    public static  void adicionarPassageiroOnline(Passageiro passageiro){
+    public static void adicionarPassageiroOnline(Passageiro passageiro){
+        if (passageirosOnline == null) passageirosOnline = new ArrayList<>();
         Sistema.passageirosOnline.add(passageiro);
     }
 
     public static void adicionarMotoristaOnline(Motorista motorista){
+        if (motoristasOnline == null) motoristasOnline = new ArrayList<>();
         Sistema.motoristasOnline.add(motorista);
     }
 
     public static void adicionarCorridas(Corrida corridaSolicitada){
+        if (corridas == null) corridas = new ArrayList<>();
         Sistema.corridas.add(corridaSolicitada);
     }
 
     public static void procurarMotoristas(Corrida corrida){
         adicionarCorridas(corrida);
+
         for(Motorista moto : motoristasOnline){
-            if (moto.getLocalizacao().equals(corrida.getOrigem()) && moto.getCatVeiculo().equals(corrida.getCategoriaVeiculo())){
-                notificarMotorista(corrida,moto);
+            if (moto.getLocalizacao() != null &&
+                moto.getLocalizacao().equals(corrida.getOrigem()) &&
+                moto.getCatVeiculo() != null &&
+                moto.getCatVeiculo().equals(corrida.getCategoriaVeiculo())){
+                notificarMotorista(corrida, moto);
             }
         }
     }

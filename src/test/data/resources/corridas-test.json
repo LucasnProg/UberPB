@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "passageiroId": 1,
+    "motoristaId": 10,
+    "origem": "Centro",
+    "destino": "Aeroporto",
+    "valor": 25.50,
+    "horaInicio": "2025-09-06T14:00:00",
+    "horaFim": "2025-09-06T14:30:00",
+    "categoriaVeiculo": "Carro",
+    "status": "SOLICITADA"
+  },
+  {
+    "id": 2,
+    "passageiroId": 2,
+    "motoristaId": 11,
+    "origem": "Shopping",
+    "destino": "Estação",
+    "valor": 15.00,
+    "horaInicio": "2025-09-06T15:00:00",
+    "horaFim": "2025-09-06T15:20:00",
+    "categoriaVeiculo": "Moto",
+    "status": "CONCLUIDA"
+  },
+  {
+    "id": 3,
+    "passageiroId": 3,
+    "motoristaId": 12,
+    "origem": "Praça",
+    "destino": "Universidade",
+    "valor": 30.00,
+    "horaInicio": "2025-09-06T16:00:00",
+    "horaFim": "2025-09-06T16:45:00",
+    "categoriaVeiculo": "Van",
+    "status": "SOLICITADA"
+  }
+]

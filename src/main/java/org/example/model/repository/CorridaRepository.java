@@ -2,10 +2,22 @@ package org.example.model.repository;
 
 import org.example.model.entity.Corrida;
 import java.util.List;
+
 public class CorridaRepository implements Repository<Corrida> {
 
-    private JsonRepository<Corrida> corridasDB = new JsonRepository<>("src/main/resources/data/corridas.json", Corrida.class);
-    private List<Corrida> corridasCarregadas = corridasDB.carregar();
+    private JsonRepository<Corrida> corridasDB;
+    private List<Corrida> corridasCarregadas;
+
+    // Construtor padrão (produção)
+    public CorridaRepository() {
+        this("src/main/resources/data/corridas.json");
+    }
+
+    // Construtor para teste (aponta para outro JSON)
+    public CorridaRepository(String caminhoArquivoJson) {
+        this.corridasDB = new JsonRepository<>(caminhoArquivoJson, Corrida.class);
+        this.corridasCarregadas = corridasDB.carregar();
+    }
 
     public void salvarCorrida(Corrida corrida) {
         atualizarCorridasCarregadas();
