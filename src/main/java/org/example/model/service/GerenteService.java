@@ -7,25 +7,25 @@ import org.example.util.UsuarioNaoCadastrado;
 
 import java.util.List;
 
-public class GerenteService implements UsuarioService{
+public class GerenteService implements UsuarioService {
 
     private final GerenteRepository gerentes = new GerenteRepository();
 
     public GerenteService() {
     }
 
+    @Override
     public void criar(String nome, String email, String senha, String cpf, String telefone) {
-        try{
+        try {
             if (gerentes.existeCpf(cpf)) {
                 throw new CrudUserError("Cpf como Gerente já cadastrado.");
-            } else if (gerentes.verificarEmail(email)){
+            } else if (gerentes.verificarEmail(email)) {
                 throw new CrudUserError("Email como Gerente já cadastrado.");
             }
 
             Gerente gerente = new Gerente(nome, email, senha, cpf, telefone);
-
             gerentes.salvarGerente(gerente);
-        } catch (CrudUserError e){
+        } catch (CrudUserError e) {
             System.out.println(e.getMessage());
         }
     }
@@ -34,12 +34,11 @@ public class GerenteService implements UsuarioService{
         return gerentes.getGerentes();
     }
 
-    public Gerente getGerentes(String cpf){
+    public Gerente getGerente(String cpf) {
         try {
             if (!gerentes.existeCpf(cpf)) {
                 throw new CrudUserError("Gerente não cadastrado no sistema.");
             }
-
             return gerentes.buscarPorCpf(cpf);
         } catch (CrudUserError e) {
             System.out.println(e.getMessage());
@@ -47,26 +46,25 @@ public class GerenteService implements UsuarioService{
         }
     }
 
-
-
+    @Override
     public void deletar(String cpf) {
         try {
             if (!gerentes.existeCpf(cpf)) {
                 throw new CrudUserError("Gerente não cadastrado no sistema.");
             }
-
             gerentes.remover(cpf);
-        } catch (CrudUserError e){
+        } catch (CrudUserError e) {
             System.out.println(e.getMessage());
         }
     }
 
+    @Override
     public boolean login(String email, String senha) {
         try {
             if (!gerentes.verificarEmail(email)) {
                 throw new UsuarioNaoCadastrado("Esse email não está cadastrado como gerente.");
             }
-            return gerentes.realizarLogin(email,senha);
+            return gerentes.realizarLogin(email, senha);
         } catch (UsuarioNaoCadastrado e) {
             System.out.println(e.getMessage());
             return false;

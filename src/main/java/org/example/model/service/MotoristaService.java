@@ -7,7 +7,7 @@ import org.example.util.UsuarioNaoCadastrado;
 
 import java.util.List;
 
-public class MotoristaService implements UsuarioService{
+public class MotoristaService implements UsuarioService {
 
     private final MotoristaRepository motoristas = new MotoristaRepository();
 
@@ -16,17 +16,16 @@ public class MotoristaService implements UsuarioService{
 
     @Override
     public void criar(String nome, String email, String senha, String cpf, String telefone) {
-        try{
+        try {
             if (motoristas.existeCpf(cpf)) {
                 throw new CrudUserError("Cpf como Motorista já cadastrado.");
-            } else if(motoristas.verificarEmail(email)){
+            } else if (motoristas.verificarEmail(email)) {
                 throw new CrudUserError("Email como Motorista já cadastrado.");
             }
 
             Motorista motorista = new Motorista(nome, email, senha, cpf, telefone);
-
             motoristas.salvarMotorista(motorista);
-        } catch (CrudUserError e){
+        } catch (CrudUserError e) {
             System.out.println(e.getMessage());
         }
     }
@@ -35,20 +34,17 @@ public class MotoristaService implements UsuarioService{
         return motoristas.getMotoristas();
     }
 
-    public Motorista getMotorista(String cpf){
-        try{
+    public Motorista getMotorista(String cpf) {
+        try {
             if (!motoristas.existeCpf(cpf)) {
                 throw new CrudUserError("Motorista não cadastrado no sistema.");
             }
-
             return motoristas.buscarPorCpf(cpf);
         } catch (CrudUserError e) {
             System.out.println(e.getMessage());
             return null;
         }
-
     }
-
 
     @Override
     public void deletar(String cpf) {
@@ -56,12 +52,10 @@ public class MotoristaService implements UsuarioService{
             if (!motoristas.existeCpf(cpf)) {
                 throw new CrudUserError("Motorista não cadastrado no sistema.");
             }
-
             motoristas.remover(cpf);
         } catch (CrudUserError e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     @Override
@@ -70,7 +64,7 @@ public class MotoristaService implements UsuarioService{
             if (!motoristas.verificarEmail(email)) {
                 throw new UsuarioNaoCadastrado("Esse email não está cadastrado como motorista.");
             }
-            return motoristas.realizarLogin(email,senha);
+            return motoristas.realizarLogin(email, senha);
         } catch (UsuarioNaoCadastrado e) {
             System.out.println(e.getMessage());
             return false;

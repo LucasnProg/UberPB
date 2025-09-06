@@ -30,5 +30,69 @@
     "senha": "senha123",
     "cpf": "44444444444",
     "telefone": "83987380334"
+  },
+  {
+    "id": 5,
+    "nome": "Ana",
+    "email": "ana@email.com",
+    "senha": "senha123",
+    "cpf": "55566677788",
+    "telefone": "11966666666"
+  },
+  {
+    "id": 6,
+    "nome": "João",
+    "email": "joao@email.com",
+    "senha": "senha123",
+    "cpf": "98765432100",
+    "telefone": "11999999999"
+  },
+  {
+    "id": 8,
+    "nome": "Maria Silva",
+    "email": "maria@email.com",
+    "senha": "senha123",
+    "cpf": "12345678900",
+    "telefone": "11988888888"
+  },
+  {
+    "id": 9,
+    "nome": "Maria Silva",
+    "email": "maria@email.com",
+    "senha": "senha123",
+    "cpf": "12345678900",
+    "telefone": "11988888888"
+  },
+  {
+    "id": 10,
+    "nome": "João",
+    "email": "joao@email.com",
+    "senha": "senha123",
+    "cpf": "98765432100",
+    "telefone": "11999999999"
+  },
+  {
+    "id": 11,
+    "nome": "Lucas",
+    "email": "lucas@email.com",
+    "senha": "senha123",
+    "cpf": "11122233344",
+    "telefone": "11977777777"
+  },
+  {
+    "id": 11,
+    "nome": "Ana",
+    "email": "ana@email.com",
+    "senha": "senha123",
+    "cpf": "55566677788",
+    "telefone": "11966666666"
+  },
+  {
+    "id": 12,
+    "nome": "Pedro",
+    "email": "pedro@email.com",
+    "senha": "senha123",
+    "cpf": "22233344455",
+    "telefone": "11955555555"
   }
 ]

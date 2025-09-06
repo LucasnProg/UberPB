@@ -11,7 +11,7 @@ import java.util.List;
 public class PassageiroService implements UsuarioService {
 
     private final PassageiroRepository passageiros = new PassageiroRepository();
-    public Passageiro passageiroLogado;
+    private Passageiro passageiroLogado;
 
     public PassageiroService() {
     }
@@ -26,7 +26,7 @@ public class PassageiroService implements UsuarioService {
 
     @Override
     public void criar(String nome, String email, String senha, String cpf, String telefone) {
-        try{
+        try {
             if (passageiros.existeCpf(cpf)) {
                 throw new CrudUserError("CPF como Passageiro já cadastrado.");
             } else if (passageiros.verificarEmail(email)) {
@@ -34,12 +34,10 @@ public class PassageiroService implements UsuarioService {
             }
 
             Passageiro passageiro = new Passageiro(nome, email, senha, cpf, telefone);
-
             passageiros.salvarPassageiro(passageiro);
-        } catch (CrudUserError e){
+        } catch (CrudUserError e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     public List<Passageiro> listar() {
@@ -47,11 +45,10 @@ public class PassageiroService implements UsuarioService {
     }
 
     public Passageiro getPassageiro(String cpf) {
-        try{
+        try {
             if (!passageiros.existeCpf(cpf)) {
                 throw new CrudUserError("Passageiro não cadastrado no sistema.");
             }
-
             return passageiros.buscarPorCpf(cpf);
         } catch (CrudUserError e) {
             System.out.println(e.getMessage());
@@ -65,12 +62,10 @@ public class PassageiroService implements UsuarioService {
             if (!passageiros.existeCpf(cpf)) {
                 throw new CrudUserError("Passageiro não cadastrado no sistema.");
             }
-
             passageiros.remover(cpf);
         } catch (CrudUserError e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     @Override
@@ -79,20 +74,15 @@ public class PassageiroService implements UsuarioService {
             if (!passageiros.verificarEmail(email)) {
                 throw new UsuarioNaoCadastrado("Esse email não está cadastrado como passageiro.");
             }
-            try{
-                if(passageiros.realizarLogin(email, senha)){
-                    setPassageiroLogado(passageiros.buscarPorEmail(email));
-                } else {
-                    throw new LoginInvalido("Senha incorreta.\nVerifique a senha e tente novamente.");
-                }
-            } catch (LoginInvalido e) {
-                System.out.println(e.getMessage());
+            if (passageiros.realizarLogin(email, senha)) {
+                setPassageiroLogado(passageiros.buscarPorEmail(email));
+                return true;
+            } else {
+                throw new LoginInvalido("Senha incorreta.\nVerifique a senha e tente novamente.");
             }
-        } catch (UsuarioNaoCadastrado e) {
+        } catch (UsuarioNaoCadastrado | LoginInvalido e) {
             System.out.println(e.getMessage());
+            return false;
         }
-        return false;
     }
-
-
 }

@@ -1,34 +1,12 @@
 [
   {
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
     "id": 1,
-    "nome": "Lucas",
-    "email": "lucas2@gmail.com",
+    "nome": "Paula",
+    "email": "paula@email.com",
     "senha": "senha123",
-    "cpf": "12222222222",
-    "telefone": "83987380335"
-  },
-  {
-    "id": 2,
-    "nome": "Manoel",
-    "email": "Manoel2@gmail.com",
-    "senha": "senha123",
-    "cpf": "13333333333",
-    "telefone": "83987380336"
-  },
-  {
-    "id": 3,
-    "nome": "Rufino",
-    "email": "Mateus2@gmail.com",
-    "senha": "senha123",
-    "cpf": "14444444444",
-    "telefone": "83987380337"
-  },
-  {
-    "id": 4,
-    "nome": "Eric",
-    "email": "Eric2@gmail.com",
-    "senha": "senha123",
-    "cpf": "15555555555",
-    "telefone": "83987380338"
+    "cpf": "98765432100",
+    "telefone": "11999999999"
   }
 ]

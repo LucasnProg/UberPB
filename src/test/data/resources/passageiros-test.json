@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "nome": "Maria Silva",
+        "email": "maria@email.com",
+        "senha": "senha123",
+        "cpf": "12345678900",
+        "telefone": "11988888888"
+    },
+    {
+        "id": 2,
+        "nome": "João Pereira",
+        "email": "joao@email.com",
+        "senha": "senha456",
+        "cpf": "98765432100",
+        "telefone": "11999999999"
+    }
+]

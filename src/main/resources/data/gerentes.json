@@ -1,34 +1,10 @@
 [
   {
     "id": 1,
-    "nome": "Lucas",
-    "email": "lucas3@gmail.com",
-    "senha": "senha333",
-    "cpf": "12345678910",
-    "telefone": "83987380339"
-  },
-  {
-    "id": 2,
-    "nome": "Manoel",
-    "email": "Manoel3@gmail.com",
-    "senha": "senha333",
-    "cpf": "12345678911",
-    "telefone": "83987380320"
-  },
-  {
-    "id": 3,
-    "nome": "Mateus",
-    "email": "Mateus3@gmail.com",
-    "senha": "senha333",
-    "cpf": "12345678912",
-    "telefone": "83987380360"
-  },
-  {
-    "id": 4,
-    "nome": "Eric",
-    "email": "Eric3@gmail.com",
-    "senha": "senha333",
-    "cpf": "12345678913",
-    "telefone": "83987380370"
+    "nome": "Ana",
+    "email": "ana@email.com",
+    "senha": "senha123",
+    "cpf": "55566677788",
+    "telefone": "11966666666"
   }
 ]

@@ -1,89 +1,78 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Motorista;
-import org.example.model.entity.Passageiro;
-import org.example.model.entity.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MotoristaRepository implements UsuarioRepository{
+public class MotoristaRepository implements UsuarioRepository {
 
-    private static JsonRepository<Motorista> motoristasDB = new JsonRepository<Motorista>("src/main/resources/data/motoristas.json", Motorista.class);
+    private static JsonRepository<Motorista> motoristasDB =
+            new JsonRepository<>("src/main/resources/data/motoristas.json", Motorista.class);
+
     private static List<Motorista> motoristasCarregados = motoristasDB.carregar();
 
     public void salvarMotorista(Motorista motorista) {
         atualizarMotoristasCarregados();
-        int currentId = motoristasCarregados.size()+1;
+        int currentId = motoristasCarregados.size() + 1;
         motorista.setId(currentId);
         motoristasCarregados.add(motorista);
         motoristasDB.salvar(motoristasCarregados);
     }
 
-
     @Override
     public Motorista buscarPorCpf(String cpfBusca) {
         atualizarMotoristasCarregados();
-
-        for (Motorista m : motoristasCarregados){
-            if (m.getCpf().equals(cpfBusca)){
+        for (Motorista m : motoristasCarregados) {
+            if (m.getCpf().equals(cpfBusca)) {
                 return m;
             }
         }
-
         return null;
     }
 
     @Override
     public Motorista buscarPorEmail(String email) {
         atualizarMotoristasCarregados();
-
-        for (Motorista m : motoristasCarregados){
-            if (m.getEmail().equals(email)){
+        for (Motorista m : motoristasCarregados) {
+            if (m.getEmail().equals(email)) {
                 return m;
             }
         }
-
         return null;
     }
 
     @Override
     public void remover(String cpf) {
         atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados){
-            if (m.getCpf().equals(cpf)){
-                motoristasCarregados.remove(m);
-                motoristasDB.salvar(motoristasCarregados);
-            }
-        }
+        motoristasCarregados.removeIf(m -> m.getCpf().equals(cpf));
+        motoristasDB.salvar(motoristasCarregados);
     }
-
 
     public List<Motorista> getMotoristas() {
         atualizarMotoristasCarregados();
         return motoristasCarregados;
     }
 
-    public Boolean existeCpf(String cpfBusca){
+    public boolean existeCpf(String cpfBusca) {
         atualizarMotoristasCarregados();
-
-        for (Motorista m : motoristasCarregados){
-            if (m.getCpf().equals(cpfBusca)){
+        for (Motorista m : motoristasCarregados) {
+            if (m.getCpf().equals(cpfBusca)) {
                 return true;
             }
         }
-
         return false;
     }
 
-    public static void atualizarMotoristasCarregados(){
+    public static void atualizarMotoristasCarregados() {
         motoristasCarregados = motoristasDB.carregar();
     }
 
     @Override
     public boolean verificarEmail(String email) {
         atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados){
-            if (m.getEmail().equals(email)){
+        for (Motorista m : motoristasCarregados) {
+            if (m.getEmail().equals(email)) {
                 return true;
             }
         }
@@ -93,8 +82,8 @@ public class MotoristaRepository implements UsuarioRepository{
     @Override
     public boolean realizarLogin(String email, String senha) {
         atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados){
-            if (m.getEmail().equals(email) && m.getSenha().equals(senha)){
+        for (Motorista m : motoristasCarregados) {
+            if (m.getEmail().equals(email) && m.getSenha().equals(senha)) {
                 return true;
             }
         }
@@ -103,12 +92,17 @@ public class MotoristaRepository implements UsuarioRepository{
 
     public static int getIdByCpf(String cpf) {
         atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados){
-            if (m.getCpf().equals(cpf)){
+        for (Motorista m : motoristasCarregados) {
+            if (m.getCpf().equals(cpf)) {
                 return m.getId();
             }
         }
-
         return 0;
+    }
+
+    // Método extra para testes: limpa todos os motoristas
+    public static void limparTodos() {
+        motoristasCarregados = new ArrayList<>();
+        motoristasDB.salvar(motoristasCarregados);
     }
 }
