@@ -3,16 +3,16 @@ package org.example.controller;
 import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
 import org.example.model.entity.Passageiro;
+import org.example.model.entity.Veiculo;
+import org.example.model.repository.VeiculoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sistema {
-
-    // Inicializa as listas para evitar NullPointerException
-    public static List<Motorista> motoristasOnline = new ArrayList<>();
-    public static List<Passageiro> passageirosOnline = new ArrayList<>();
-    public static List<Corrida> corridas = new ArrayList<>();
+    public static List<Motorista> motoristasOnline;
+    public static List<Passageiro> passageirosOnline;
+    public static List<Corrida> corridas;
 
     public static List<Passageiro> getPassageirosOnline() {
         return passageirosOnline;
@@ -57,11 +57,11 @@ public class Sistema {
         adicionarCorridas(corrida);
 
         for(Motorista moto : motoristasOnline){
-            if (moto.getLocalizacao() != null &&
-                moto.getLocalizacao().equals(corrida.getOrigem()) &&
-                moto.getCatVeiculo() != null &&
-                moto.getCatVeiculo().equals(corrida.getCategoriaVeiculo())){
-                notificarMotorista(corrida, moto);
+            if (moto.getLocalizacao().equals(corrida.getOrigem())){
+                Veiculo v = VeiculoRepository.buscarPorId(moto.getIdVeiculo());
+                if(v!= null && v.getCategoria().equals(corrida.getCategoriaVeiculo())) {
+                    notificarMotorista(corrida, moto);
+                }
             }
         }
     }

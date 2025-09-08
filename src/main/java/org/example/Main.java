@@ -1,16 +1,15 @@
 package org.example;
 
+import org.example.model.entity.CategoriaVeiculo;
 import org.example.model.entity.Passageiro;
-import org.example.model.service.CorridaService;
-import org.example.model.service.GerenteService;
-import org.example.model.service.MotoristaService;
-import org.example.model.service.PassageiroService;
+import org.example.model.service.*;
 
 public class Main {
     public static void main(String[] args) {
         PassageiroService passageiroManager = new PassageiroService();
         MotoristaService motoristaManager = new MotoristaService();
         GerenteService gerenteManager = new GerenteService();
+        VeiculoService veiculoManager = new VeiculoService();
 
         passageiroManager.criar("Lucas", "lucas1@gmail.com", "senha123", "11111111111", "83987380331");
         passageiroManager.criar("Manoel", "Manoel1@gmail.com", "senha123", "22222222222", "83987380332");
@@ -45,8 +44,10 @@ public class Main {
         gerenteManager.login("Mateus1@gmail.com", "senha123");
         gerenteManager.login("Eric1@gmail.com","senha123");
 
-
-
+        veiculoManager.criar("ABC-1234", "Onix", "Chevrolet", 2023, CategoriaVeiculo.UBER_X, "Prata");
+        veiculoManager.criar("XYZ-3003", "Corolla", "Toyota", 2024, CategoriaVeiculo.UBER_XL, "Preto");
+        veiculoManager.criar("JKL-6006", "Duster", "Renault", 2023, CategoriaVeiculo.UBER_BAG, "Marrom");
+        veiculoManager.criar("KLZ-7384", "911", "Porsche", 2019, CategoriaVeiculo.UBER_BLACK, "Vermelho");
     }
 
 }
