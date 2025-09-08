@@ -1,17 +1,18 @@
 package org.example.model.entity;
 
-import org.example.util.StatusCorrida;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
+import static org.example.model.entity.CategoriaVeiculo.UBER_COMFORT;
+import static org.example.model.entity.CategoriaVeiculo.UBER_X;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CorridaTest {
 
     @Test
     void deveCriarCorridaComStatusSolicitada() {
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", "Carro");
+        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", UBER_COMFORT);
 
         assertEquals(1, corrida.getPassageiroId());
         assertEquals("Centro", corrida.getOrigem());
@@ -22,7 +23,7 @@ class CorridaTest {
 
     @Test
     void devePermitirAlterarMotoristaEValor() {
-        Corrida corrida = new Corrida(2, "Shopping", "Estação", "Moto");
+        Corrida corrida = new Corrida(2, "Shopping", "Estação", UBER_X);
         corrida.setMotoristaId(99);
         corrida.setValor(35.50);
 
@@ -32,7 +33,7 @@ class CorridaTest {
 
     @Test
     void devePermitirAlterarStatusHoraInicioHoraFim() {
-        Corrida corrida = new Corrida(3, "Praça", "Universidade", "Van");
+        Corrida corrida = new Corrida(3, "Praça", "Universidade", UBER_X);
         LocalDateTime inicio = LocalDateTime.now();
         LocalDateTime fim = inicio.plusMinutes(25);
 

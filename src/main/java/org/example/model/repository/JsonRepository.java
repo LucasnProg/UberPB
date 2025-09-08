@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.example.util.LocalDateTimeAdapter;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,8 +39,12 @@ public class JsonRepository<T> implements Repository<T> {
 
     @Override
     public List<T> carregar() {
-        try (FileReader reader = new FileReader(filePath)) {
-            // Use o mesmo objeto gson para carregar também
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return new ArrayList<>(); // retorna lista vazia se não existir
+        }
+
+        try (FileReader reader = new FileReader(file)) {
             Type listType = TypeToken.getParameterized(List.class, type).getType();
             List<T> lista = gson.fromJson(reader, listType);
             return lista != null ? lista : new ArrayList<>();

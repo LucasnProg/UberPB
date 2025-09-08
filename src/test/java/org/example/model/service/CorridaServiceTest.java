@@ -1,16 +1,14 @@
 package org.example.model.service;
 
+import org.example.model.entity.CategoriaVeiculo;
 import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
-import org.example.util.StatusCorrida;
+import org.example.model.entity.StatusCorrida;
 import org.example.util.CrudUserError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CorridaServiceTest {
@@ -26,14 +24,14 @@ class CorridaServiceTest {
 
     @Test
     void testProcurarCorrida() {
-        boolean resultado = CorridaService.procurarCorrida(1, "Centro", "Aeroporto", "Economico");
+        boolean resultado = CorridaService.procurarCorrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_X);
         assertTrue(resultado, "A corrida deve ser procurada com sucesso");
     }
 
     @Test
     void testAceitarCorrida() {
         // Criar corrida
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", "Economico");
+        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_X);
         corrida.setStatus(StatusCorrida.SOLICITADA);
 
         // Criar motorista manualmente
@@ -51,7 +49,7 @@ class CorridaServiceTest {
 
     @Test
     void testFinalizarCorrida() {
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", "Economico");
+        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_X);
         corrida.setStatus(StatusCorrida.ACEITA);
 
         // Simular finalização
@@ -64,7 +62,7 @@ class CorridaServiceTest {
 
     @Test
     void testAceitarCorridaNaoSolicitada() {
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", "Economico");
+        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_BLACK);
         corrida.setStatus(StatusCorrida.CONCLUIDA);
 
         CrudUserError exception = assertThrows(CrudUserError.class, () -> {

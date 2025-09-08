@@ -28,7 +28,7 @@ public class VeiculoService {
         }
     }
 
-    public List<Veiculo> listarTodos() {
+    public List<Veiculo> listar() {
         return veiculoRepository.getVeiculos();
     }
 
@@ -37,6 +37,18 @@ public class VeiculoService {
             Veiculo veiculo = VeiculoRepository.buscarPorPlaca(placa);
             if (veiculo == null) {
                 throw new CrudVeiculoError("Veículo com a placa '" + placa + "' não encontrado.");
+            }
+            return veiculo;
+        } catch (CrudVeiculoError e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+    public Veiculo buscarPorId(int id) {
+        try {
+            Veiculo veiculo = VeiculoRepository.buscarPorId(id);
+            if (veiculo == null) {
+                throw new CrudVeiculoError("Veículo com o id '" + id + "' não encontrado.");
             }
             return veiculo;
         } catch (CrudVeiculoError e) {

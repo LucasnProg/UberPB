@@ -7,8 +7,19 @@ import java.util.List;
 
 public class PassageiroRepository implements UsuarioRepository {
 
+
     // Lista em memória para testes
-    private static List<Passageiro> passageirosCarregados = new ArrayList<>();
+    private static JsonRepository<Passageiro> passageiroDB =
+            new JsonRepository<>("src/main/resources/data/passageiros.json", Passageiro.class);
+    private static List<Passageiro> passageirosCarregados = passageiroDB.carregar();
+
+    public void salvarPassageiro(Passageiro passageiro) {
+        atualizarPassageirosCarregados();
+        int currentId = passageirosCarregados.size() + 1;
+        passageiro.setId(currentId);
+        passageirosCarregados.add(passageiro);
+        passageiroDB.salvar(passageirosCarregados);
+    }
 
     @Override
     public Passageiro buscarPorCpf(String cpfBusca) {
@@ -39,19 +50,6 @@ public class PassageiroRepository implements UsuarioRepository {
         return null;
     }
 
-    @Override
-    public void remover(String cpf) {
-        passageirosCarregados.removeIf(p -> p.getCpf().equals(cpf));
-    }
-
-    public void salvarPassageiro(Passageiro passageiro) {
-        // Gerar ID incremental
-        int currentId = passageirosCarregados.size() + 1;
-        passageiro.setId(currentId);
-
-        passageirosCarregados.add(passageiro);
-    }
-
     public List<Passageiro> getPassageiros() {
         return passageirosCarregados;
     }
@@ -80,8 +78,19 @@ public class PassageiroRepository implements UsuarioRepository {
                 .orElse(0);
     }
 
-    // Método utilitário para testes: limpar a lista
+    public static void atualizarPassageirosCarregados() {
+        passageirosCarregados = passageiroDB.carregar();
+    }
+
     public static void limparTodos() {
-        passageirosCarregados.clear();
+        passageirosCarregados = new ArrayList<>();
+        passageiroDB.salvar(passageirosCarregados);
+    }
+
+    @Override
+    public void remover(String cpf) {
+        atualizarPassageirosCarregados();
+        passageirosCarregados.removeIf(p -> p.getCpf().equals(cpf));
+        passageiroDB.salvar(passageirosCarregados);
     }
 }

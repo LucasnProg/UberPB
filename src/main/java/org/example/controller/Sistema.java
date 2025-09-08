@@ -1,10 +1,10 @@
 package org.example.controller;
 
-import org.example.model.entity.Corrida;
-import org.example.model.entity.Motorista;
-import org.example.model.entity.Passageiro;
-import org.example.model.entity.Veiculo;
+import org.example.model.entity.*;
+import org.example.model.repository.MotoristaRepository;
 import org.example.model.repository.VeiculoRepository;
+import org.example.model.service.MotoristaService;
+import org.example.model.service.VeiculoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,13 +60,39 @@ public class Sistema {
             if (moto.getLocalizacao().equals(corrida.getOrigem())){
                 Veiculo v = VeiculoRepository.buscarPorId(moto.getIdVeiculo());
                 if(v!= null && v.getCategoria().equals(corrida.getCategoriaVeiculo())) {
-                    notificarMotorista(corrida, moto);
+                    notificarMotorista(corrida, moto.getId());
                 }
             }
         }
     }
 
-    public static void notificarMotorista(Corrida corrida, Motorista motorista){
-        motorista.adicionarCorridaNotificada(corrida);
+    public static void notificarMotorista(Corrida corrida, int id){
+        MotoristaService ms = new MotoristaService();
+        List<Motorista> motoristas =  ms.listar();
+
+        for(Motorista m : motoristas){
+            if (m.getId() == id){
+                m.adicionarCorridaNotificada(corrida);
+            }
+
+            System.out.println(m.getCorridasNotificadas());
+        }
+
+        ms.atualizarDados(motoristas);
+    }
+
+    public static void notificarMotoristasPorCategoria(Corrida corridaSolicitada, CategoriaVeiculo categoriaVeiculoDesejada) {
+        MotoristaService ms = new MotoristaService();
+        VeiculoService vs = new VeiculoService();
+        List<Motorista> motoristas =  ms.listar();
+
+        for(Motorista m : motoristas){
+            int idVeiculo = m.getIdVeiculo();
+            if ((vs.buscarPorId(idVeiculo)).getCategoria().equals(categoriaVeiculoDesejada)){
+                notificarMotorista(corridaSolicitada, m.getId());
+            }
+        }
+
+
     }
 }

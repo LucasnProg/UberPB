@@ -3,6 +3,7 @@ package org.example.model.service;
 import org.example.model.entity.Motorista;
 import org.example.model.repository.MotoristaRepository;
 import org.example.util.CrudUserError;
+import org.example.util.LoginInvalido;
 import org.example.util.UsuarioNaoCadastrado;
 
 import java.util.List;
@@ -10,8 +11,21 @@ import java.util.List;
 public class MotoristaService implements UsuarioService {
 
     private final MotoristaRepository motoristas = new MotoristaRepository();
+    Motorista motoristaLogado;
 
     public MotoristaService() {
+    }
+
+    public MotoristaRepository getMotoristas() {
+        return motoristas;
+    }
+
+    public Motorista getMotoristaLogado() {
+        return motoristaLogado;
+    }
+
+    public void setMotoristaLogado(Motorista motoristaLogado) {
+        this.motoristaLogado = motoristaLogado;
     }
 
     @Override
@@ -58,16 +72,25 @@ public class MotoristaService implements UsuarioService {
         }
     }
 
-    @Override
     public boolean login(String email, String senha) {
         try {
             if (!motoristas.verificarEmail(email)) {
-                throw new UsuarioNaoCadastrado("Esse email não está cadastrado como motorista.");
+                throw new UsuarioNaoCadastrado("Esse email não está cadastrado como Motorista.");
             }
-            return motoristas.realizarLogin(email, senha);
-        } catch (UsuarioNaoCadastrado e) {
+            if (motoristas.realizarLogin(email, senha)) {
+                this.setMotoristaLogado(motoristas.buscarPorEmail(email));
+                return true;
+            } else {
+                throw new LoginInvalido("Senha incorreta.\nVerifique a senha e tente novamente.");
+            }
+        } catch (UsuarioNaoCadastrado | LoginInvalido e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
+
+    public void atualizarDados(List<Motorista> motoristasAtualizados){
+        motoristas.atualizarMotoristas(motoristasAtualizados);
+    }
+
 }

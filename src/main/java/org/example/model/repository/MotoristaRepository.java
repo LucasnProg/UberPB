@@ -20,6 +20,11 @@ public class MotoristaRepository implements UsuarioRepository {
         motoristasDB.salvar(motoristasCarregados);
     }
 
+    public void atualizarMotoristas(List<Motorista> motoristasAtualizados) {
+        atualizarMotoristasCarregados();
+        motoristasDB.salvar(motoristasAtualizados);
+    }
+
     @Override
     public Motorista buscarPorCpf(String cpfBusca) {
         atualizarMotoristasCarregados();
