@@ -100,7 +100,7 @@ public class CorridaService {
         return (distanciaKm / velocidadeMediaKmH) * 60;
     }
 
-    public double calcularPreco(String origem, String destino, String categoria) {
+    public double calcularPreco(String origem, String destino, CategoriaVeiculo categoria) {
         double distanciaKm = calcularDistanciaEstimada(origem, destino);
         double tempoMinutos = calcularTempoEstimado(distanciaKm);
 
@@ -110,14 +110,20 @@ public class CorridaService {
 
         double preco = tarifaBase + (distanciaKm * precoPorKm) + (tempoMinutos * precoPorMinuto);
 
-        switch (categoria.toLowerCase()) {
-            case "Luxo":
+        switch (categoria) {
+            case UBER_BLACK:
                 preco *= 1.8;
                 break;
-            case "SUV":
+            case UBER_XL:
                 preco *= 1.5;
                 break;
-            case "Economico":
+            case UBER_COMFORT:
+                preco *= 1.3;
+                break;
+            case UBER_BAG:
+                preco *= 1.2;
+                break;
+            case UBER_X:
             default:
                 preco *= 1.0;
                 break;

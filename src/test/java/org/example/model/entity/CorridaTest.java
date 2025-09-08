@@ -17,7 +17,7 @@ class CorridaTest {
         assertEquals(1, corrida.getPassageiroId());
         assertEquals("Centro", corrida.getOrigem());
         assertEquals("Aeroporto", corrida.getDestino());
-        assertEquals("Carro", corrida.getCategoriaVeiculo());
+        assertEquals(UBER_COMFORT, corrida.getCategoriaVeiculo()); // <- corrigido
         assertEquals(StatusCorrida.SOLICITADA, corrida.getStatus());
     }
 

@@ -1,6 +1,7 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Corrida;
+import org.example.model.entity.CategoriaVeiculo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ class CorridaRepositoryTest {
 
     @Test
     void deveSalvarENaoEstarVazio() {
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", "Carro");
+        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_X);
         corrida.setHoraInicio(LocalDateTime.now());
         corrida.setHoraFim(LocalDateTime.now().plusMinutes(30));
 
@@ -39,18 +40,19 @@ class CorridaRepositoryTest {
 
     @Test
     void deveBuscarPorId() {
-        Corrida corrida = new Corrida(2, "Praça", "Estação", "Moto");
+        Corrida corrida = new Corrida(2, "Praça", "Estação", CategoriaVeiculo.UBER_COMFORT);
         repository.salvarCorrida(corrida);
 
         Corrida encontrada = repository.buscarPorId(1);
         assertNotNull(encontrada);
         assertEquals("Praça", encontrada.getOrigem());
         assertEquals("Estação", encontrada.getDestino());
+        assertEquals(CategoriaVeiculo.UBER_COMFORT, encontrada.getCategoriaVeiculo());
     }
 
     @Test
     void deveVerificarExistenciaDeCorrida() {
-        Corrida corrida = new Corrida(3, "Shopping", "Universidade", "Van");
+        Corrida corrida = new Corrida(3, "Shopping", "Universidade", CategoriaVeiculo.UBER_BLACK);
         repository.salvarCorrida(corrida);
 
         assertTrue(repository.existeCorrida(1));
@@ -59,7 +61,7 @@ class CorridaRepositoryTest {
 
     @Test
     void deveRemoverCorrida() {
-        Corrida corrida = new Corrida(4, "Hospital", "Rodoviária", "Carro");
+        Corrida corrida = new Corrida(4, "Hospital", "Rodoviária", CategoriaVeiculo.UBER_BAG);
         repository.salvarCorrida(corrida);
 
         assertTrue(repository.existeCorrida(1));
@@ -72,8 +74,8 @@ class CorridaRepositoryTest {
 
     @Test
     void deveRetornarListaDeCorridas() {
-        Corrida c1 = new Corrida(5, "Rua A", "Rua B", "Carro");
-        Corrida c2 = new Corrida(6, "Rua C", "Rua D", "Moto");
+        Corrida c1 = new Corrida(5, "Rua A", "Rua B", CategoriaVeiculo.UBER_X);
+        Corrida c2 = new Corrida(6, "Rua C", "Rua D", CategoriaVeiculo.UBER_XL);
 
         repository.salvarCorrida(c1);
         repository.salvarCorrida(c2);
