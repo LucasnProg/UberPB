@@ -1,0 +1,57 @@
+[
+  {
+    "idVeiculo": 1,
+    "corridasNotificadas": [
+      {
+        "id": 1,
+        "passageiroId": 1,
+        "motoristaId": 0,
+        "origem": "Casa",
+        "destino": "UEPB",
+        "valor": 0.0,
+        "categoriaVeiculo": "UBER_X",
+        "status": "SOLICITADA"
+      }
+    ],
+    "corridasAceitas": [],
+    "id": 1,
+    "nome": "Lucas",
+    "email": "lucas2@gmail.com",
+    "senha": "senha123",
+    "cpf": "12222222222",
+    "telefone": "83987380335"
+  },
+  {
+    "idVeiculo": 2,
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
+    "id": 2,
+    "nome": "Manoel",
+    "email": "Manoel2@gmail.com",
+    "senha": "senha123",
+    "cpf": "13333333333",
+    "telefone": "83987380336"
+  },
+  {
+    "idVeiculo": 3,
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
+    "id": 3,
+    "nome": "Rufino",
+    "email": "Mateus2@gmail.com",
+    "senha": "senha123",
+    "cpf": "14444444444",
+    "telefone": "83987380337"
+  },
+  {
+    "idVeiculo": 4,
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
+    "id": 4,
+    "nome": "Eric",
+    "email": "Eric2@gmail.com",
+    "senha": "senha123",
+    "cpf": "15555555555",
+    "telefone": "83987380338"
+  }
+]
