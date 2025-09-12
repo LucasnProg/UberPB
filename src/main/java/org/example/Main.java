@@ -31,10 +31,10 @@ public class Main {
         motoristaManager.criar("Rufino", "Mateus2@gmail.com", "senha123", "14444444444", "83987380337");
         motoristaManager.criar("Eric", "Eric2@gmail.com", "senha123", "15555555555", "83987380338");
 
-        veiculoManager.criar("ABC-1234", "Onix", "Chevrolet", 2023, CategoriaVeiculo.UBER_X, "Prata");
-        veiculoManager.criar("XYZ-3003", "Corolla", "Toyota", 2024, CategoriaVeiculo.UBER_XL, "Preto");
-        veiculoManager.criar("JKL-6006", "Duster", "Renault", 2023, CategoriaVeiculo.UBER_BAG, "Marrom");
-        veiculoManager.criar("KLZ-7384", "911", "Porsche", 2019, CategoriaVeiculo.UBER_BLACK, "Vermelho");
+        veiculoManager.criar("ABC-1234", "40026664177", "Onix", "Chevrolet", 2023, CategoriaVeiculo.UBER_X, "Prata");
+        veiculoManager.criar("XYZ-3003", "47464969696", "Corolla", "Toyota", 2024, CategoriaVeiculo.UBER_XL, "Preto");
+        veiculoManager.criar("JKL-6006", "35068432170", "Duster", "Renault", 2023, CategoriaVeiculo.UBER_BAG, "Marrom");
+        veiculoManager.criar("KLZ-7384", "79140402965", "911", "Porsche", 2019, CategoriaVeiculo.UBER_BLACK, "Vermelho");
 
         List<Motorista> motoristasCadastrados =  motoristaManager.listar();
         List<Veiculo> veiculosCadastrados =  veiculoManager.listar();

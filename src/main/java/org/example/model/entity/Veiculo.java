@@ -6,14 +6,16 @@ public class Veiculo {
     private String marca;
     private String modelo;
     private String placa;
+    private String renavam;
     private int anoFabricacao;
     private String cor;
     private CategoriaVeiculo categoria;
 
-    public Veiculo(String marca, String modelo, String placa, int anoFabricacao, String cor, CategoriaVeiculo categoria) {
+    public Veiculo(String marca, String modelo, String placa, String renavam, int anoFabricacao, String cor, CategoriaVeiculo categoria) {
         this.marca = marca;
         this.modelo = modelo;
         this.placa = placa;
+        this.renavam = renavam;
         this.anoFabricacao = anoFabricacao;
         this.cor = cor;
         this.categoria = categoria;
@@ -57,6 +59,14 @@ public class Veiculo {
 
     public void setPlaca(String placa) {
         this.placa = placa;
+    }
+
+    public String getRenavam() {
+        return renavam;
+    }
+
+    public void setRenavam(String renavam) {
+        this.renavam = renavam;
     }
 
     public int getAnoFabricacao() {

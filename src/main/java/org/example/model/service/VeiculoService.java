@@ -13,13 +13,13 @@ public class VeiculoService {
 
     public VeiculoService(){}
 
-    public void criar(String placa, String modelo, String marca, int ano, CategoriaVeiculo categoria, String cor) {
+    public void criar(String placa, String renavam, String modelo, String marca, int ano, CategoriaVeiculo categoria, String cor) {
         try {
             if (VeiculoRepository.existePlaca(placa)) {
                 throw new CrudVeiculoError("A placa '" + placa + "' já está cadastrada no sistema.");
             }
 
-            Veiculo novoVeiculo = new Veiculo(marca, modelo, placa, ano, cor, categoria);
+            Veiculo novoVeiculo = new Veiculo(marca, modelo, placa, renavam, ano, cor, categoria);
             VeiculoRepository.salvarVeiculo(novoVeiculo);
             System.out.println("Veículo cadastrado com sucesso!");
 
