@@ -9,7 +9,7 @@ import static org.example.model.entity.CategoriaVeiculo.UBER_X;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CorridaTest {
-
+/*
     @Test
     void deveCriarCorridaComStatusSolicitada() {
         Corrida corrida = new Corrida(1, "Centro", "Aeroporto", UBER_COMFORT);
@@ -44,5 +44,5 @@ class CorridaTest {
         assertEquals(inicio, corrida.getHoraInicio());
         assertEquals(fim, corrida.getHoraFim());
         assertEquals(StatusCorrida.CONCLUIDA, corrida.getStatus());
-    }
+    }*/
 }

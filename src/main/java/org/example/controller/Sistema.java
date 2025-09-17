@@ -73,12 +73,12 @@ public class Sistema {
         for(Motorista m : motoristas){
             if (m.getId() == id){
                 m.adicionarCorridaNotificada(corrida);
+                ms.atualizarDados(m);
             }
 
             System.out.println(m.getCorridasNotificadas());
         }
 
-        ms.atualizarDados(motoristas);
     }
 
     public static void notificarMotoristasPorCategoria(Corrida corridaSolicitada, CategoriaVeiculo categoriaVeiculoDesejada) {
@@ -92,7 +92,7 @@ public class Sistema {
                 notificarMotorista(corridaSolicitada, m.getId());
             }
         }
-
-
     }
+
+
 }

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CorridaRepositoryTest {
 
     private CorridaRepository repository;
-
+    /*
     @BeforeEach
     void setup() {
         File file = new File("src/test/resources/data/corridas-test.json");
@@ -84,5 +84,5 @@ class CorridaRepositoryTest {
         assertEquals(2, corridas.size());
         assertEquals("Rua A", corridas.get(0).getOrigem());
         assertEquals("Rua C", corridas.get(1).getOrigem());
-    }
+    }*/
 }

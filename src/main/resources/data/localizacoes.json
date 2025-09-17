@@ -1,0 +1,67 @@
+[
+  {
+    "nome": "Universidade Estadual da Paraíba - UEPB",
+    "latitude": -7.23056,
+    "longitude": -35.88110
+  },
+  {
+    "nome": "Universidade Federal de Campina Grande - UFCG",
+    "latitude": -7.23000,
+    "longitude": -35.88150
+  },
+  {
+    "nome": "Praça da Bandeira",
+    "latitude": -7.23080,
+    "longitude": -35.88500
+  },
+  {
+    "nome": "Estação Rodoviária de Campina Grande",
+    "latitude": -7.23250,
+    "longitude": -35.88900
+  },
+  {
+    "nome": "Shopping Partage",
+    "latitude": -7.23120,
+    "longitude": -35.88750
+  },
+  {
+    "nome": "Hospital Universitário Alcides Carneiro",
+    "latitude": -7.22400,
+    "longitude": -35.88050
+  },
+  {
+    "nome": "Parque do Povo",
+    "latitude": -7.22250,
+    "longitude": -35.88150
+  },
+  {
+    "nome": "Centro Administrativo da Prefeitura",
+    "latitude": -7.23000,
+    "longitude": -35.88350
+  },
+  {
+    "nome": "Estádio Amigão",
+    "latitude": -7.23090,
+    "longitude": -35.89250
+  },
+  {
+    "nome": "Mercadinho Central",
+    "latitude": -7.22850,
+    "longitude": -35.88000
+  },
+  {
+    "nome": "Praça da Bandeira - Alternativa",
+    "latitude": -7.23100,
+    "longitude": -35.88450
+  },
+  {
+    "nome": "Shopping Boulevard",
+    "latitude": -7.22750,
+    "longitude": -35.88200
+  },
+  {
+    "nome": "Estação de Trem",
+    "latitude": -7.23300,
+    "longitude": -35.88800
+  }
+]

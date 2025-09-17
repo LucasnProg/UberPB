@@ -27,12 +27,6 @@ public class PassageiroService implements UsuarioService {
     @Override
     public void criar(String nome, String email, String senha, String cpf, String telefone) {
         try {
-            if (passageiros.existeCpf(cpf)) {
-                throw new CrudUserError("CPF como Passageiro já cadastrado.");
-            } else if (passageiros.verificarEmail(email)) {
-                throw new CrudUserError("Email como Passageiro já cadastrado.");
-            }
-
             Passageiro passageiro = new Passageiro(nome, email, senha, cpf, telefone);
             passageiros.salvarPassageiro(passageiro);
         } catch (CrudUserError e) {
@@ -84,5 +78,9 @@ public class PassageiroService implements UsuarioService {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    public boolean verificarCpf(String cpfBusca){
+        return passageiros.existeCpf(cpfBusca);
     }
 }

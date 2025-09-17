@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Motorista extends Usuario{
 
-    private String localizacao;
+    private Localizacao localizacaoAtual;
     private int idVeiculo;
     private List<Corrida> corridasNotificadas = new ArrayList<Corrida>();
     private List<Corrida> corridasAceitas = new ArrayList<Corrida>();;
-
+    private MotoristaStatus status;
 
     public Motorista(String nome, String email, String senha, String cpf, String telefone) {
         super(nome, email, senha, cpf, telefone);
@@ -23,12 +23,12 @@ public class Motorista extends Usuario{
         this.idVeiculo = idVeiculo;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
+    public Localizacao getLocalizacao() {
+        return localizacaoAtual;
     }
 
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
+    public void setLocalizacao(Localizacao localizacao) {
+        this.localizacaoAtual = localizacao;
     }
 
     public List<Corrida> getCorridasNotificadas() {
@@ -49,5 +49,13 @@ public class Motorista extends Usuario{
 
     public void adicionarCorridaNotificada(Corrida corrida){
         this.corridasNotificadas.add(corrida);
+    }
+
+    public MotoristaStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(MotoristaStatus status) {
+        this.status = status;
     }
 }

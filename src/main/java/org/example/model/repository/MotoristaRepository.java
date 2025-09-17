@@ -7,44 +7,54 @@ import java.util.List;
 
 public class MotoristaRepository implements UsuarioRepository {
 
-    private static JsonRepository<Motorista> motoristasDB =
-            new JsonRepository<>("src/main/resources/data/motoristas.json", Motorista.class);
+    private final JsonRepository<Motorista> motoristasDB;
 
-    private static List<Motorista> motoristasCarregados = motoristasDB.carregar();
+    private List<Motorista> motoristasCarregados;
 
-    public void salvarMotorista(Motorista motorista) {
+    public MotoristaRepository() {
+        this.motoristasDB = new JsonRepository<>("src/main/resources/data/motoristas.json", Motorista.class);
+        this.motoristasCarregados = this.motoristasDB.carregar();
+    }
+    /**
+     * Salva um novo motorista, gerando um ID robusto.
+     * @param motorista O novo motorista a ser salvo.
+     */
+    public void salvar(Motorista motorista) {
         atualizarMotoristasCarregados();
-        int currentId = motoristasCarregados.size() + 1;
-        motorista.setId(currentId);
+        int proximoId = motoristasCarregados.stream()
+                .mapToInt(Motorista::getId)
+                .max()
+                .orElse(0) + 1;
+        motorista.setId(proximoId);
         motoristasCarregados.add(motorista);
         motoristasDB.salvar(motoristasCarregados);
     }
 
-    public void atualizarMotoristas(List<Motorista> motoristasAtualizados) {
+    /**
+     * Atualiza os dados de um motorista existente.
+     * @param motoristaAtualizado O motorista com os dados atualizados.
+     */
+    public void atualizar(Motorista motoristaAtualizado) {
         atualizarMotoristasCarregados();
-        motoristasDB.salvar(motoristasAtualizados);
+        for (int i = 0; i < motoristasCarregados.size(); i++) {
+            if (motoristasCarregados.get(i).getId() == motoristaAtualizado.getId()) {
+                motoristasCarregados.set(i, motoristaAtualizado);
+                motoristasDB.salvar(motoristasCarregados);
+                return;
+            }
+        }
     }
 
     @Override
     public Motorista buscarPorCpf(String cpfBusca) {
         atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getCpf().equals(cpfBusca)) {
-                return m;
-            }
-        }
-        return null;
+        return motoristasCarregados.stream().filter(m -> m.getCpf().equals(cpfBusca)).findFirst().orElse(null);
     }
 
     @Override
     public Motorista buscarPorEmail(String email) {
         atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getEmail().equals(email)) {
-                return m;
-            }
-        }
-        return null;
+        return motoristasCarregados.stream().filter(m -> m.getEmail().equals(email)).findFirst().orElse(null);
     }
 
     @Override
@@ -69,8 +79,8 @@ public class MotoristaRepository implements UsuarioRepository {
         return false;
     }
 
-    public static void atualizarMotoristasCarregados() {
-        motoristasCarregados = motoristasDB.carregar();
+    public void atualizarMotoristasCarregados() {
+        this.motoristasCarregados = motoristasDB.carregar();
     }
 
     @Override
@@ -95,7 +105,7 @@ public class MotoristaRepository implements UsuarioRepository {
         return false;
     }
 
-    public static int getIdByCpf(String cpf) {
+    public int getIdByCpf(String cpf) {
         atualizarMotoristasCarregados();
         for (Motorista m : motoristasCarregados) {
             if (m.getCpf().equals(cpf)) {
@@ -106,8 +116,43 @@ public class MotoristaRepository implements UsuarioRepository {
     }
 
     // Método extra para testes: limpa todos os motoristas
-    public static void limparTodos() {
+    public void limparTodos() {
         motoristasCarregados = new ArrayList<>();
         motoristasDB.salvar(motoristasCarregados);
+    }
+
+    public Motorista buscarPorId(int motoristaId) {
+        atualizarMotoristasCarregados();
+        for (Motorista m : motoristasCarregados) {
+            if (m.getId() == motoristaId) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    public void atualizarMotorista(Motorista motoristaAtualizado) {
+        // Garante que a lista em memória está sincronizada com o arquivo JSON
+        atualizarMotoristasCarregados();
+
+        // Itera pela lista para encontrar o motorista com o mesmo ID
+        for (int i = 0; i < motoristasCarregados.size(); i++) {
+            if (motoristasCarregados.get(i).getId() == motoristaAtualizado.getId()) {
+
+                // Substitui o objeto antigo pelo novo na posição encontrada
+                motoristasCarregados.set(i, motoristaAtualizado);
+
+                // Salva a lista inteira (agora atualizada) de volta no arquivo JSON
+                motoristasDB.salvar(motoristasCarregados);
+
+                // Sai do método, pois a atualização foi concluída
+                return;
+            }
+        }
+    }
+
+    public List<Motorista> getMotoristasCarregados() {
+        atualizarMotoristasCarregados();
+        return motoristasCarregados;
     }
 }

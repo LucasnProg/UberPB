@@ -31,14 +31,9 @@ public class MotoristaService implements UsuarioService {
     @Override
     public void criar(String nome, String email, String senha, String cpf, String telefone) {
         try {
-            if (motoristas.existeCpf(cpf)) {
-                throw new CrudUserError("Cpf como Motorista já cadastrado.");
-            } else if (motoristas.verificarEmail(email)) {
-                throw new CrudUserError("Email como Motorista já cadastrado.");
-            }
 
             Motorista motorista = new Motorista(nome, email, senha, cpf, telefone);
-            motoristas.salvarMotorista(motorista);
+            motoristas.salvar(motorista);
         } catch (CrudUserError e) {
             System.out.println(e.getMessage());
         }
@@ -89,8 +84,23 @@ public class MotoristaService implements UsuarioService {
         }
     }
 
-    public void atualizarDados(List<Motorista> motoristasAtualizados){
-        motoristas.atualizarMotoristas(motoristasAtualizados);
+    public void atualizarDados(Motorista motoristaAtualizados){
+        motoristas.atualizar(motoristaAtualizados);
     }
 
+    public boolean verificarCpf(String cpfBusca){
+        return motoristas.existeCpf(cpfBusca);
+    }
+
+    public Motorista getMotoristaByID(int idMotorista){
+        List<Motorista> motoristasCarregados = motoristas.getMotoristasCarregados();
+
+        for (Motorista m : motoristasCarregados){
+            if (m.getId() == idMotorista){
+                return m;
+            }
+        }
+
+        return null;
+    }
 }

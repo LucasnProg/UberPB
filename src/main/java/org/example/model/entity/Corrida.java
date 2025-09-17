@@ -6,15 +6,18 @@ public class Corrida {
     private int id;
     private int passageiroId;
     private int motoristaId;
-    private String origem; //Trocar tipo no futuro para localização
-    private String destino;
+    private Localizacao origem;
+    private Localizacao destino;
     private double valor;
     private LocalDateTime horaInicio;
     private LocalDateTime horaFim;
     private CategoriaVeiculo categoriaVeiculo;
     private StatusCorrida status;
 
-    public Corrida(int passageiroId, String origem, String destino, CategoriaVeiculo categoriaVeiculo) {
+    public Corrida(){
+
+    }
+    public Corrida(int passageiroId, Localizacao origem, Localizacao destino, CategoriaVeiculo categoriaVeiculo) {
         this.passageiroId = passageiroId;
         this.origem = origem;
         this.destino = destino;
@@ -25,6 +28,10 @@ public class Corrida {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getPassageiroId() {
@@ -43,23 +50,19 @@ public class Corrida {
         this.motoristaId = motoristaId;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getOrigem() {
+    public Localizacao getOrigem() {
         return origem;
     }
 
-    public void setOrigem(String origem) {
+    public void setOrigem(Localizacao origem) {
         this.origem = origem;
     }
 
-    public String getDestino() {
+    public Localizacao getDestino() {
         return destino;
     }
 
-    public void setDestino(String destino) {
+    public void setDestino(Localizacao destino) {
         this.destino = destino;
     }
 
@@ -71,20 +74,20 @@ public class Corrida {
         this.valor = valor;
     }
 
-    public LocalDateTime getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(LocalDateTime horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
     public LocalDateTime getHoraFim() {
         return horaFim;
     }
 
     public void setHoraFim(LocalDateTime horaFim) {
         this.horaFim = horaFim;
+    }
+
+    public LocalDateTime getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraInicio(LocalDateTime horaInicio) {
+        this.horaInicio = horaInicio;
     }
 
     public CategoriaVeiculo getCategoriaVeiculo() {
@@ -102,4 +105,6 @@ public class Corrida {
     public void setStatus(StatusCorrida status) {
         this.status = status;
     }
+
+
 }

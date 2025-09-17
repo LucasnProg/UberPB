@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Escolha Origem e Destino</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map { height: 100vh; }
+        body { margin: 0; }
+        #confirm { position: absolute; top: 10px; left: 10px; z-index: 1000; padding: 10px; background: white; border-radius: 5px; display:none; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<button id="confirm">Confirmar Localização</button>
+
+<script>
+    var map = L.map('map').setView([-7.2307, -35.8811], 13); // posição inicial
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var origem = null;
+    var destino = null;
+    var markerOrigem = null;
+    var markerDestino = null;
+
+    alert("Clique no mapa para selecionar a ORIGEM.");
+
+    map.on('click', function(e) {
+      if (!origem) {
+        origem = e.latlng;
+        markerOrigem = L.marker(origem, { draggable: true }).addTo(map);
+        alert("Origem selecionada. Agora clique no mapa para selecionar o DESTINO.");
+      } else if (!destino) {
+        destino = e.latlng;
+        markerDestino = L.marker(destino, { draggable: true, icon: L.icon({
+          iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-red.png',
+          shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+          iconSize: [25, 41], iconAnchor: [12, 41]
+        })}).addTo(map);
+        document.getElementById('confirm').style.display = 'block';
+        alert("Destino selecionado. Clique no botão CONFIRMAR para continuar.");
+      }
+    });
+
+    document.getElementById('confirm').onclick = function() {
+      var latOrigem = markerOrigem.getLatLng().lat;
+      var lngOrigem = markerOrigem.getLatLng().lng;
+      var latDestino = markerDestino.getLatLng().lat;
+      var lngDestino = markerDestino.getLatLng().lng;
+
+      var coords = { origem: {lat: latOrigem, lng: lngOrigem}, destino: {lat: latDestino, lng: lngDestino} };
+      console.log("Coordenadas selecionadas:", coords);
+
+      alert("Coordenadas confirmadas! Feche esta janela e volte ao CLI.");
+
+      window.close();
+    };
+</script>
+</body>
+</html>
