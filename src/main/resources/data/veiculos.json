@@ -7,6 +7,22 @@
     "renavam": "N/A",
     "anoFabricacao": 0,
     "cor": "...",
+    "capacidadeMala": 0.0,
+    "numAssentos": 0,
+    "premium": false,
     "categoria": "UBER_X"
+  },
+  {
+    "id": 2,
+    "marca": "Toyota",
+    "modelo": "corolla",
+    "placa": "ABC1D23",
+    "renavam": "12345678901",
+    "anoFabricacao": 2021,
+    "cor": "preto",
+    "capacidadeMala": 470.5,
+    "numAssentos": 5,
+    "premium": true,
+    "categoria": "UBER_BLACK"
   }
 ]

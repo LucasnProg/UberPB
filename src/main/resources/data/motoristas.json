@@ -1,7 +1,6 @@
 [
   {
     "idVeiculo": 1,
-    "status": "INDISPONÍVEL",
     "corridasNotificadas": [],
     "corridasAceitas": [],
     "id": 1,
@@ -10,5 +9,17 @@
     "senha": "senha123",
     "cpf": "111.111.111-11",
     "telefone": "83987380330"
+  },
+  {
+    "idVeiculo": 2,
+    "status": "INDISPONÍVEL",
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
+    "id": 2,
+    "nome": "Manoel",
+    "email": "manoel@gmail.com",
+    "senha": "senha123",
+    "cpf": "111.111.111-11",
+    "telefone": "9999999999"
   }
 ]
