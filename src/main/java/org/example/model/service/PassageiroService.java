@@ -2,85 +2,55 @@ package org.example.model.service;
 
 import org.example.model.entity.Passageiro;
 import org.example.model.repository.PassageiroRepository;
-import org.example.util.CrudUserError;
-import org.example.util.LoginInvalido;
-import org.example.util.UsuarioNaoCadastrado;
 
-import java.util.List;
+/**
+ * Service responsável pela lógica de negócio relacionada a Passageiros.
+ */
+public class PassageiroService {
 
-public class PassageiroService implements UsuarioService {
+    private final PassageiroRepository passageiroRepository = new PassageiroRepository();
 
-    private final PassageiroRepository passageiros = new PassageiroRepository();
-    private Passageiro passageiroLogado;
-
-    public PassageiroService() {
-    }
-
-    public Passageiro getPassageiroLogado() {
-        return passageiroLogado;
-    }
-
-    public void setPassageiroLogado(Passageiro passageiroLogado) {
-        this.passageiroLogado = passageiroLogado;
-    }
-
-    @Override
-    public void criar(String nome, String email, String senha, String cpf, String telefone) {
-        try {
-            Passageiro passageiro = new Passageiro(nome, email, senha, cpf, telefone);
-            passageiros.salvarPassageiro(passageiro);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
+    /**
+     * Tenta autenticar um passageiro com base no email e senha.
+     * @param email O email do passageiro.
+     * @param senha A senha do passageiro.
+     * @return O objeto Passageiro se a autenticação for bem-sucedida, caso contrário null.
+     */
+    public Passageiro login(String email, String senha) {
+        Passageiro passageiro = passageiroRepository.buscarPorEmail(email);
+        if (passageiro != null && passageiro.getSenha().equals(senha)) {
+            return passageiro;
         }
+        // A View será responsável por exibir a mensagem de erro genérica.
+        return null;
     }
 
-    public List<Passageiro> listar() {
-        return passageiros.getPassageiros();
-    }
-
-    public Passageiro getPassageiro(String cpf) {
-        try {
-            if (!passageiros.existeCpf(cpf)) {
-                throw new CrudUserError("Passageiro não cadastrado no sistema.");
-            }
-            return passageiros.buscarPorCpf(cpf);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
+    /**
+     * Cria um novo passageiro no sistema após validar se o email ou CPF já existem.
+     * @return O objeto Passageiro recém-criado, ou null se o cadastro falhar.
+     */
+    public Passageiro criar(String nome, String email, String senha, String cpf, String telefone) {
+        if (passageiroRepository.buscarPorEmail(email) != null) {
+            System.out.println("\n[ERRO] O e-mail informado já está cadastrado.");
             return null;
         }
-    }
-
-    @Override
-    public void deletar(String cpf) {
-        try {
-            if (!passageiros.existeCpf(cpf)) {
-                throw new CrudUserError("Passageiro não cadastrado no sistema.");
-            }
-            passageiros.remover(cpf);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
+        if (passageiroRepository.buscarPorCpf(cpf) != null) {
+            System.out.println("\n[ERRO] O CPF informado já está cadastrado.");
+            return null;
         }
+
+        Passageiro novoPassageiro = new Passageiro(nome, email, senha, cpf, telefone);
+        passageiroRepository.salvar(novoPassageiro);
+        System.out.println("\nPassageiro cadastrado com sucesso!");
+        return novoPassageiro;
     }
 
-    @Override
-    public boolean login(String email, String senha) {
-        try {
-            if (!passageiros.verificarEmail(email)) {
-                throw new UsuarioNaoCadastrado("Esse email não está cadastrado como passageiro.");
-            }
-            if (passageiros.realizarLogin(email, senha)) {
-                setPassageiroLogado(passageiros.buscarPorEmail(email));
-                return true;
-            } else {
-                throw new LoginInvalido("Senha incorreta.\nVerifique a senha e tente novamente.");
-            }
-        } catch (UsuarioNaoCadastrado | LoginInvalido e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean verificarCpf(String cpfBusca){
-        return passageiros.existeCpf(cpfBusca);
+    /**
+     * Busca um passageiro pelo seu ID.
+     * @param id O ID do passageiro.
+     * @return O objeto Passageiro encontrado, ou null.
+     */
+    public Passageiro buscarPorId(int id) {
+        return passageiroRepository.buscarPorId(id);
     }
 }

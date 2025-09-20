@@ -2,72 +2,37 @@ package org.example.model.service;
 
 import org.example.model.entity.Gerente;
 import org.example.model.repository.GerenteRepository;
-import org.example.util.CrudUserError;
-import org.example.util.UsuarioNaoCadastrado;
 
-import java.util.List;
+/**
+ * Service responsável pela lógica de negócio relacionada a Gerentes.
+ */
+public class GerenteService {
 
-public class GerenteService implements UsuarioService {
+    private final GerenteRepository gerenteRepository = new GerenteRepository();
 
-    private final GerenteRepository gerentes = new GerenteRepository();
-
-    public GerenteService() {
-    }
-
-    @Override
-    public void criar(String nome, String email, String senha, String cpf, String telefone) {
-        try {
-            if (gerentes.existeCpf(cpf)) {
-                throw new CrudUserError("Cpf como Gerente já cadastrado.");
-            } else if (gerentes.verificarEmail(email)) {
-                throw new CrudUserError("Email como Gerente já cadastrado.");
-            }
-
-            Gerente gerente = new Gerente(nome, email, senha, cpf, telefone);
-            gerentes.salvarGerente(gerente);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
+    /**
+     * Tenta autenticar um gerente com base no email e senha.
+     * @return O objeto Gerente se a autenticação for bem-sucedida, caso contrário null.
+     */
+    public Gerente login(String email, String senha) {
+        Gerente gerente = gerenteRepository.buscarPorEmail(email);
+        if (gerente != null && gerente.getSenha().equals(senha)) {
+            return gerente;
         }
+        return null;
     }
 
-    public List<Gerente> listar() {
-        return gerentes.getGerentes();
-    }
-
-    public Gerente getGerente(String cpf) {
-        try {
-            if (!gerentes.existeCpf(cpf)) {
-                throw new CrudUserError("Gerente não cadastrado no sistema.");
-            }
-            return gerentes.buscarPorCpf(cpf);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
+    /**
+     * Cria um novo gerente no sistema.
+     * @return O objeto Gerente recém-criado, ou null se o cadastro falhar.
+     */
+    public Gerente criar(String nome, String email, String senha, String cpf, String telefone) {
+        if (gerenteRepository.buscarPorEmail(email) != null) {
+            System.out.println("\n[ERRO] O e-mail informado já está cadastrado.");
             return null;
         }
-    }
-
-    @Override
-    public void deletar(String cpf) {
-        try {
-            if (!gerentes.existeCpf(cpf)) {
-                throw new CrudUserError("Gerente não cadastrado no sistema.");
-            }
-            gerentes.remover(cpf);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public boolean login(String email, String senha) {
-        try {
-            if (!gerentes.verificarEmail(email)) {
-                throw new UsuarioNaoCadastrado("Esse email não está cadastrado como gerente.");
-            }
-            return gerentes.realizarLogin(email, senha);
-        } catch (UsuarioNaoCadastrado e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        Gerente novoGerente = new Gerente(nome, email, senha, cpf, telefone);
+        gerenteRepository.salvar(novoGerente);
+        return novoGerente;
     }
 }

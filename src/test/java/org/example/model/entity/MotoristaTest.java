@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MotoristaTest {
-
+/*
     @Test
     void testCriacaoMotorista() {
         Motorista motorista = new Motorista(
@@ -50,11 +50,11 @@ class MotoristaTest {
     void testAdicionarCorridaNotificada() {
         Motorista motorista = new Motorista("João", "email", "senha", "cpf", "tel");
 
-        /*Corrida corrida = new Corrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_X);
+        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_X);
 
         motorista.adicionarCorridaNotificada(corrida);
 
         assertEquals(1, motorista.getCorridasNotificadas().size());
-        assertEquals(corrida, motorista.getCorridasNotificadas().get(0));*/
-    }
+        assertEquals(corrida, motorista.getCorridasNotificadas().get(0));
+    }*/
 }

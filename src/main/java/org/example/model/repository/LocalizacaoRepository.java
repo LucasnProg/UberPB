@@ -1,64 +1,43 @@
 package org.example.model.repository;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.example.model.entity.Localizacao;
-import org.example.model.entity.Motorista;
-import org.example.util.LocalError;
-
-import java.io.FileReader;
 import java.util.List;
 
-public class LocalizacaoRepository implements Repository {
+/**
+ * Repositório para gerenciar a persistência de entidades Localizacao em um arquivo JSON.
+ */
+public class LocalizacaoRepository {
 
-    private static JsonRepository<Localizacao> localsDb =
-            new JsonRepository<>("src/main/resources/data/localizacoes.json", Localizacao.class);
+    private final JsonRepository<Localizacao> localizacaoDB;
 
-    private static List<Localizacao> localizacoesCarregadas = localsDb.carregar();
-
-    @Override
-    public void salvar(List localizacoes) {
-        atualizarLocalizacoesCarregadas();
-
-        localsDb.salvar(localizacoesCarregadas);
+    public LocalizacaoRepository() {
+        this.localizacaoDB = new JsonRepository<>("src/main/resources/data/localizacoes.json", Localizacao.class);
     }
 
-    @Override
+    /**
+     * Carrega a lista de todas as localizações do arquivo JSON.
+     * @return Uma lista de objetos Localizacao.
+     */
     public List<Localizacao> carregar() {
-        Gson gson = new Gson();
-        try (FileReader reader = new FileReader("src/main/resources/data/localizacoes.json")) {
-            return gson.fromJson(reader, new TypeToken<List<Localizacao>>(){}.getType());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        return localizacaoDB.carregar();
     }
 
-    public static void atualizarLocalizacoesCarregadas() {
-        localizacoesCarregadas = localsDb.carregar();
-    }
+    /**
+     * Adiciona uma nova localização à lista existente e salva no arquivo.
+     * @param novaLocalizacao O objeto Localizacao a ser adicionado.
+     */
+    public void adicionar(Localizacao novaLocalizacao) {
+        List<Localizacao> locais = carregar();
 
+        // Lógica para evitar duplicatas pela descrição
+        boolean jaExiste = locais.stream()
+                .anyMatch(l -> l.getDescricao().equalsIgnoreCase(novaLocalizacao.getDescricao()));
 
-    public boolean verificarLocalizacao(Localizacao local){
-        atualizarLocalizacoesCarregadas();
-        if (localizacoesCarregadas.contains(local)){
-            return true;
+        if (!jaExiste) {
+            locais.add(novaLocalizacao);
+            localizacaoDB.salvar(locais);
         } else {
-            return false;
-        }
-    }
-
-    public void adicionarLocalizacao(Localizacao local){
-        atualizarLocalizacoesCarregadas();
-        try{
-            if(!verificarLocalizacao(local)){
-                localizacoesCarregadas.add(local);
-                localsDb.salvar(localizacoesCarregadas);
-            } else {
-                throw new LocalError("Esse local, ja está cadastrado, verifique e tente novamente");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("\n[AVISO] Um local com a mesma descrição já existe.");
         }
     }
 }

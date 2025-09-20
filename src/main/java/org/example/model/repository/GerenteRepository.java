@@ -1,108 +1,52 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Gerente;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class GerenteRepository implements UsuarioRepository {
+/**
+ * Repositório para gerenciar a persistência de entidades Gerente.
+ */
+public class GerenteRepository {
 
-    private static JsonRepository<Gerente> gerentesDB =
-            new JsonRepository<>("src/main/resources/data/gerentes.json", Gerente.class);
+    private final JsonRepository<Gerente> gerentesDB;
 
-    private static List<Gerente> gerentesCarregados = gerentesDB.carregar();
-
-    public void salvarGerente(Gerente gerente) {
-        atualizarGerentesCarregados();
-        int currentId = gerentesCarregados.size() + 1;
-        gerente.setId(currentId);
-        gerentesCarregados.add(gerente);
-        gerentesDB.salvar(gerentesCarregados);
+    public GerenteRepository() {
+        this.gerentesDB = new JsonRepository<>("src/main/resources/data/gerentes.json", Gerente.class);
     }
 
-    @Override
-    public Gerente buscarPorCpf(String cpfBusca) {
-        atualizarGerentesCarregados();
-        for (Gerente g : gerentesCarregados) {
-            if (g.getCpf().equals(cpfBusca)) {
-                return g;
-            }
-        }
-        return null;
+    /**
+     * Salva um novo gerente, gerando um ID único e robusto.
+     * @param gerente O novo gerente a ser salvo.
+     */
+    public void salvar(Gerente gerente) {
+        List<Gerente> gerentes = gerentesDB.carregar();
+        int proximoId = gerentes.stream().mapToInt(Gerente::getId).max().orElse(0) + 1;
+        gerente.setId(proximoId);
+        gerentes.add(gerente);
+        gerentesDB.salvar(gerentes);
     }
 
-    @Override
+    /**
+     * Busca um gerente pelo seu email.
+     * @param email O email a ser buscado.
+     * @return O objeto Gerente encontrado ou null.
+     */
     public Gerente buscarPorEmail(String email) {
-        atualizarGerentesCarregados();
-        for (Gerente g : gerentesCarregados) {
-            if (g.getEmail().equals(email)) {
-                return g;
-            }
-        }
-        return null;
+        return gerentesDB.carregar().stream()
+                .filter(g -> g.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 
-    @Override
-    public void remover(String cpf) {
-        atualizarGerentesCarregados();
-        gerentesCarregados.removeIf(g -> g.getCpf().equals(cpf));
-        gerentesDB.salvar(gerentesCarregados);
-    }
-
-    @Override
-    public boolean verificarEmail(String email) {
-        atualizarGerentesCarregados();
-        for (Gerente g : gerentesCarregados) {
-            if (g.getEmail().equals(email)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean realizarLogin(String email, String senha) {
-        atualizarGerentesCarregados();
-        for (Gerente g : gerentesCarregados) {
-            if (g.getEmail().equals(email) && g.getSenha().equals(senha)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<Gerente> getGerentes() {
-        atualizarGerentesCarregados();
-        return gerentesCarregados;
-    }
-
-    public boolean existeCpf(String cpfBusca) {
-        atualizarGerentesCarregados();
-        for (Gerente g : gerentesCarregados) {
-            if (g.getCpf().equals(cpfBusca)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static int getIdByCpf(String cpf) {
-        atualizarGerentesCarregados();
-        for (Gerente g : gerentesCarregados) {
-            if (g.getCpf().equals(cpf)) {
-                return g.getId();
-            }
-        }
-        return 0;
-    }
-
-    // Método extra para testes: limpa todos os gerentes
-    public static void limparTodos() {
-        gerentesCarregados = new ArrayList<>();
-        gerentesDB.salvar(gerentesCarregados);
-    }
-
-    public static void atualizarGerentesCarregados() {
-        gerentesCarregados = gerentesDB.carregar();
+    /**
+     * Busca um gerente pelo seu CPF.
+     * @param cpf O CPF a ser buscado.
+     * @return O objeto Gerente encontrado ou null.
+     */
+    public Gerente buscarPorCpf(String cpf) {
+        return gerentesDB.carregar().stream()
+                .filter(g -> g.getCpf().equals(cpf))
+                .findFirst()
+                .orElse(null);
     }
 }

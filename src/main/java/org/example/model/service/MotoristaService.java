@@ -1,106 +1,72 @@
 package org.example.model.service;
 
+import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
 import org.example.model.repository.MotoristaRepository;
-import org.example.util.CrudUserError;
-import org.example.util.LoginInvalido;
-import org.example.util.UsuarioNaoCadastrado;
 
-import java.util.List;
+/**
+ * Service responsável pela lógica de negócio relacionada a Motoristas.
+ */
+public class MotoristaService {
 
-public class MotoristaService implements UsuarioService {
+    private final MotoristaRepository motoristaRepository = new MotoristaRepository();
 
-    private final MotoristaRepository motoristas = new MotoristaRepository();
-    Motorista motoristaLogado;
-
-    public MotoristaService() {
-    }
-
-    public MotoristaRepository getMotoristas() {
-        return motoristas;
-    }
-
-    public Motorista getMotoristaLogado() {
-        return motoristaLogado;
-    }
-
-    public void setMotoristaLogado(Motorista motoristaLogado) {
-        this.motoristaLogado = motoristaLogado;
-    }
-
-    @Override
-    public void criar(String nome, String email, String senha, String cpf, String telefone) {
-        try {
-
-            Motorista motorista = new Motorista(nome, email, senha, cpf, telefone);
-            motoristas.salvar(motorista);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
+    /**
+     * Tenta autenticar um motorista com base no email e senha.
+     * @return O objeto Motorista se a autenticação for bem-sucedida, caso contrário null.
+     */
+    public Motorista login(String email, String senha) {
+        Motorista motorista = motoristaRepository.buscarPorEmail(email);
+        if (motorista != null && motorista.getSenha().equals(senha)) {
+            return motorista;
         }
+        return null;
     }
 
-    public List<Motorista> listar() {
-        return motoristas.getMotoristas();
-    }
-
-    public Motorista getMotorista(String cpf) {
-        try {
-            if (!motoristas.existeCpf(cpf)) {
-                throw new CrudUserError("Motorista não cadastrado no sistema.");
-            }
-            return motoristas.buscarPorCpf(cpf);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
+    /**
+     * Cria um novo motorista no sistema após validar se o email ou CPF já existem.
+     * @return O objeto Motorista recém-criado, ou null se o cadastro falhar.
+     */
+    public Motorista criar(String nome, String email, String senha, String cpf, String telefone) {
+        if (motoristaRepository.buscarPorEmail(email) != null) {
+            System.out.println("\n[ERRO] O e-mail informado já está cadastrado.");
             return null;
         }
+        // Adicionar validação de CPF se necessário no repositório.
+
+        Motorista novoMotorista = new Motorista(nome, email, senha, cpf, telefone);
+        motoristaRepository.salvar(novoMotorista);
+        // Retorna o motorista com o ID gerado pelo repositório
+        return motoristaRepository.buscarPorEmail(email);
     }
 
-    @Override
-    public void deletar(String cpf) {
-        try {
-            if (!motoristas.existeCpf(cpf)) {
-                throw new CrudUserError("Motorista não cadastrado no sistema.");
-            }
-            motoristas.remover(cpf);
-        } catch (CrudUserError e) {
-            System.out.println(e.getMessage());
-        }
+    /**
+     * Atualiza os dados de um motorista no repositório.
+     * @param motorista O objeto Motorista com os dados atualizados.
+     */
+    public void atualizar(Motorista motorista) {
+        motoristaRepository.atualizar(motorista);
     }
 
-    public boolean login(String email, String senha) {
-        try {
-            if (!motoristas.verificarEmail(email)) {
-                throw new UsuarioNaoCadastrado("Esse email não está cadastrado como Motorista.");
-            }
-            if (motoristas.realizarLogin(email, senha)) {
-                this.setMotoristaLogado(motoristas.buscarPorEmail(email));
-                return true;
-            } else {
-                throw new LoginInvalido("Senha incorreta.\nVerifique a senha e tente novamente.");
-            }
-        } catch (UsuarioNaoCadastrado | LoginInvalido e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+    /**
+     * Busca um motorista pelo seu ID.
+     * @param id O ID do motorista.
+     * @return O objeto Motorista encontrado, ou null.
+     */
+    public Motorista buscarPorId(int id) {
+        return motoristaRepository.buscarPorId(id);
     }
 
-    public void atualizarDados(Motorista motoristaAtualizados){
-        motoristas.atualizar(motoristaAtualizados);
-    }
+    /**
+     * Motorista nega uma corrida notificada. A corrida é removida de sua lista de notificações.
+     * @param motorista O motorista que está negando a corrida.
+     * @param corrida A corrida a ser negada.
+     */
+    public void negarCorrida(Motorista motorista, Corrida corrida) {
+        Motorista motoristaAtualizado = motoristaRepository.buscarPorId(motorista.getId());
+        if (motoristaAtualizado == null) return;
 
-    public boolean verificarCpf(String cpfBusca){
-        return motoristas.existeCpf(cpfBusca);
-    }
-
-    public Motorista getMotoristaByID(int idMotorista){
-        List<Motorista> motoristasCarregados = motoristas.getMotoristasCarregados();
-
-        for (Motorista m : motoristasCarregados){
-            if (m.getId() == idMotorista){
-                return m;
-            }
-        }
-
-        return null;
+        motoristaAtualizado.getCorridasNotificadas().removeIf(c -> c.getId() == corrida.getId());
+        motoristaRepository.atualizar(motoristaAtualizado);
     }
 }

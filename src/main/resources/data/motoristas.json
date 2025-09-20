@@ -1,7 +1,11 @@
 [
   {
+    "idVeiculo": 1,
+    "status": "INDISPONÍVEL",
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
     "id": 1,
-    "nome": "Lucas",
+    "nome": "Lucas ",
     "email": "lucas@gmail.com",
     "senha": "senha123",
     "cpf": "111.111.111-11",
