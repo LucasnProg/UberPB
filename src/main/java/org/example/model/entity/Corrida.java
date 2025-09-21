@@ -34,10 +34,9 @@ public class Corrida {
         this.origem = origem;
         this.destino = destino;
         this.categoriaVeiculo = categoriaVeiculo;
-        this.status = StatusCorrida.SOLICITADA; // Status inicial padrão
+        this.status = StatusCorrida.SOLICITADA;
     }
 
-    // --- Getters e Setters ---
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

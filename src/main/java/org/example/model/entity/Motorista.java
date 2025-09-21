@@ -21,7 +21,7 @@ public class Motorista extends Usuario {
      */
     public Motorista(String nome, String email, String senha, String cpf, String telefone) {
         super(nome, email, senha, cpf, telefone);
-        this.status = MotoristaStatus.INDISPONÍVEL;
+        this.status = MotoristaStatus.DISPONIVEL;
     }
 
     /**
@@ -32,7 +32,6 @@ public class Motorista extends Usuario {
         this.corridasNotificadas.add(corrida);
     }
 
-    // --- Getters e Setters ---
 
     public Localizacao getLocalizacao() {
         return localizacaoAtual;

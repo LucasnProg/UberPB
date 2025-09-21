@@ -32,11 +32,9 @@ public class MotoristaService {
             System.out.println("\n[ERRO] O e-mail informado já está cadastrado.");
             return null;
         }
-        // Adicionar validação de CPF se necessário no repositório.
 
         Motorista novoMotorista = new Motorista(nome, email, senha, cpf, telefone);
         motoristaRepository.salvar(novoMotorista);
-        // Retorna o motorista com o ID gerado pelo repositório
         return motoristaRepository.buscarPorEmail(email);
     }
 

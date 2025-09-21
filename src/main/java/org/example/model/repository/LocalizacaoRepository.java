@@ -29,7 +29,6 @@ public class LocalizacaoRepository {
     public void adicionar(Localizacao novaLocalizacao) {
         List<Localizacao> locais = carregar();
 
-        // Lógica para evitar duplicatas pela descrição
         boolean jaExiste = locais.stream()
                 .anyMatch(l -> l.getDescricao().equalsIgnoreCase(novaLocalizacao.getDescricao()));
 

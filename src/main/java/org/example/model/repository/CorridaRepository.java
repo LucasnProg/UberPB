@@ -37,7 +37,6 @@ public class CorridaRepository implements Repository<Corrida> {
      */
     public void salvar(Corrida novaCorrida) {
         atualizarCorridasCarregadas();
-        // MUDANÇA: Lógica de geração de ID mais robusta para evitar reutilização após deleção.
         int proximoId = corridasCarregadas.stream()
                 .mapToInt(Corrida::getId)
                 .max()

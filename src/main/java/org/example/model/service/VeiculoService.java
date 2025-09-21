@@ -38,39 +38,25 @@ public class VeiculoService {
      * @return A CategoriaVeiculo correspondente.
      */
     public CategoriaVeiculo determinarCategoria(int anoFabricacao, int numAssentos, float capacidadeMala, boolean premium) {
-        int anoAtual = Year.now().getValue(); // Pega o ano atual do sistema
+        int anoAtual = Year.now().getValue();
 
-        // 1. Uber Black (Premium) tem a maior prioridade.
         if (premium) {
             return CategoriaVeiculo.UBER_BLACK;
         }
 
-        // 2. Uber XL (mais de 5 assentos) é a próxima prioridade.
         if (numAssentos > 5) {
             return CategoriaVeiculo.UBER_XL;
         }
 
-        // 3. Uber Comfort (até 6 anos de uso)
         if ((anoAtual - anoFabricacao) <= 6) {
             return CategoriaVeiculo.UBER_COMFORT;
         }
 
-        // 4. Uber Bag (porta-malas grande)
         if (capacidadeMala > 400) {
             return CategoriaVeiculo.UBER_BAG;
         }
 
-        // 5. Se não se encaixar em nenhuma das anteriores, é UberX.
         return CategoriaVeiculo.UBER_X;
     }
 
-    /**
-     * Deleta um veículo pelo seu ID. Útil para reverter um cadastro de motorista
-     * que falhou após o veículo já ter sido criado.
-     * @param id O ID do veículo a ser deletado.
-     */
-    public void deletar(int id) {
-        // Implementação do método de deleção, se necessário
-        // veiculoRepository.remover(id);
-    }
 }

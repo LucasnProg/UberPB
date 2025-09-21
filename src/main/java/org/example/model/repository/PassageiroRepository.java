@@ -1,5 +1,6 @@
 package org.example.model.repository;
 
+import org.example.model.entity.Motorista;
 import org.example.model.entity.Passageiro;
 import java.util.List;
 
@@ -60,5 +61,20 @@ public class PassageiroRepository {
                 .filter(p -> p.getCpf().equals(cpf))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Atualiza os dados de um passageiro no repositório.
+     * @param passageiroAtualizado O objeto Motorista com os dados atualizados.
+     */
+    public void atualizar(Passageiro passageiroAtualizado) {
+        List<Passageiro> passageiros = passageiroDB.carregar();
+        for (int i = 0; i < passageiros.size(); i++) {
+            if (passageiros.get(i).getId() == passageiroAtualizado.getId()) {
+                passageiros.set(i, passageiroAtualizado);
+                passageiroDB.salvar(passageiros);
+                return;
+            }
+        }
     }
 }

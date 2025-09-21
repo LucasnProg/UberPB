@@ -50,7 +50,7 @@ public class LoginView {
                 ViewUtils.sc.nextLine();
                 MenuPassageiroView.exibir(passageiroLogado);
             }
-        } else { // tipoLogin == 2
+        } else {
             Motorista motoristaLogado = motoristaService.login(email, senha);
             if (motoristaLogado != null) {
                 System.out.println("\nLogin como Motorista bem-sucedido! Pressione ENTER para continuar.");

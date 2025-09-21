@@ -1,28 +1,15 @@
 [
   {
     "id": 1,
-    "marca": "...",
-    "modelo": "...",
-    "placa": "...",
-    "renavam": "N/A",
-    "anoFabricacao": 0,
-    "cor": "...",
-    "capacidadeMala": 0.0,
-    "numAssentos": 0,
-    "premium": false,
-    "categoria": "UBER_X"
-  },
-  {
-    "id": 2,
-    "marca": "Toyota",
-    "modelo": "corolla",
-    "placa": "ABC1D23",
-    "renavam": "12345678901",
-    "anoFabricacao": 2021,
+    "marca": "chevrolet",
+    "modelo": "onix",
+    "placa": "abc1d23",
+    "renavam": "1234678453453",
+    "anoFabricacao": 2020,
     "cor": "preto",
-    "capacidadeMala": 470.5,
+    "capacidadeMala": 300.0,
     "numAssentos": 5,
-    "premium": true,
-    "categoria": "UBER_BLACK"
+    "premium": false,
+    "categoria": "UBER_COMFORT"
   }
 ]

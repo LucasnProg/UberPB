@@ -29,7 +29,6 @@ public abstract class Usuario {
         this.senha = senha;
     }
 
-    // --- Getters e Setters ---
 
     public int getId() {
         return id;

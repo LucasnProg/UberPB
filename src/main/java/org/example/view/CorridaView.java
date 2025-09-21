@@ -20,8 +20,6 @@ public class CorridaView {
      */
     public static void menuMotorista(Motorista motorista) {
         while (true) {
-            // Recarrega o estado do motorista do repositório a cada iteração do menu
-            // para garantir que a lista de notificações e o status estejam sempre atualizados.
             Motorista motoristaAtualizado = ms.buscarPorId(motorista.getId());
             if (motoristaAtualizado == null) {
                 System.out.println("[ERRO] Não foi possível encontrar os dados do motorista.");
@@ -32,12 +30,10 @@ public class CorridaView {
             System.out.println("--- Menu do Motorista ---");
             System.out.println("Olá, " + motoristaAtualizado.getNome() + "! Status: " + motoristaAtualizado.getStatus());
 
-            // Verifica se o motorista já tem uma corrida ativa
             Corrida corridaAtiva = cs.buscarCorridaAtivaPorMotorista(motoristaAtualizado);
             if (corridaAtiva != null) {
-                // Se tiver, vai direto para a tela de gerenciamento da corrida
                 gerenciarCorridaAtiva(corridaAtiva);
-                continue; // Volta ao início do loop após a ação
+                continue;
             }
 
             System.out.println("\n1 - Ver Corridas Notificadas (" + motoristaAtualizado.getCorridasNotificadas().size() + ")");
@@ -49,7 +45,7 @@ public class CorridaView {
                 verCorridasNotificadas(motoristaAtualizado);
             } else if (opcao.equals("0")) {
                 System.out.println("\nFazendo logout...");
-                return; // Encerra o método e volta ao menu principal
+                return;
             }
         }
     }
@@ -123,7 +119,6 @@ public class CorridaView {
                 if (sucesso) {
                     System.out.println("\nCorrida aceita com sucesso! Você está em uma corrida agora.");
                 }
-                // A mensagem de falha (caso outro motorista tenha aceitado) já é exibida pelo Service.
                 System.out.println("Pressione ENTER para continuar.");
                 ViewUtils.sc.nextLine();
                 break;

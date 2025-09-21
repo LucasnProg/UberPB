@@ -26,7 +26,6 @@ public class LocalizacaoService {
      * @param local O objeto Localizacao a ser adicionado.
      */
     public void adicionarNovoLocal(Localizacao local) {
-        // Validações de negócio podem ser adicionadas aqui antes de salvar.
         if (local.getDescricao() == null || local.getDescricao().trim().isEmpty()) {
             System.out.println("\n[ERRO] A descrição do local não pode ser vazia.");
             return;

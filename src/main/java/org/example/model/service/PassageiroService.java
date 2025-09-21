@@ -21,7 +21,6 @@ public class PassageiroService {
         if (passageiro != null && passageiro.getSenha().equals(senha)) {
             return passageiro;
         }
-        // A View será responsável por exibir a mensagem de erro genérica.
         return null;
     }
 
@@ -52,5 +51,14 @@ public class PassageiroService {
      */
     public Passageiro buscarPorId(int id) {
         return passageiroRepository.buscarPorId(id);
+    }
+
+    /**
+     * Atualiza os dados de um passageiro no repositório.
+     * Essencial para salvar alterações feitas em listas (ex: corridas pendentes).
+     * @param passageiro O objeto Passageiro com os dados atualizados.
+     */
+    public void atualizar(Passageiro passageiro) {
+        passageiroRepository.atualizar(passageiro);
     }
 }

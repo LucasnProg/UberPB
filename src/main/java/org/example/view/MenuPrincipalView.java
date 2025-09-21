@@ -23,7 +23,7 @@ public class MenuPrincipalView {
             try {
                 opcao = Integer.parseInt(ViewUtils.sc.nextLine());
             } catch (NumberFormatException e) {
-                opcao = -1; // Força a exibição de "Opção inválida"
+                opcao = -1;
             }
 
             switch (opcao) {

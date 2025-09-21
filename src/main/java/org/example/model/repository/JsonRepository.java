@@ -41,7 +41,7 @@ public class JsonRepository<T> implements Repository<T> {
     public List<T> carregar() {
         File file = new File(filePath);
         if (!file.exists()) {
-            return new ArrayList<>(); // retorna lista vazia se não existir
+            return new ArrayList<>();
         }
 
         try (FileReader reader = new FileReader(file)) {

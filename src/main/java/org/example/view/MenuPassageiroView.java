@@ -2,22 +2,19 @@ package org.example.view;
 
 import org.example.model.entity.Passageiro;
 
-/**
- * View que exibe o menu principal para um passageiro logado.
- */
 public class MenuPassageiroView {
 
-    /**
-     * Exibe o menu de opções para o passageiro logado.
-     * @param passageiro O passageiro que está com a sessão ativa.
-     */
     public static void exibir(Passageiro passageiro) {
         int opcao = -1;
         while (opcao != 0) {
             ViewUtils.limparConsole();
             System.out.println("--- Menu do Passageiro ---\nOlá, " + passageiro.getNome() + "!");
-            System.out.println("\n1 - Solicitar uma Corrida\n2 - Ver Histórico de Corridas\n0 - Logout");
+            System.out.println("\n1 - Solicitar uma Corrida");
+            System.out.println("2 - Acompanhar Corridas Solicitadas");
+            System.out.println("3 - Ver Histórico de Corridas");
+            System.out.println("0 - Logout");
             System.out.print("\nEscolha uma opção: ");
+
             try {
                 opcao = Integer.parseInt(ViewUtils.sc.nextLine());
             } catch (NumberFormatException e) {
@@ -29,8 +26,10 @@ public class MenuPassageiroView {
                     SolicitarCorridaView.executar(passageiro);
                     break;
                 case 2:
-                    System.out.println("\nFuncionalidade em desenvolvimento. Pressione ENTER para voltar.");
-                    ViewUtils.sc.nextLine();
+                    AcompanharCorridasView.executar(passageiro);
+                    break;
+                case 3:
+                    HistoricoCorridasView.executar(passageiro);
                     break;
                 case 0:
                     System.out.println("\nFazendo logout...");

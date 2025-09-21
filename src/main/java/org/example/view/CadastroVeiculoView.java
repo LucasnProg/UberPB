@@ -26,7 +26,6 @@ public class CadastroVeiculoView {
         System.out.println("Olá, " + motorista.getNome() + "! Agora, vamos cadastrar seu veículo.");
         System.out.println("(Digite 'voltar' a qualquer momento para cancelar)");
 
-        // --- Coleta de dados do Veículo chamando métodos privados ---
 
         String marca = solicitarTexto("Marca do veículo (ex: Chevrolet)", "A marca não pode estar em branco.");
         if (marca == null) return;
@@ -55,11 +54,9 @@ public class CadastroVeiculoView {
         Boolean premium = solicitarPremium();
         if (premium == null) return;
 
-        // --- LÓGICA DE DETERMINAÇÃO AUTOMÁTICA DA CATEGORIA ---
         CategoriaVeiculo categoria = veiculoService.determinarCategoria(anoFabricacao, numAssentos, capacidadeMala, premium);
         System.out.println("\n[INFO] Categoria do veículo determinada automaticamente: " + categoria.getNome());
 
-        // --- Finalização do Cadastro ---
         Veiculo novoVeiculo = new Veiculo(marca, modelo, placa, renavam, anoFabricacao, cor, capacidadeMala, numAssentos, premium, categoria);
         Veiculo veiculoCadastrado = veiculoService.cadastrar(novoVeiculo);
 
@@ -68,7 +65,6 @@ public class CadastroVeiculoView {
             motoristaService.atualizar(motorista);
             System.out.println("\nMotorista e Veículo cadastrados com sucesso!");
         } else {
-            // Futura melhoria: deletar o motorista órfão que foi criado.
             System.out.println("\nNão foi possível finalizar o cadastro do veículo.");
         }
         System.out.println("Pressione ENTER para voltar ao menu...");

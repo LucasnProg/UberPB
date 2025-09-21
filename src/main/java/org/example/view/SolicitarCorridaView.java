@@ -4,6 +4,8 @@ package org.example.view;
 import org.example.model.entity.*;
 import org.example.model.service.CorridaService;
 import org.example.model.service.LocalizacaoService;
+import org.example.model.service.PassageiroService;
+
 import java.util.List;
 
 /**
@@ -12,8 +14,8 @@ import java.util.List;
 public class SolicitarCorridaView {
 
     private static final CorridaService cs = new CorridaService();
-    // Usa uma instância do service, não mais métodos estáticos
     private static final LocalizacaoService ls = new LocalizacaoService();
+    private static final PassageiroService ps = new PassageiroService();
 
     /**
      * Executa o passo a passo para a solicitação de uma nova corrida.
@@ -23,7 +25,7 @@ public class SolicitarCorridaView {
         ViewUtils.limparConsole();
         System.out.println("--- Solicitar Nova Corrida ---");
 
-        List<Localizacao> locais = ls.carregarLocais(); // Usa o método de instância
+        List<Localizacao> locais = ls.carregarLocais();
         if (locais == null) {
             System.out.println("\n[ERRO] Não foi possível carregar os locais. Pressione ENTER para voltar.");
             ViewUtils.sc.nextLine();
@@ -31,13 +33,12 @@ public class SolicitarCorridaView {
         }
 
         Localizacao origem = selecionarLocal("origem", locais);
-        if (origem == null) return; // Usuário cancelou
+        if (origem == null) return;
 
-        // Recarrega a lista de locais caso o usuário tenha adicionado uma nova origem.
         locais = ls.carregarLocais();
 
         Localizacao destino = selecionarLocal("destino", locais);
-        if (destino == null) return; // Usuário cancelou
+        if (destino == null) return;
 
         if (origem.getDescricao().equalsIgnoreCase(destino.getDescricao())) {
             System.out.println("\n[ERRO] A origem e o destino não podem ser iguais. Pressione ENTER para voltar.");
@@ -46,7 +47,7 @@ public class SolicitarCorridaView {
         }
 
         CategoriaVeiculo categoria = CorridaView.selecionarCategoria();
-        if (categoria == null) return; // Usuário cancelou
+        if (categoria == null) return;
 
         System.out.println("\nCalculando estimativa...");
         double estimativaValor = cs.calcularPrecoEstimado(origem, destino, categoria);
@@ -54,21 +55,27 @@ public class SolicitarCorridaView {
 
         System.out.print("\nDeseja confirmar a solicitação? (S/N): ");
         if (ViewUtils.sc.nextLine().equalsIgnoreCase("S")) {
-            System.out.println("\nProcurando motorista...");
+            System.out.println("\nEnviando sua solicitação...");
             Corrida corridaSolicitada = cs.solicitarCorrida(passageiro, origem, destino, categoria);
 
-            if (corridaSolicitada != null && corridaSolicitada.getMotoristaId() > 0) {
-                acompanharCorridaPassageiro(corridaSolicitada);
+            if (corridaSolicitada != null) {
+                passageiro.getCorridasPendentes().add(corridaSolicitada);
+                ps.atualizar(passageiro);
+
+                System.out.println("\n[INFO] Solicitação enviada com sucesso!");
+                System.out.println("Você pode acompanhar o status no menu 'Acompanhar Corridas Solicitadas'.");
+
             } else {
-                System.out.println("\n[INFO] Não há motoristas disponíveis no momento. Tente novamente mais tarde.");
-                System.out.println("Pressione ENTER para voltar.");
-                ViewUtils.sc.nextLine();
+                System.out.println("\n[ERRO] Não foi possível processar sua solicitação no momento.");
             }
         } else {
-            System.out.println("\nSolicitação cancelada. Pressione ENTER para voltar.");
-            ViewUtils.sc.nextLine();
+            System.out.println("\nSolicitação cancelada.");
         }
+
+        System.out.println("\nPressione ENTER para voltar ao menu principal.");
+        ViewUtils.sc.nextLine();
     }
+
 
     /**
      * Exibe um menu para o usuário selecionar um local de uma lista OU cadastrar um novo.
@@ -165,30 +172,4 @@ public class SolicitarCorridaView {
         return novoLocal;
     }
 
-
-    /**
-     * Simula o acompanhamento em tempo real da corrida para o passageiro.
-     */
-    private static void acompanharCorridaPassageiro(Corrida corrida) {
-        while (true) {
-            ViewUtils.limparConsole();
-            System.out.println("--- Acompanhando sua Viagem ---");
-            Corrida corridaAtualizada = cs.buscarCorridaPorId(corrida.getId());
-            if (corridaAtualizada == null) { System.out.println("Corrida não encontrada."); break; }
-
-            Motorista motorista = cs.getMotoristaById(corridaAtualizada.getMotoristaId());
-            System.out.println("Origem: " + corridaAtualizada.getOrigem().getDescricao());
-            System.out.println("Destino: " + corridaAtualizada.getDestino().getDescricao());
-            System.out.println("Status: " + corridaAtualizada.getStatus());
-            if (motorista != null) { System.out.println("Motorista: " + motorista.getNome()); }
-
-            if (corridaAtualizada.getStatus() == StatusCorrida.FINALIZADA || corridaAtualizada.getStatus() == StatusCorrida.CANCELADA) {
-                break;
-            }
-            System.out.println("\n(Atualizando em 5 segundos...)");
-            try { Thread.sleep(5000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
-        }
-        System.out.println("\nViagem concluída! Pressione ENTER para voltar ao menu.");
-        ViewUtils.sc.nextLine();
-    }
 }
