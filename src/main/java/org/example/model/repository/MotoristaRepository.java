@@ -14,6 +14,9 @@ public class MotoristaRepository {
         this.motoristasDB = new JsonRepository<>("src/main/resources/data/motoristas.json", Motorista.class);
     }
 
+    /**
+     * Salva um novo motorista, gerando ID automaticamente.
+     */
     public void salvar(Motorista motorista) {
         List<Motorista> motoristas = motoristasDB.carregar();
         int proximoId = motoristas.stream().mapToInt(Motorista::getId).max().orElse(0) + 1;
@@ -22,6 +25,9 @@ public class MotoristaRepository {
         motoristasDB.salvar(motoristas);
     }
 
+    /**
+     * Atualiza um motorista existente com base no ID.
+     */
     public void atualizar(Motorista motoristaAtualizado) {
         List<Motorista> motoristas = motoristasDB.carregar();
         for (int i = 0; i < motoristas.size(); i++) {
@@ -34,14 +40,25 @@ public class MotoristaRepository {
     }
 
     public Motorista buscarPorId(int id) {
-        return motoristasDB.carregar().stream().filter(m -> m.getId() == id).findFirst().orElse(null);
+        return motoristasDB.carregar().stream()
+                .filter(m -> m.getId() == id)
+                .findFirst().orElse(null);
     }
 
     public Motorista buscarPorEmail(String email) {
-        return motoristasDB.carregar().stream().filter(m -> m.getEmail().equals(email)).findFirst().orElse(null);
+        return motoristasDB.carregar().stream()
+                .filter(m -> m.getEmail().equals(email))
+                .findFirst().orElse(null);
     }
 
     public List<Motorista> getMotoristas() {
         return motoristasDB.carregar();
+    }
+
+    /**
+     * Método para limpar todos os motoristas (útil para testes).
+     */
+    public void limpar() {
+        motoristasDB.salvar(List.of());
     }
 }

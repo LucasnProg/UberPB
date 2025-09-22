@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MotoristaTest {
-/*
+
     @Test
     void testCriacaoMotorista() {
         Motorista motorista = new Motorista(
@@ -35,10 +35,14 @@ class MotoristaTest {
     void testSettersAndGetters() {
         Motorista motorista = new Motorista("João", "email", "senha", "cpf", "tel");
 
-        //motorista.setLocalizacao("Centro");
+        // Usando objeto Localizacao correto
+        Localizacao localizacao = new Localizacao(-23.5505, -46.6333);
+        localizacao.setDescricao("Centro");
+        motorista.setLocalizacao(localizacao);
+
         motorista.setIdVeiculo(42);
 
-        assertEquals("Centro", motorista.getLocalizacao());
+        assertEquals(localizacao, motorista.getLocalizacao());
         assertEquals(42, motorista.getIdVeiculo());
 
         ArrayList<Corrida> corridasAceitas = new ArrayList<>();
@@ -50,11 +54,16 @@ class MotoristaTest {
     void testAdicionarCorridaNotificada() {
         Motorista motorista = new Motorista("João", "email", "senha", "cpf", "tel");
 
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", CategoriaVeiculo.UBER_X);
+        Localizacao origem = new Localizacao(-23.5505, -46.6333);
+        origem.setDescricao("Centro");
+        Localizacao destino = new Localizacao(-23.4356, -46.4731);
+        destino.setDescricao("Aeroporto");
+
+        Corrida corrida = new Corrida(1, origem, destino, CategoriaVeiculo.UBER_X);
 
         motorista.adicionarCorridaNotificada(corrida);
 
         assertEquals(1, motorista.getCorridasNotificadas().size());
         assertEquals(corrida, motorista.getCorridasNotificadas().get(0));
-    }*/
+    }
 }

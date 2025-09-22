@@ -1,5 +1,7 @@
 package org.example.model.entity;
 
+import java.util.Objects;
+
 /**
  * Representa uma localização geográfica com coordenadas e uma descrição.
  */
@@ -36,9 +38,22 @@ public class Localizacao {
 
     @Override
     public String toString() {
-        return "Lat: " + latitude + ", Lng: " + longitude;
+        return "Localizacao[Lat: " + latitude + ", Lng: " + longitude + "]";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Localizacao)) return false;
+        Localizacao that = (Localizacao) o;
+        return Double.compare(that.latitude, latitude) == 0 &&
+               Double.compare(that.longitude, longitude) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(latitude, longitude);
+    }
 
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }

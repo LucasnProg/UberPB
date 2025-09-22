@@ -1,51 +1,26 @@
 [
   {
-    "idVeiculo": 1,
+    "idVeiculo": 0,
     "status": "DISPONIVEL",
     "corridasNotificadas": [],
-    "corridasAceitas": [
-      {
-        "id": 1,
-        "passageiroId": 1,
-        "motoristaId": 1,
-        "origem": {
-          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
-          "latitude": -7.2041,
-          "longitude": -35.9115
-        },
-        "destino": {
-          "descricao": "Universidade Federal de Campina Grande (UFCG)",
-          "latitude": -7.2192,
-          "longitude": -35.9083
-        },
-        "valor": 14.52,
-        "categoriaVeiculo": "UBER_COMFORT",
-        "status": "ACEITA"
-      },
-      {
-        "id": 1,
-        "passageiroId": 1,
-        "motoristaId": 1,
-        "origem": {
-          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
-          "latitude": -7.2041,
-          "longitude": -35.9115
-        },
-        "destino": {
-          "descricao": "Universidade Federal de Campina Grande (UFCG)",
-          "latitude": -7.2192,
-          "longitude": -35.9083
-        },
-        "valor": 14.52,
-        "categoriaVeiculo": "UBER_COMFORT",
-        "status": "ACEITA"
-      }
-    ],
+    "corridasAceitas": [],
     "id": 1,
-    "nome": "lucas ",
-    "email": "lucas@gmail.com",
+    "nome": "Marcos",
+    "email": "marcos@email.com",
     "senha": "senha123",
-    "cpf": "111.111.222-33",
-    "telefone": "83987380330"
+    "cpf": "10101010101",
+    "telefone": "11910101010"
+  },
+  {
+    "idVeiculo": 0,
+    "status": "DISPONIVEL",
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
+    "id": 2,
+    "nome": "Fernanda",
+    "email": "fernanda@email.com",
+    "senha": "senha123",
+    "cpf": "20202020202",
+    "telefone": "11920202020"
   }
 ]

@@ -12,7 +12,6 @@ public class GerenteService {
 
     /**
      * Tenta autenticar um gerente com base no email e senha.
-     * @return O objeto Gerente se a autenticação for bem-sucedida, caso contrário null.
      */
     public Gerente login(String email, String senha) {
         Gerente gerente = gerenteRepository.buscarPorEmail(email);
@@ -23,8 +22,7 @@ public class GerenteService {
     }
 
     /**
-     * Cria um novo gerente no sistema.
-     * @return O objeto Gerente recém-criado, ou null se o cadastro falhar.
+     * Cria um novo gerente no sistema, evitando duplicidade de email.
      */
     public Gerente criar(String nome, String email, String senha, String cpf, String telefone) {
         if (gerenteRepository.buscarPorEmail(email) != null) {
@@ -34,5 +32,12 @@ public class GerenteService {
         Gerente novoGerente = new Gerente(nome, email, senha, cpf, telefone);
         gerenteRepository.salvar(novoGerente);
         return novoGerente;
+    }
+
+    /**
+     * Método auxiliar para testes: limpa todos os gerentes.
+     */
+    public void limpar() {
+        gerenteRepository.limpar();
     }
 }

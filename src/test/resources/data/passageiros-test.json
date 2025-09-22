@@ -1,0 +1,12 @@
+[
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "id": 1,
+    "nome": "João",
+    "email": "joao@email.com",
+    "senha": "senha123",
+    "cpf": "98765432100",
+    "telefone": "11999999999"
+  }
+]

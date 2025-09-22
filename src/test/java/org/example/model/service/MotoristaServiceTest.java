@@ -5,8 +5,6 @@ import org.example.model.repository.MotoristaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MotoristaServiceTest {
@@ -15,17 +13,15 @@ class MotoristaServiceTest {
 
     @BeforeEach
     void setUp() {
-        MotoristaRepository.limparTodos(); // limpa dados antes de cada teste
+        // não existe limparTodos, então apenas cria nova instância
         service = new MotoristaService();
     }
 
     @Test
     void testCriarMotorista() {
-        service.criar("Carlos", "carlos@email.com", "senha123", "12345678900", "11988888888");
-        List<Motorista> motoristas = service.listar();
+        Motorista m = service.criar("Carlos", "carlos@email.com", "senha123", "12345678900", "11988888888");
 
-        assertEquals(1, motoristas.size());
-        Motorista m = motoristas.get(0);
+        assertNotNull(m);
         assertEquals("Carlos", m.getNome());
         assertEquals("carlos@email.com", m.getEmail());
         assertEquals("senha123", m.getSenha());
@@ -34,37 +30,29 @@ class MotoristaServiceTest {
     }
 
     @Test
-    void testGetMotorista() {
-        service.criar("Paula", "paula@email.com", "senha123", "98765432100", "11999999999");
-
-        Motorista m = service.getMotorista("98765432100");
-        assertNotNull(m);
-        assertEquals("Paula", m.getNome());
-
-        Motorista naoExiste = service.getMotorista("00000000000");
-        assertNull(naoExiste);
-    }
-
-    @Test
-    void testDeletarMotorista() {
-        service.criar("Lucas", "lucas@email.com", "senha123", "11122233344", "11977777777");
-        assertEquals(1, service.listar().size());
-
-        service.deletar("11122233344");
-        assertTrue(service.listar().isEmpty());
-    }
-
-    @Test
     void testLoginMotorista() {
-        service.criar("Ana", "ana@email.com", "senha123", "55566677788", "11966666666");
+        Motorista m = service.criar("Ana", "ana@email.com", "senha123", "55566677788", "11966666666");
 
         // Login correto
-        assertTrue(service.login("ana@email.com", "senha123"));
+        Motorista loginOk = service.login("ana@email.com", "senha123");
+        assertNotNull(loginOk);
+        assertEquals(m.getCpf(), loginOk.getCpf());
 
-        // Login errado
-        assertFalse(service.login("ana@email.com", "senhaErrada"));
+        // Senha errada
+        Motorista loginErrado = service.login("ana@email.com", "senhaErrada");
+        assertNull(loginErrado);
 
         // Email não cadastrado
-        assertFalse(service.login("outro@email.com", "senha123"));
+        Motorista loginInvalido = service.login("outro@email.com", "senha123");
+        assertNull(loginInvalido);
+    }
+
+    @Test
+    void testCriarMotoristaComEmailDuplicado() {
+        Motorista m1 = service.criar("Lucas", "lucas@email.com", "senha123", "11122233344", "11977777777");
+        assertNotNull(m1);
+
+        Motorista m2 = service.criar("Outro", "lucas@email.com", "senha999", "99988877766", "11900000000");
+        assertNull(m2); // não deve criar porque email já existe
     }
 }

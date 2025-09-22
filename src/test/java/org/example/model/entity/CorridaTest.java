@@ -9,21 +9,31 @@ import static org.example.model.entity.CategoriaVeiculo.UBER_X;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CorridaTest {
-/*
+
     @Test
     void deveCriarCorridaComStatusSolicitada() {
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", UBER_COMFORT);
+        // Criando Localizacao com coordenadas
+        Localizacao origem = new Localizacao(-23.5505, -46.6333); // exemplo São Paulo
+        origem.setDescricao("Centro");
+
+        Localizacao destino = new Localizacao(-23.4356, -46.4731); // exemplo Aeroporto
+        destino.setDescricao("Aeroporto");
+
+        Corrida corrida = new Corrida(1, origem, destino, UBER_COMFORT);
 
         assertEquals(1, corrida.getPassageiroId());
-        assertEquals("Centro", corrida.getOrigem());
-        assertEquals("Aeroporto", corrida.getDestino());
-        assertEquals(UBER_COMFORT, corrida.getCategoriaVeiculo()); // <- corrigido
+        assertEquals(origem, corrida.getOrigem());
+        assertEquals(destino, corrida.getDestino());
+        assertEquals(UBER_COMFORT, corrida.getCategoriaVeiculo());
         assertEquals(StatusCorrida.SOLICITADA, corrida.getStatus());
     }
 
     @Test
     void devePermitirAlterarMotoristaEValor() {
-        Corrida corrida = new Corrida(2, "Shopping", "Estação", UBER_X);
+        Localizacao origem = new Localizacao(-23.6000, -46.6500);
+        Localizacao destino = new Localizacao(-23.7000, -46.7000);
+
+        Corrida corrida = new Corrida(2, origem, destino, UBER_X);
         corrida.setMotoristaId(99);
         corrida.setValor(35.50);
 
@@ -33,16 +43,19 @@ class CorridaTest {
 
     @Test
     void devePermitirAlterarStatusHoraInicioHoraFim() {
-        Corrida corrida = new Corrida(3, "Praça", "Universidade", UBER_X);
+        Localizacao origem = new Localizacao(-23.5000, -46.6000);
+        Localizacao destino = new Localizacao(-23.6500, -46.7500);
+
+        Corrida corrida = new Corrida(3, origem, destino, UBER_X);
         LocalDateTime inicio = LocalDateTime.now();
         LocalDateTime fim = inicio.plusMinutes(25);
 
         corrida.setHoraInicio(inicio);
         corrida.setHoraFim(fim);
-        corrida.setStatus(StatusCorrida.CONCLUIDA); // alterado para um status válido
+        corrida.setStatus(StatusCorrida.FINALIZADA);
 
         assertEquals(inicio, corrida.getHoraInicio());
         assertEquals(fim, corrida.getHoraFim());
-        assertEquals(StatusCorrida.CONCLUIDA, corrida.getStatus());
-    }*/
+        assertEquals(StatusCorrida.FINALIZADA, corrida.getStatus());
+    }
 }
