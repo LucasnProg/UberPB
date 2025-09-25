@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class LocalizacaoService {
 
-    // Instância do repositório que gerencia os dados dos locais.
     private final LocalizacaoRepository localizacaoRepository = new LocalizacaoRepository();
 
     /**
