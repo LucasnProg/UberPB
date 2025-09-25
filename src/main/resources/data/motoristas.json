@@ -1,0 +1,33 @@
+[
+  {
+    "idVeiculo": 1,
+    "status": "DISPONIVEL",
+    "corridasNotificadas": [],
+    "corridasAceitas": [
+      {
+        "id": 1,
+        "passageiroId": 1,
+        "motoristaId": 1,
+        "origem": {
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
+        },
+        "destino": {
+          "descricao": "Universidade Federal de Campina Grande (UFCG)",
+          "latitude": -7.2192,
+          "longitude": -35.9083
+        },
+        "valor": 8.27,
+        "categoriaVeiculo": "UBER_X",
+        "status": "ACEITA"
+      }
+    ],
+    "id": 1,
+    "nome": "Lucas",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "123.123.123-55",
+    "telefone": "132478956"
+  }
+]

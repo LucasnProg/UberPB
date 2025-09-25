@@ -5,67 +5,88 @@ import org.example.model.repository.PassageiroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PassageiroServiceTest {
 
-    private PassageiroService service;
+    private PassageiroService passageiroService;
+    private PassageiroRepository passageiroRepository;
 
     @BeforeEach
     void setUp() {
-        PassageiroRepository.limparTodos(); // limpa dados antes de cada teste
-        service = new PassageiroService();
+        // Cria o service e o repositório real
+        passageiroService = new PassageiroService();
+        passageiroRepository = new PassageiroRepository();
+
+        // Limpa os dados do repositório antes de cada teste
+        File arquivo = new File("src/main/resources/data/passageiros.json");
+        if (arquivo.exists()) arquivo.delete();
     }
 
     @Test
-    void testCriarPassageiro() {
-        service.criar("Maria Silva", "maria@email.com", "senha123", "12345678900", "11988888888");
-        List<Passageiro> passageiros = service.listar();
+    void testeCriarPassageiroSucesso() {
+        Passageiro p = passageiroService.criar(
+                "Maria Silva",
+                "maria@email.com",
+                "senha123",
+                "12345678900",
+                "11988888888"
+        );
 
-        assertEquals(1, passageiros.size());
-        Passageiro p = passageiros.get(0);
+        assertNotNull(p, "Passageiro não deve ser nulo ao criar");
         assertEquals("Maria Silva", p.getNome());
         assertEquals("maria@email.com", p.getEmail());
-        assertEquals("senha123", p.getSenha());
         assertEquals("12345678900", p.getCpf());
-        assertEquals("11988888888", p.getTelefone());
+
+        // Testa login
+        Passageiro login = passageiroService.login("maria@email.com", "senha123");
+        assertNotNull(login, "Login deve retornar passageiro existente");
+        assertEquals(p.getId(), login.getId());
     }
 
     @Test
-    void testGetPassageiro() {
-        service.criar("João", "joao@email.com", "senha123", "98765432100", "11999999999");
+    void testeAtualizarPassageiro() {
+        Passageiro p = passageiroService.criar(
+                "Ester",
+                "ester@email.com",
+                "senha123",
+                "44455566677",
+                "11912345678"
+        );
 
-        Passageiro p = service.getPassageiro("98765432100");
-        assertNotNull(p);
-        assertEquals("João", p.getNome());
+        p.setNome("Ester Silva");
+        passageiroService.atualizar(p);
 
-        Passageiro naoExiste = service.getPassageiro("00000000000");
-        assertNull(naoExiste);
+        Passageiro atualizado = passageiroService.buscarPorId(p.getId());
+        assertNotNull(atualizado, "Passageiro atualizado deve existir");
+        assertEquals("Ester Silva", atualizado.getNome());
     }
 
     @Test
-    void testDeletarPassageiro() {
-        service.criar("Lucas", "lucas@email.com", "senha123", "11122233344", "11977777777");
-        assertEquals(1, service.listar().size());
-
-        service.deletar("11122233344");
-        assertTrue(service.listar().isEmpty());
+    void testeCriarPassageiroEmailDuplicado() {
+        passageiroService.criar("João", "joao@email.com", "senha123", "11122233344", "11977777777");
+        Passageiro duplicado = passageiroService.criar("João II", "joao@email.com", "senha456", "55566677788", "11999999999");
+        assertNull(duplicado, "Não deve permitir criar passageiro com email duplicado");
     }
 
     @Test
-    void testLoginPassageiro() {
-        service.criar("Ana", "ana@email.com", "senha123", "55566677788", "11966666666");
+    void testeCriarPassageiroCpfDuplicado() {
+        passageiroService.criar("Lucas", "lucas@email.com", "senha123", "22233344455", "11955555555");
+        Passageiro duplicado = passageiroService.criar("Lucas II", "lucas2@email.com", "senha456", "22233344455", "11944444444");
+        assertNull(duplicado, "Não deve permitir criar passageiro com CPF duplicado");
+    }
 
-        // Login correto
-        assertTrue(service.login("ana@email.com", "senha123"));
-        assertNotNull(service.getPassageiroLogado());
+    @Test
+    void testeLoginFalha() {
+        passageiroService.criar("Ana", "ana@email.com", "senha123", "33344455566", "11966666666");
 
-        // Login errado
-        assertFalse(service.login("ana@email.com", "senhaErrada"));
+        // Senha errada
+        assertNull(passageiroService.login("ana@email.com", "senhaErrada"));
 
-        // Email não cadastrado
-        assertFalse(service.login("outro@email.com", "senha123"));
+        // Email inexistente
+        assertNull(passageiroService.login("naoexiste@email.com", "senha123"));
     }
 }

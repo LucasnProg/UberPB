@@ -1,91 +1,50 @@
 package org.example.model.repository;
 
-import org.example.model.entity.CategoriaVeiculo;
 import org.example.model.entity.Veiculo;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class VeiculoRepository implements Repository<Veiculo>{
+/**
+ * Repositório para gerenciar a persistência de entidades Veiculo.
+ */
+public class VeiculoRepository {
 
-    private static JsonRepository<Veiculo> veiculosDB = new JsonRepository<Veiculo>("src/main/resources/data/veiculos.json", Veiculo.class);
-    private static List<Veiculo> veiculosCarregados = veiculosDB.carregar();
+    private final JsonRepository<Veiculo> veiculosDB;
 
-    public static void atualizarVeiculosCarregados() {
-        veiculosCarregados = veiculosDB.carregar();
+    public VeiculoRepository() {
+        this.veiculosDB = new JsonRepository<>("src/main/resources/data/veiculos.json", Veiculo.class);
     }
 
-    @Override
-    public void salvar(List<Veiculo> entidades) {
-        veiculosDB.salvar(entidades);
+    /**
+     * Salva um novo veículo no arquivo JSON, gerando um ID robusto.
+     * @param veiculo O novo veículo a ser salvo.
+     */
+    public void salvar(Veiculo veiculo) {
+        List<Veiculo> veiculos = veiculosDB.carregar();
+        int proximoId = veiculos.stream().mapToInt(Veiculo::getId).max().orElse(0) + 1;
+        veiculo.setId(proximoId);
+        veiculos.add(veiculo);
+        veiculosDB.salvar(veiculos);
     }
 
-    @Override
-    public List<Veiculo> carregar() {
-        return veiculosDB.carregar();
+    /**
+     * Busca um veículo pelo seu ID.
+     * @param id O ID do veículo a ser buscado.
+     * @return O objeto Veiculo encontrado ou null.
+     */
+    public Veiculo buscarPorId(int id) {
+        return veiculosDB.carregar().stream()
+                .filter(v -> v.getId() == id)
+                .findFirst().orElse(null);
     }
 
-    public static void salvarVeiculo(Veiculo veiculo){
-        atualizarVeiculosCarregados();
-        int currentId = veiculosCarregados.size() + 1;
-        veiculo.setId(currentId);
-        veiculosCarregados.add(veiculo);
-        veiculosDB.salvar(veiculosCarregados);
+    /**
+     * Busca um veículo pela sua placa.
+     * @param placa A placa do veículo a ser buscada.
+     * @return O objeto Veiculo encontrado ou null.
+     */
+    public Veiculo buscarPorPlaca(String placa) {
+        return veiculosDB.carregar().stream()
+                .filter(v -> v.getPlaca().equalsIgnoreCase(placa))
+                .findFirst().orElse(null);
     }
-
-    public static Veiculo buscarPorId(int id){
-        atualizarVeiculosCarregados();
-        for(Veiculo v : veiculosCarregados){
-            if(v.getId() == id) return v;
-        }
-        return null;
-    }
-
-    public static Veiculo buscarPorPlaca(String placa){
-        atualizarVeiculosCarregados();
-        for(Veiculo v : veiculosCarregados){
-            if(v.getPlaca().equalsIgnoreCase(placa)) return v;
-        }
-        return null;
-    }
-
-    public static List<Veiculo> buscarPorCategoria(CategoriaVeiculo categoria){
-        atualizarVeiculosCarregados();
-        List<Veiculo> veiculosEncontrados = new ArrayList<>();
-
-        for(Veiculo v : veiculosCarregados){
-            if (v.getCategoria() == categoria) {
-                veiculosEncontrados.add(v);
-            }
-        }
-        return veiculosEncontrados;
-    }
-
-
-    public static boolean existePlaca(String placa){
-        atualizarVeiculosCarregados();
-        for (Veiculo v : veiculosCarregados) {
-            if (v.getPlaca().equalsIgnoreCase(placa)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<Veiculo> getVeiculos() {
-        atualizarVeiculosCarregados();
-        return veiculosCarregados;
-    }
-
-    public void remover(int id) {
-        atualizarVeiculosCarregados();
-        for (Veiculo v : veiculosCarregados){
-            if (v.getId() == id){
-                veiculosCarregados.remove(v);
-                veiculosDB.salvar(veiculosCarregados);
-            }
-        }
-    }
-
-
 }

@@ -3,66 +3,60 @@ package org.example.model.service;
 import org.example.model.entity.CategoriaVeiculo;
 import org.example.model.entity.Veiculo;
 import org.example.model.repository.VeiculoRepository;
-import org.example.util.CrudVeiculoError;
+import java.time.Year;
 
-import java.util.List;
-
+/**
+ * Service com a lógica de negócio para a entidade Veiculo.
+ */
 public class VeiculoService {
 
     private final VeiculoRepository veiculoRepository = new VeiculoRepository();
 
-    public VeiculoService(){}
-
-    public void criar(String placa, String modelo, String marca, int ano, CategoriaVeiculo categoria, String cor) {
-        try {
-            if (VeiculoRepository.existePlaca(placa)) {
-                throw new CrudVeiculoError("A placa '" + placa + "' já está cadastrada no sistema.");
-            }
-
-            Veiculo novoVeiculo = new Veiculo(marca, modelo, placa, ano, cor, categoria);
-            VeiculoRepository.salvarVeiculo(novoVeiculo);
-            System.out.println("Veículo cadastrado com sucesso!");
-
-        } catch (CrudVeiculoError e) {
-            System.err.println("Erro ao criar veículo: " + e.getMessage());
-        }
-    }
-
-    public List<Veiculo> listar() {
-        return veiculoRepository.getVeiculos();
-    }
-
-    public Veiculo buscarPorPlaca(String placa) {
-        try {
-            Veiculo veiculo = VeiculoRepository.buscarPorPlaca(placa);
-            if (veiculo == null) {
-                throw new CrudVeiculoError("Veículo com a placa '" + placa + "' não encontrado.");
-            }
-            return veiculo;
-        } catch (CrudVeiculoError e) {
-            System.err.println(e.getMessage());
+    /**
+     * Cadastra um novo veículo no sistema após validar a placa.
+     * @param veiculo O objeto Veiculo com os dados preenchidos.
+     * @return O objeto Veiculo com o ID gerado, ou null se o cadastro falhar.
+     */
+    public Veiculo cadastrar(Veiculo veiculo) {
+        if (veiculoRepository.buscarPorPlaca(veiculo.getPlaca()) != null) {
+            System.out.println("\n[ERRO] A placa '" + veiculo.getPlaca() + "' já está cadastrada no sistema.");
             return null;
         }
-    }
-    public Veiculo buscarPorId(int id) {
-        try {
-            Veiculo veiculo = VeiculoRepository.buscarPorId(id);
-            if (veiculo == null) {
-                throw new CrudVeiculoError("Veículo com o id '" + id + "' não encontrado.");
-            }
-            return veiculo;
-        } catch (CrudVeiculoError e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
+        veiculoRepository.salvar(veiculo);
+        System.out.println("\nVeículo cadastrado com sucesso!");
+        // Retorna o veículo com o ID preenchido para ser vinculado ao motorista
+        return veiculoRepository.buscarPorPlaca(veiculo.getPlaca());
     }
 
-    public List<Veiculo> buscarPorCategoria(CategoriaVeiculo categoria) {
-        try {
-            return VeiculoRepository.buscarPorCategoria(categoria);
-        } catch (CrudVeiculoError e) {
-            System.err.println(e.getMessage());
-            return null;
+    /**
+     * Determina a categoria de um veículo com base em suas características.
+     * A ordem de verificação prioriza as categorias mais exclusivas.
+     * @param anoFabricacao Ano de fabricação do veículo.
+     * @param numAssentos Número de assentos.
+     * @param capacidadeMala Capacidade do porta-malas em litros.
+     * @param premium Se o veículo é considerado premium.
+     * @return A CategoriaVeiculo correspondente.
+     */
+    public CategoriaVeiculo determinarCategoria(int anoFabricacao, int numAssentos, float capacidadeMala, boolean premium) {
+        int anoAtual = Year.now().getValue();
+
+        if (premium) {
+            return CategoriaVeiculo.UBER_BLACK;
         }
+
+        if (numAssentos > 5) {
+            return CategoriaVeiculo.UBER_XL;
+        }
+
+        if ((anoAtual - anoFabricacao) <= 6) {
+            return CategoriaVeiculo.UBER_COMFORT;
+        }
+
+        if (capacidadeMala > 400) {
+            return CategoriaVeiculo.UBER_BAG;
+        }
+
+        return CategoriaVeiculo.UBER_X;
     }
+
 }

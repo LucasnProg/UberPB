@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "marca": "fiat",
+    "modelo": "palio",
+    "placa": "aaa-0123",
+    "renavam": "24013789564",
+    "anoFabricacao": 2016,
+    "cor": "preto",
+    "capacidadeMala": 120.0,
+    "numAssentos": 5,
+    "premium": false,
+    "categoria": "UBER_X"
+  }
+]

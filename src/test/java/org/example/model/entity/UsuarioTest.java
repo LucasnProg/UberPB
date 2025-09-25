@@ -6,41 +6,41 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UsuarioTest {
 
-    @Test
-    void testCriacaoUsuario() {
-        Usuario usuario = new Usuario(
-                "Lucas Silva",
-                "lucas@email.com",
-                "senha123",
-                "12345678900",
-                "11999999999"
-        );
-
-        // Verifica atributos atribuídos pelo construtor
-        assertEquals("Lucas Silva", usuario.getNome());
-        assertEquals("lucas@email.com", usuario.getEmail());
-        assertEquals("senha123", usuario.getSenha());
-        assertEquals("12345678900", usuario.getCpf());
-        assertEquals("11999999999", usuario.getTelefone());
-        assertEquals(0, usuario.getId()); // id ainda não foi setado
+    // Classe concreta fake só para permitir instanciar Usuario
+    static class UsuarioFake extends Usuario {
+        public UsuarioFake(String nome, String email, String senha, String cpf, String telefone) {
+            super(nome, email, senha, cpf, telefone);
+        }
     }
 
     @Test
-    void testSettersAndGetters() {
-        Usuario usuario = new Usuario("Nome", "email", "senha", "cpf", "telefone");
-
-        usuario.setNome("João");
-        usuario.setEmail("joao@email.com");
-        usuario.setSenha("novaSenha");
-        usuario.setCpf("98765432100");
-        usuario.setTelefone("11988888888");
-        usuario.setId(10);
+    void deveCriarUsuarioComConstrutor() {
+        Usuario usuario = new UsuarioFake("João", "joao@email.com", "1234", "11122233344", "999999999");
 
         assertEquals("João", usuario.getNome());
         assertEquals("joao@email.com", usuario.getEmail());
-        assertEquals("novaSenha", usuario.getSenha());
-        assertEquals("98765432100", usuario.getCpf());
-        assertEquals("11988888888", usuario.getTelefone());
+        assertEquals("1234", usuario.getSenha());
+        assertEquals("11122233344", usuario.getCpf());
+        assertEquals("999999999", usuario.getTelefone());
+        assertEquals(0, usuario.getId()); // valor default de int
+    }
+
+    @Test
+    void devePermitirAlterarValores() {
+        Usuario usuario = new UsuarioFake("Ana", "ana@email.com", "abc", "55566677788", "888888888");
+
+        usuario.setId(10);
+        usuario.setNome("Maria");
+        usuario.setEmail("maria@email.com");
+        usuario.setSenha("novaSenha");
+        usuario.setCpf("99988877766");
+        usuario.setTelefone("777777777");
+
         assertEquals(10, usuario.getId());
+        assertEquals("Maria", usuario.getNome());
+        assertEquals("maria@email.com", usuario.getEmail());
+        assertEquals("novaSenha", usuario.getSenha());
+        assertEquals("99988877766", usuario.getCpf());
+        assertEquals("777777777", usuario.getTelefone());
     }
 }

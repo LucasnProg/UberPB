@@ -1,113 +1,64 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Motorista;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class MotoristaRepository implements UsuarioRepository {
+/**
+ * Repositório para gerenciar a persistência de entidades Motorista.
+ */
+public class MotoristaRepository {
 
-    private static JsonRepository<Motorista> motoristasDB =
-            new JsonRepository<>("src/main/resources/data/motoristas.json", Motorista.class);
+    private final JsonRepository<Motorista> motoristasDB;
 
-    private static List<Motorista> motoristasCarregados = motoristasDB.carregar();
-
-    public void salvarMotorista(Motorista motorista) {
-        atualizarMotoristasCarregados();
-        int currentId = motoristasCarregados.size() + 1;
-        motorista.setId(currentId);
-        motoristasCarregados.add(motorista);
-        motoristasDB.salvar(motoristasCarregados);
+    public MotoristaRepository() {
+        this.motoristasDB = new JsonRepository<>("src/main/resources/data/motoristas.json", Motorista.class);
     }
 
-    public void atualizarMotoristas(List<Motorista> motoristasAtualizados) {
-        atualizarMotoristasCarregados();
-        motoristasDB.salvar(motoristasAtualizados);
+    /**
+     * Salva um novo motorista, gerando ID automaticamente.
+     */
+    public void salvar(Motorista motorista) {
+        List<Motorista> motoristas = motoristasDB.carregar();
+        int proximoId = motoristas.stream().mapToInt(Motorista::getId).max().orElse(0) + 1;
+        motorista.setId(proximoId);
+        motoristas.add(motorista);
+        motoristasDB.salvar(motoristas);
     }
 
-    @Override
-    public Motorista buscarPorCpf(String cpfBusca) {
-        atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getCpf().equals(cpfBusca)) {
-                return m;
+    /**
+     * Atualiza um motorista existente com base no ID.
+     */
+    public void atualizar(Motorista motoristaAtualizado) {
+        List<Motorista> motoristas = motoristasDB.carregar();
+        for (int i = 0; i < motoristas.size(); i++) {
+            if (motoristas.get(i).getId() == motoristaAtualizado.getId()) {
+                motoristas.set(i, motoristaAtualizado);
+                motoristasDB.salvar(motoristas);
+                return;
             }
         }
-        return null;
     }
 
-    @Override
+    public Motorista buscarPorId(int id) {
+        return motoristasDB.carregar().stream()
+                .filter(m -> m.getId() == id)
+                .findFirst().orElse(null);
+    }
+
     public Motorista buscarPorEmail(String email) {
-        atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getEmail().equals(email)) {
-                return m;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void remover(String cpf) {
-        atualizarMotoristasCarregados();
-        motoristasCarregados.removeIf(m -> m.getCpf().equals(cpf));
-        motoristasDB.salvar(motoristasCarregados);
+        return motoristasDB.carregar().stream()
+                .filter(m -> m.getEmail().equals(email))
+                .findFirst().orElse(null);
     }
 
     public List<Motorista> getMotoristas() {
-        atualizarMotoristasCarregados();
-        return motoristasCarregados;
+        return motoristasDB.carregar();
     }
 
-    public boolean existeCpf(String cpfBusca) {
-        atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getCpf().equals(cpfBusca)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void atualizarMotoristasCarregados() {
-        motoristasCarregados = motoristasDB.carregar();
-    }
-
-    @Override
-    public boolean verificarEmail(String email) {
-        atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getEmail().equals(email)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean realizarLogin(String email, String senha) {
-        atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getEmail().equals(email) && m.getSenha().equals(senha)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static int getIdByCpf(String cpf) {
-        atualizarMotoristasCarregados();
-        for (Motorista m : motoristasCarregados) {
-            if (m.getCpf().equals(cpf)) {
-                return m.getId();
-            }
-        }
-        return 0;
-    }
-
-    // Método extra para testes: limpa todos os motoristas
-    public static void limparTodos() {
-        motoristasCarregados = new ArrayList<>();
-        motoristasDB.salvar(motoristasCarregados);
+    /**
+     * Método para limpar todos os motoristas (útil para testes).
+     */
+    public void limpar() {
+        motoristasDB.salvar(List.of());
     }
 }

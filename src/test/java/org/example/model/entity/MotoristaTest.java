@@ -25,7 +25,6 @@ class MotoristaTest {
         assertEquals("12345678900", motorista.getCpf());
         assertEquals("11999999999", motorista.getTelefone());
 
-        // Inicialmente listas devem estar vazias
         assertNotNull(motorista.getCorridasNotificadas());
         assertTrue(motorista.getCorridasNotificadas().isEmpty());
         assertNotNull(motorista.getCorridasAceitas());
@@ -36,11 +35,15 @@ class MotoristaTest {
     void testSettersAndGetters() {
         Motorista motorista = new Motorista("João", "email", "senha", "cpf", "tel");
 
-        motorista.setLocalizacao("Centro");
-        motorista.setCatVeiculo("SUV");
+        // Usando objeto Localizacao correto
+        Localizacao localizacao = new Localizacao(-23.5505, -46.6333);
+        localizacao.setDescricao("Centro");
+        motorista.setLocalizacao(localizacao);
 
-        assertEquals("Centro", motorista.getLocalizacao());
-        assertEquals("SUV", motorista.getCatVeiculo());
+        motorista.setIdVeiculo(42);
+
+        assertEquals(localizacao, motorista.getLocalizacao());
+        assertEquals(42, motorista.getIdVeiculo());
 
         ArrayList<Corrida> corridasAceitas = new ArrayList<>();
         motorista.setCorridasAceitas(corridasAceitas);
@@ -50,7 +53,13 @@ class MotoristaTest {
     @Test
     void testAdicionarCorridaNotificada() {
         Motorista motorista = new Motorista("João", "email", "senha", "cpf", "tel");
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", "Economico");
+
+        Localizacao origem = new Localizacao(-23.5505, -46.6333);
+        origem.setDescricao("Centro");
+        Localizacao destino = new Localizacao(-23.4356, -46.4731);
+        destino.setDescricao("Aeroporto");
+
+        Corrida corrida = new Corrida(1, origem, destino, CategoriaVeiculo.UBER_X);
 
         motorista.adicionarCorridaNotificada(corrida);
 

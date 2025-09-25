@@ -18,28 +18,20 @@ public class JsonRepository<T> implements Repository<T> {
 
     private final String filePath;
     private final Class<T> type;
-
-    private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // <-- REGISTRE O ADAPTADOR AQUI
-            .setPrettyPrinting()
-            .create();
+    private final Gson gson;
 
     public JsonRepository(String filePath, Class<T> type) {
         this.filePath = filePath;
         this.type = type;
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .setPrettyPrinting()
+                .create();
     }
 
     public void salvar(List<T> entidades) {
-        try {
-            File file = new File(filePath);
-
-            // Garante que os diretórios existam
-            file.getParentFile().mkdirs();
-
-            try (FileWriter writer = new FileWriter(file)) {
-                gson.toJson(entidades, writer);
-            }
-
+        try (FileWriter writer = new FileWriter(filePath)) {
+            gson.toJson(entidades, writer);
         } catch (IOException e) {
             throw new RuntimeException("Erro ao salvar dados em " + filePath, e);
         }
@@ -47,14 +39,17 @@ public class JsonRepository<T> implements Repository<T> {
 
     @Override
     public List<T> carregar() {
-        try (FileReader reader = new FileReader(filePath)) {
-            // Use o mesmo objeto gson para carregar também
-            Type listType = TypeToken.getParameterized(List.class, type).getType();
-            List<T> result = gson.fromJson(reader, listType);
-            // Garante que não retorne nulo se o arquivo estiver vazio
-            return result == null ? new ArrayList<>() : result;
-        } catch (IOException e) {
+        File file = new File(filePath);
+        if (!file.exists()) {
             return new ArrayList<>();
+        }
+
+        try (FileReader reader = new FileReader(file)) {
+            Type listType = TypeToken.getParameterized(List.class, type).getType();
+            List<T> lista = gson.fromJson(reader, listType);
+            return lista != null ? lista : new ArrayList<>();
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao carregar dados de " + filePath, e);
         }
     }
 

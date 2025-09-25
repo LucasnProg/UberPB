@@ -1,6 +1,8 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Corrida;
+import org.example.model.entity.CategoriaVeiculo;
+import org.example.model.entity.Localizacao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +28,13 @@ class CorridaRepositoryTest {
 
     @Test
     void deveSalvarENaoEstarVazio() {
-        Corrida corrida = new Corrida(1, "Centro", "Aeroporto", "Carro");
+        Localizacao origem = new Localizacao(-7.1333, -34.8450);
+        Localizacao destino = new Localizacao(-7.1338, -34.8410);
+        Corrida corrida = new Corrida(1, origem, destino, CategoriaVeiculo.UBER_X);
         corrida.setHoraInicio(LocalDateTime.now());
         corrida.setHoraFim(LocalDateTime.now().plusMinutes(30));
 
-        repository.salvarCorrida(corrida);
+        repository.salvar(corrida);
 
         List<Corrida> corridas = repository.getCorridas();
         assertFalse(corridas.isEmpty());
@@ -39,48 +43,49 @@ class CorridaRepositoryTest {
 
     @Test
     void deveBuscarPorId() {
-        Corrida corrida = new Corrida(2, "Praça", "Estação", "Moto");
-        repository.salvarCorrida(corrida);
+        Localizacao origem = new Localizacao(-7.1330, -34.8400);
+        Localizacao destino = new Localizacao(-7.1340, -34.8420);
+        Corrida corrida = new Corrida(2, origem, destino, CategoriaVeiculo.UBER_COMFORT);
+        repository.salvar(corrida);
 
         Corrida encontrada = repository.buscarPorId(1);
         assertNotNull(encontrada);
-        assertEquals("Praça", encontrada.getOrigem());
-        assertEquals("Estação", encontrada.getDestino());
-    }
-
-    @Test
-    void deveVerificarExistenciaDeCorrida() {
-        Corrida corrida = new Corrida(3, "Shopping", "Universidade", "Van");
-        repository.salvarCorrida(corrida);
-
-        assertTrue(repository.existeCorrida(1));
-        assertFalse(repository.existeCorrida(999));
+        assertEquals(origem, encontrada.getOrigem());
+        assertEquals(destino, encontrada.getDestino());
+        assertEquals(CategoriaVeiculo.UBER_COMFORT, encontrada.getCategoriaVeiculo());
     }
 
     @Test
     void deveRemoverCorrida() {
-        Corrida corrida = new Corrida(4, "Hospital", "Rodoviária", "Carro");
-        repository.salvarCorrida(corrida);
+        Localizacao origem = new Localizacao(-7.1350, -34.8430);
+        Localizacao destino = new Localizacao(-7.1360, -34.8440);
+        Corrida corrida = new Corrida(3, origem, destino, CategoriaVeiculo.UBER_XL);
+        repository.salvar(corrida);
 
-        assertTrue(repository.existeCorrida(1));
+        assertNotNull(repository.buscarPorId(1));
 
         repository.remover(1);
 
-        assertFalse(repository.existeCorrida(1));
+        assertNull(repository.buscarPorId(1));
         assertTrue(repository.getCorridas().isEmpty());
     }
 
     @Test
     void deveRetornarListaDeCorridas() {
-        Corrida c1 = new Corrida(5, "Rua A", "Rua B", "Carro");
-        Corrida c2 = new Corrida(6, "Rua C", "Rua D", "Moto");
+        Localizacao o1 = new Localizacao(-7.1400, -34.8500);
+        Localizacao d1 = new Localizacao(-7.1410, -34.8510);
+        Localizacao o2 = new Localizacao(-7.1420, -34.8520);
+        Localizacao d2 = new Localizacao(-7.1430, -34.8530);
 
-        repository.salvarCorrida(c1);
-        repository.salvarCorrida(c2);
+        Corrida c1 = new Corrida(4, o1, d1, CategoriaVeiculo.UBER_X);
+        Corrida c2 = new Corrida(5, o2, d2, CategoriaVeiculo.UBER_XL);
+
+        repository.salvar(c1);
+        repository.salvar(c2);
 
         List<Corrida> corridas = repository.getCorridas();
         assertEquals(2, corridas.size());
-        assertEquals("Rua A", corridas.get(0).getOrigem());
-        assertEquals("Rua C", corridas.get(1).getOrigem());
+        assertEquals(o1, corridas.get(0).getOrigem());
+        assertEquals(o2, corridas.get(1).getOrigem());
     }
 }
