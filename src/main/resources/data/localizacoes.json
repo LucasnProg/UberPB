@@ -15,7 +15,7 @@
     "longitude": -35.8842
   },
   {
-    "descricao": "Açude Velho (Monumento 'Os Pioneiros')",
+    "descricao": "Açude Velho (Monumento \u0027Os Pioneiros\u0027)",
     "latitude": -7.2301,
     "longitude": -35.8896
   },
@@ -38,5 +38,10 @@
     "descricao": "Vila Sítio São João",
     "latitude": -7.2081,
     "longitude": -35.9054
+  },
+  {
+    "descricao": "Casa",
+    "latitude": -7.2192,
+    "longitude": -35.9034
   }
 ]
