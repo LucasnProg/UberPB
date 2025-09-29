@@ -3,6 +3,8 @@ package org.example.view;
 import org.example.model.entity.*;
 import org.example.model.service.CorridaService;
 import org.example.model.service.MotoristaService;
+import org.example.model.service.SimuladorViagem;
+
 import java.util.List;
 
 /**
@@ -147,6 +149,18 @@ public class CorridaView {
         System.out.println("Origem: " + corrida.getOrigem().getDescricao());
         System.out.println("Destino: " + corrida.getDestino().getDescricao());
         System.out.println("Status Atual: " + corrida.getStatus());
+
+        if (corrida.getStatus() == StatusCorrida.ACEITA) {
+            System.out.print("\nDeseja INICIAR a corrida? (S/N): ");
+            if(ViewUtils.sc.nextLine().equalsIgnoreCase("S")){
+                MapaView.abrirMapa();
+                cs.iniciarCorrida(corrida);
+                SimuladorViagem.simular(corrida);
+                cs.finalizarCorrida(corrida);
+                System.out.println("\nPressione ENTER para voltar ao menu.");
+                ViewUtils.sc.nextLine();
+            }
+        }
 
         if (corrida.getStatus() == StatusCorrida.ACEITA) {
             System.out.print("\nDeseja INICIAR a corrida? (S/N): ");

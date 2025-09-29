@@ -32,9 +32,7 @@ public class MotoristaService {
     }
 
     /**
-     * Sorteia uma localização da lista de locais cadastrados e a define como a posição
-     * atual do motorista.
-     * @param motorista O motorista que terá sua localização simulada.
+     * Sorteia uma localização e a define como a posição atual do motorista.
      */
     private void simularLocalizacaoInicial(Motorista motorista) {
         List<Localizacao> locaisDisponiveis = localizacaoService.carregarLocais();
@@ -42,7 +40,6 @@ public class MotoristaService {
             Random random = new Random();
             int indiceAleatorio = random.nextInt(locaisDisponiveis.size());
             Localizacao localizacaoSimulada = locaisDisponiveis.get(indiceAleatorio);
-
             motorista.setLocalizacao(localizacaoSimulada);
             motoristaRepository.atualizar(motorista);
         }
@@ -80,8 +77,7 @@ public class MotoristaService {
     }
 
     /**
-     * Motorista nega uma corrida notificada.
-     * Esta ação dispara a busca pelo próximo motorista mais próximo.
+     * Motorista nega uma corrida notificada. Esta ação dispara a busca pelo próximo motorista.
      */
     public void negarCorrida(Motorista motorista, Corrida corrida) {
         Motorista motoristaAtualizado = motoristaRepository.buscarPorId(motorista.getId());
@@ -95,7 +91,6 @@ public class MotoristaService {
         corridaRepository.atualizar(corridaAtual);
 
         System.out.println("\nMotorista " + motorista.getNome() + " recusou. Procurando o próximo...");
-
         CorridaService corridaService = new CorridaService();
         corridaService.encontrarProximoMotoristaDisponivel(corridaAtual);
     }

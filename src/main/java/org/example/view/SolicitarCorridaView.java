@@ -5,6 +5,7 @@ import org.example.model.entity.*;
 import org.example.model.service.CorridaService;
 import org.example.model.service.LocalizacaoService;
 import org.example.model.service.PassageiroService;
+import org.example.model.service.SimuladorViagem;
 
 import java.util.List;
 
@@ -172,4 +173,18 @@ public class SolicitarCorridaView {
         return novoLocal;
     }
 
+    private static void acompanharCorridaPassageiro(Corrida corrida) {
+        ViewUtils.limparConsole();
+        System.out.println("--- Acompanhando sua Viagem ---");
+        System.out.println("Motorista encontrado e a caminho!");
+
+        // Abre o mapa para o passageiro
+        MapaView.abrirMapa();
+
+        // Inicia a simulação
+        SimuladorViagem.simular(corrida);
+
+        System.out.println("\nViagem concluída! Pressione ENTER para voltar ao menu.");
+        ViewUtils.sc.nextLine();
+    }
 }
