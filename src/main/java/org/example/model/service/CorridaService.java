@@ -32,21 +32,35 @@ public class CorridaService {
         novaCorrida.setFormaPagamento(formaPagamento);
         corridaRepository.salvar(novaCorrida);
 
-        // Adiciona a corrida à lista de pendentes do passageiro para acompanhamento
         Passageiro passageiroAtualizado = passageiroRepository.buscarPorId(passageiro.getId());
         if (passageiroAtualizado != null) {
             passageiroAtualizado.getCorridasPendentes().add(novaCorrida);
             passageiroRepository.atualizar(passageiroAtualizado);
         }
 
-        // Inicia a busca sequencial pelo motorista mais próximo
         encontrarProximoMotoristaDisponivel(novaCorrida);
         return novaCorrida;
     }
 
     /**
-     * Lógica principal de matchmaking: encontra o motorista elegível mais próximo que
-     * ainda não rejeitou a corrida e o notifica.
+     * Cancela uma corrida, atualizando o status e removendo-a da lista de pendentes do passageiro.
+     * @param corrida A corrida a ser cancelada.
+     * @param passageiroId O ID do passageiro para encontrar e atualizar o objeto correto.
+     */
+    public void cancelarCorrida(Corrida corrida, int passageiroId) {
+        corrida.setStatus(StatusCorrida.CANCELADA);
+        corridaRepository.atualizar(corrida);
+
+        Passageiro passageiro = passageiroRepository.buscarPorId(passageiroId);
+        if (passageiro != null) {
+            passageiro.getCorridasPendentes().removeIf(c -> c.getId() == corrida.getId());
+            passageiroRepository.atualizar(passageiro);
+        }
+    }
+
+
+    /**
+     * Lógica principal de matchmaking: encontra o motorista elegível mais próximo.
      */
     public void encontrarProximoMotoristaDisponivel(Corrida corrida) {
         Corrida corridaAtual = corridaRepository.buscarPorId(corrida.getId());
@@ -79,7 +93,7 @@ public class CorridaService {
     }
 
     /**
-     * Um motorista tenta aceitar uma corrida. Contém a lógica de concorrência.
+     * Um motorista aceita uma corrida. A corrida é imediatamente iniciada.
      */
     public boolean aceitarCorrida(Motorista motorista, Corrida corrida) {
         Corrida corridaAtual = corridaRepository.buscarPorId(corrida.getId());
@@ -89,31 +103,21 @@ public class CorridaService {
             return false;
         }
 
+        // Atualiza a corrida: define motorista, status e hora de início
         corridaAtual.setMotoristaId(motorista.getId());
-        corridaAtual.setStatus(StatusCorrida.ACEITA);
+        corridaAtual.setStatus(StatusCorrida.EM_CURSO); // Status muda direto para EM_CURSO
+        corridaAtual.setHoraInicio(LocalDateTime.now()); // Hora de início é registrada no aceite
         corridaRepository.atualizar(corridaAtual);
 
+        // Atualiza o motorista
         Motorista motoristaAtualizado = motoristaRepository.buscarPorId(motorista.getId());
         motoristaAtualizado.setStatus(MotoristaStatus.EM_CORRIDA);
         motoristaAtualizado.getCorridasAceitas().add(corridaAtual);
         motoristaAtualizado.getCorridasNotificadas().removeIf(c -> c.getId() == corrida.getId());
         motoristaRepository.atualizar(motoristaAtualizado);
 
-        return true;
-    }
-
-    /**
-     * O motorista inicia a viagem, alterando o status da corrida.
-     */
-    public void iniciarCorrida(Corrida corrida) {
-        if (corrida.getStatus() != StatusCorrida.ACEITA) {
-            System.out.println("A corrida não pode ser iniciada neste estado.");
-            return;
-        }
-        corrida.setHoraInicio(LocalDateTime.now());
-        corrida.setStatus(StatusCorrida.EM_CURSO);
-        corridaRepository.atualizar(corrida);
         System.out.println("Corrida iniciada! Boa viagem.");
+        return true;
     }
 
     /**
@@ -190,7 +194,7 @@ public class CorridaService {
     public Corrida buscarCorridaAtivaPorMotorista(Motorista motorista) {
         return corridaRepository.getCorridas().stream()
                 .filter(c -> c.getMotoristaId() == motorista.getId() &&
-                        (c.getStatus() == StatusCorrida.ACEITA || c.getStatus() == StatusCorrida.EM_CURSO))
+                        (c.getStatus() == StatusCorrida.EM_CURSO)) // Apenas EM_CURSO é considerada ativa
                 .findFirst()
                 .orElse(null);
     }
@@ -207,11 +211,6 @@ public class CorridaService {
         return passageiroRepository.buscarPorId(id);
     }
 
-    /**
-     * Etapa PRELIMINAR: Verifica se existem motoristas elegíveis para uma corrida.
-     * Este método é chamado ANTES da tela de pagamento.
-     * @return true se houver pelo menos um motorista disponível, false caso contrário.
-     */
     public boolean verificarMotoristasDisponiveis(Localizacao origem, CategoriaVeiculo categoria) {
         long countMotoristas = motoristaRepository.getMotoristas().stream()
                 .filter(m -> m.getStatus() == MotoristaStatus.DISPONIVEL)
@@ -221,5 +220,9 @@ public class CorridaService {
                 })
                 .count();
         return countMotoristas > 0;
+    }
+
+    public void atualizarCorrida(Corrida corrida) {
+        corridaRepository.atualizar(corrida);
     }
 }

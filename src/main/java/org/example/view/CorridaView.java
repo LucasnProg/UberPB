@@ -9,22 +9,15 @@ import org.example.model.service.SimuladorViagem;
 import java.util.List;
 
 /**
- * View focada na interface do Motorista logado. Gerencia a visualização de
- * notificações de corrida, o aceite/negação e o gerenciamento de corridas ativas.
+ * View focada na interface do Motorista logado.
  */
 public class CorridaView {
 
     private static final CorridaService cs = new CorridaService();
     private static final MotoristaService ms = new MotoristaService();
 
-    /**
-     * Exibe o menu principal para o motorista logado, que funciona em loop.
-     * @param motorista O motorista que está com a sessão ativa.
-     */
     public static void menuMotorista(Motorista motorista) {
         while (true) {
-            // Recarrega o estado do motorista do repositório a cada iteração do menu
-            // para garantir que a lista de notificações e o status estejam sempre atualizados.
             Motorista motoristaAtualizado = ms.buscarPorId(motorista.getId());
             if (motoristaAtualizado == null) {
                 System.out.println("[ERRO] Não foi possível encontrar os dados do motorista.");
@@ -38,12 +31,11 @@ public class CorridaView {
                 System.out.println("Localização Atual: " + motoristaAtualizado.getLocalizacao().getDescricao());
             }
 
-            // Verifica se o motorista já tem uma corrida ativa
+            // Verifica se o motorista já tem uma corrida em andamento
             Corrida corridaAtiva = cs.buscarCorridaAtivaPorMotorista(motoristaAtualizado);
             if (corridaAtiva != null) {
-                // Se tiver, vai direto para a tela de gerenciamento da corrida
                 gerenciarCorridaAtiva(corridaAtiva);
-                continue; // Volta ao início do loop após a ação
+                continue;
             }
 
             System.out.println("\n1 - Ver Corridas Notificadas (" + motoristaAtualizado.getCorridasNotificadas().size() + ")");
@@ -61,15 +53,11 @@ public class CorridaView {
                     break;
                 case "0":
                     System.out.println("\nFazendo logout...");
-                    return; // Encerra o método e volta ao menu principal
+                    return;
             }
         }
     }
 
-    /**
-     * Exibe a lista de corridas que foram notificadas ao motorista.
-     * @param motorista O motorista logado.
-     */
     private static void verCorridasNotificadas(Motorista motorista) {
         ViewUtils.limparConsole();
         System.out.println("--- Corridas Notificadas ---");
@@ -83,7 +71,7 @@ public class CorridaView {
         }
 
         for (Corrida c : notificadas) {
-            String infoPagamento = (c.getFormaPagamento() == FormaPagamento.DINHEIRO) ? " (Pagamento em Dinheiro)" : "";
+            String infoPagamento = " (" + c.getFormaPagamento().getDescricao() + ")";
             System.out.printf("ID: %d | Origem: %s | Destino: %s | Valor: R$ %.2f%s\n",
                     c.getId(), c.getOrigem().getDescricao(), c.getDestino().getDescricao(), c.getValor(), infoPagamento);
         }
@@ -108,15 +96,9 @@ public class CorridaView {
         }
     }
 
-    /**
-     * Exibe os detalhes de uma corrida específica e permite que o motorista a aceite ou negue.
-     * @param motorista O motorista logado.
-     * @param corrida A corrida selecionada da lista de notificações.
-     */
     private static void interagirComCorrida(Motorista motorista, Corrida corrida) {
         ViewUtils.limparConsole();
         System.out.println("--- Detalhes da Corrida ID: " + corrida.getId() + " ---");
-
         Passageiro passageiro = cs.getPassageiroById(corrida.getPassageiroId());
 
         System.out.println("Passageiro: " + (passageiro != null ? passageiro.getNome() : "N/A"));
@@ -126,7 +108,7 @@ public class CorridaView {
         System.out.printf("Valor Estimado: R$ %.2f\n", corrida.getValor());
         System.out.println("Forma de Pagamento: " + corrida.getFormaPagamento().getDescricao());
 
-        System.out.println("\n1 - Aceitar Corrida");
+        System.out.println("\n1 - Aceitar e Iniciar Corrida");
         System.out.println("2 - Negar Corrida");
         System.out.println("0 - Voltar");
         System.out.print("\nEscolha uma opção: ");
@@ -135,7 +117,9 @@ public class CorridaView {
             case "1":
                 boolean sucesso = cs.aceitarCorrida(motorista, corrida);
                 if (sucesso) {
-                    System.out.println("\nCorrida aceita com sucesso! Você está em uma corrida agora.");
+                    System.out.println("\nCorrida aceita e iniciada!");
+                    System.out.println("Forma de Pagamento Confirmada: " + corrida.getFormaPagamento().getDescricao());
+                    System.out.println("O mapa da viagem será aberto.");
                 }
                 System.out.println("Pressione ENTER para continuar.");
                 ViewUtils.sc.nextLine();
@@ -146,14 +130,9 @@ public class CorridaView {
                 System.out.println("Pressione ENTER para continuar.");
                 ViewUtils.sc.nextLine();
                 break;
-            default:
-                break;
         }
     }
 
-    /**
-     * Exibe a tela de gerenciamento para uma corrida que já foi aceita.
-     */
     private static void gerenciarCorridaAtiva(Corrida corrida) {
         ViewUtils.limparConsole();
         System.out.println("--- Gerenciando Corrida Atual ---");
@@ -162,14 +141,8 @@ public class CorridaView {
         System.out.println("Passageiro: " + (passageiro != null ? passageiro.getNome() : "N/A"));
         System.out.println("Status Atual: " + corrida.getStatus());
 
-        if (corrida.getStatus() == StatusCorrida.ACEITA) {
-            System.out.println("\n[AGUARDANDO PAGAMENTO DO PASSAGEIRO...]");
-            System.out.println("(A tela será atualizada automaticamente)");
-            try { Thread.sleep(5000); } catch (InterruptedException e) {}
-
-        } else if (corrida.getStatus() == StatusCorrida.EM_CURSO) {
-            // A corrida só inicia a simulação depois que o passageiro paga
-            // e o status muda para EM_CURSO.
+        // Como a corrida já começa EM_CURSO, vamos direto para a simulação
+        if (corrida.getStatus() == StatusCorrida.EM_CURSO) {
             SimuladorViagem.prepararSimulacao(corrida);
             MapaView.abrirMapa();
             SimuladorViagem.simular(corrida);
@@ -180,10 +153,6 @@ public class CorridaView {
         }
     }
 
-    /**
-     * Permite ao motorista escolher uma nova localização para simulação.
-     * @param motorista O motorista que terá sua localização atualizada.
-     */
     private static void simularNovaLocalizacao(Motorista motorista) {
         ViewUtils.limparConsole();
         System.out.println("--- Simular Nova Localização ---");
@@ -220,11 +189,6 @@ public class CorridaView {
         ViewUtils.sc.nextLine();
     }
 
-    /**
-     * Método utilitário público para exibir um menu e retornar a Categoria de Veículo escolhida.
-     * É usado tanto aqui quanto na tela de cadastro de veículo.
-     * @return O enum CategoriaVeiculo escolhido, ou null se o usuário cancelar.
-     */
     public static CategoriaVeiculo selecionarCategoria() {
         while (true) {
             System.out.println("\n--- Selecione a Categoria do Veículo ---");

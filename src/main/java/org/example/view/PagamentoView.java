@@ -15,9 +15,9 @@ public class PagamentoView {
     /**
      * Exibe o menu de seleção de forma de pagamento e processa a escolhida.
      * @param corrida A corrida que está sendo paga.
-     * @return true se o pagamento foi confirmado, false se foi cancelado.
+     * @return A FormaPagamento escolhida ou null se o pagamento for cancelado.
      */
-    public static boolean executar(Corrida corrida) {
+    public static FormaPagamento executar(Corrida corrida) {
         while (true) {
             ViewUtils.limparConsole();
             System.out.println("--- Pagamento da Corrida ---");
@@ -28,19 +28,24 @@ public class PagamentoView {
             for (FormaPagamento forma : FormaPagamento.values()) {
                 System.out.println(i++ + " - " + forma.getDescricao());
             }
-            System.out.println("0 - Cancelar Corrida");
+            System.out.println("0 - Cancelar Solicitação");
             System.out.print("\nEscolha uma opção: ");
 
             try {
                 int escolha = Integer.parseInt(ViewUtils.sc.nextLine());
-                if (escolha == 0) return false;
+                if (escolha == 0) return null; // Retorna nulo se cancelado
 
                 if (escolha > 0 && escolha <= FormaPagamento.values().length) {
                     FormaPagamento formaEscolhida = FormaPagamento.values()[escolha - 1];
                     corrida.setFormaPagamento(formaEscolhida);
-                    cs.atualizarCorrida(corrida); // Salva a forma de pagamento na corrida
+                    // A atualização da corrida agora acontece no service após a confirmação
 
-                    return processarPagamento(corrida);
+                    if (processarPagamento(corrida)) {
+                        return formaEscolhida; // Retorna a forma de pagamento se o processo foi bem-sucedido
+                    } else {
+                        // Se o processamento falhar (ex: motorista sem PIX), volta ao menu de seleção
+                        continue;
+                    }
                 } else {
                     System.out.println("\n[ERRO] Opção inválida. Pressione ENTER.");
                     ViewUtils.sc.nextLine();
@@ -98,21 +103,14 @@ public class PagamentoView {
     }
 
     private static boolean exibirInstrucoesPix(Corrida corrida) {
-        Motorista motorista = cs.getMotoristaById(corrida.getMotoristaId());
-        if (motorista == null || motorista.getChavePix() == null || motorista.getChavePix().trim().isEmpty()) {
-            System.out.println("\n[ERRO] O motorista não possui uma chave PIX cadastrada. Tente outra forma de pagamento.");
-            System.out.println("Pressione ENTER para voltar.");
-            ViewUtils.sc.nextLine();
-            return false;
-        }
-
+        // A busca pelo motorista agora ocorre depois, então não podemos validar a chave PIX aqui.
+        // A validação será feita no momento da notificação ao motorista.
+        // Por enquanto, apenas confirmamos a intenção de pagar com PIX.
         ViewUtils.limparConsole();
         System.out.println("--- Pagamento via PIX ---");
-        System.out.println("Por favor, realize a transferência para o motorista:");
-        System.out.printf("Valor: R$ %.2f\n", corrida.getValor());
-        System.out.println("Chave PIX: " + motorista.getChavePix());
-        System.out.println("\nApós realizar o pagamento no seu aplicativo de banco,");
-        System.out.print("Pressione ENTER para confirmar e iniciar a corrida.");
+        System.out.println("Você selecionou pagamento via PIX.");
+        System.out.println("A chave PIX do motorista será exibida quando ele aceitar a corrida.");
+        System.out.print("\nPressione ENTER para confirmar e procurar um motorista.");
         ViewUtils.sc.nextLine();
         return true;
     }
@@ -122,7 +120,7 @@ public class PagamentoView {
         System.out.println("--- Pagamento em Dinheiro ---");
         System.out.println("Você selecionou pagamento em dinheiro.");
         System.out.printf("Por favor, pague o valor de R$ %.2f diretamente ao motorista no final da viagem.\n", corrida.getValor());
-        System.out.print("\nPressione ENTER para confirmar e iniciar a corrida.");
+        System.out.print("\nPressione ENTER para confirmar e procurar um motorista.");
         ViewUtils.sc.nextLine();
         return true;
     }

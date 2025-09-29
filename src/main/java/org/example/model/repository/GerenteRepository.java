@@ -4,7 +4,7 @@ import org.example.model.entity.Gerente;
 import java.util.List;
 
 /**
- * Repositório para gerenciar gerentes com persistência via JSON.
+ * Repositório para gerenciar a persistência de entidades Gerente.
  */
 public class GerenteRepository {
 
@@ -23,22 +23,10 @@ public class GerenteRepository {
     }
 
     public Gerente buscarPorEmail(String email) {
-        return gerentesDB.carregar().stream()
-                .filter(g -> g.getEmail().equals(email))
-                .findFirst().orElse(null);
+        return gerentesDB.carregar().stream().filter(g -> g.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
     }
 
     public Gerente buscarPorCpf(String cpf) {
-        return gerentesDB.carregar().stream()
-                .filter(g -> g.getCpf().equals(cpf))
-                .findFirst().orElse(null);
-    }
-
-    public void limpar() {
-        gerentesDB.salvar(List.of());
-    }
-
-    public List<Gerente> getGerentes() {
-        return gerentesDB.carregar();
+        return gerentesDB.carregar().stream().filter(g -> g.getCpf().equals(cpf)).findFirst().orElse(null);
     }
 }
