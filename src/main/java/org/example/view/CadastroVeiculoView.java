@@ -24,33 +24,23 @@ public class CadastroVeiculoView {
         ViewUtils.limparConsole();
         System.out.println("--- Cadastro de Motorista (Etapa 2/2: Dados do Veículo) ---");
         System.out.println("Olá, " + motorista.getNome() + "! Agora, vamos cadastrar seu veículo.");
-        System.out.println("(Digite 'voltar' a qualquer momento para cancelar)");
-
 
         String marca = solicitarTexto("Marca do veículo (ex: Chevrolet)", "A marca não pode estar em branco.");
         if (marca == null) return;
-
         String modelo = solicitarTexto("Modelo do veículo (ex: Onix)", "O modelo não pode estar em branco.");
         if (modelo == null) return;
-
         String placa = solicitarPlaca();
         if (placa == null) return;
-
         String renavam = solicitarRenavam();
         if (renavam == null) return;
-
         String cor = solicitarTexto("Cor", "A cor não pode estar em branco.");
         if (cor == null) return;
-
         Integer anoFabricacao = solicitarAnoFabricacao();
         if (anoFabricacao == null) return;
-
         Integer numAssentos = solicitarNumAssentos();
         if (numAssentos == null) return;
-
         Float capacidadeMala = solicitarCapacidadeMala();
         if (capacidadeMala == null) return;
-
         Boolean premium = solicitarPremium();
         if (premium == null) return;
 
@@ -72,22 +62,13 @@ public class CadastroVeiculoView {
     }
 
     private static String solicitarTexto(String prompt, String erro) {
-        String texto = "";
-        boolean textoValido = false;
-
-        while (!textoValido) {
+        while (true) {
             System.out.print(prompt + ": ");
-            texto = ViewUtils.sc.nextLine();
-
+            String texto = ViewUtils.sc.nextLine();
             if (texto.equalsIgnoreCase("voltar")) return null;
-
-            if (texto.trim().isEmpty()) {
-                System.out.println("\n[ERRO] " + erro);
-            } else {
-                textoValido = true;
-            }
+            if (!texto.trim().isEmpty()) return texto;
+            System.out.println("\n[ERRO] " + erro);
         }
-        return texto;
     }
 
     private static String solicitarPlaca() {

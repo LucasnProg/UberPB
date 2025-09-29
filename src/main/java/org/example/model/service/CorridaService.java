@@ -22,15 +22,17 @@ public class CorridaService {
     private final PassageiroRepository passageiroRepository = new PassageiroRepository();
 
     /**
-     * Etapa 1 do Fluxo: Cria a corrida e inicia a busca pelo primeiro motorista mais próximo.
+     * Etapa 1 do Fluxo: Cria a corrida, adiciona à lista de pendentes do passageiro
+     * e inicia a busca pelo primeiro motorista mais próximo.
      */
-    public Corrida solicitarCorrida(Passageiro passageiro, Localizacao origem, Localizacao destino, CategoriaVeiculo categoria) {
+    public Corrida solicitarCorrida(Passageiro passageiro, Localizacao origem, Localizacao destino, CategoriaVeiculo categoria, FormaPagamento formaPagamento) {
         double valorEstimado = calcularPrecoEstimado(origem, destino, categoria);
         Corrida novaCorrida = new Corrida(passageiro.getId(), origem, destino, categoria);
         novaCorrida.setValor(valorEstimado);
+        novaCorrida.setFormaPagamento(formaPagamento);
         corridaRepository.salvar(novaCorrida);
 
-        // Adiciona a corrida à lista de pendentes do passageiro
+        // Adiciona a corrida à lista de pendentes do passageiro para acompanhamento
         Passageiro passageiroAtualizado = passageiroRepository.buscarPorId(passageiro.getId());
         if (passageiroAtualizado != null) {
             passageiroAtualizado.getCorridasPendentes().add(novaCorrida);
@@ -48,7 +50,7 @@ public class CorridaService {
      */
     public void encontrarProximoMotoristaDisponivel(Corrida corrida) {
         Corrida corridaAtual = corridaRepository.buscarPorId(corrida.getId());
-        if (corridaAtual == null) return;
+        if (corridaAtual == null || corridaAtual.getStatus() != StatusCorrida.SOLICITADA) return;
 
         List<Motorista> motoristasElegiveis = motoristaRepository.getMotoristas().stream()
                 .filter(m -> m.getStatus() == MotoristaStatus.DISPONIVEL)
@@ -63,7 +65,7 @@ public class CorridaService {
                 .collect(Collectors.toList());
 
         if (motoristasElegiveis.isEmpty()) {
-            System.out.println("\n[INFO] Não há mais motoristas disponíveis para esta solicitação.");
+            System.out.println("\n[INFO] Não há mais motoristas disponíveis para esta solicitação. Corrida cancelada.");
             corridaAtual.setStatus(StatusCorrida.CANCELADA);
             corridaRepository.atualizar(corridaAtual);
             return;
@@ -143,9 +145,6 @@ public class CorridaService {
         System.out.println("Corrida finalizada!");
     }
 
-    /**
-     * Remove a notificação de um motorista específico (caso a corrida tenha sido aceita por outro).
-     */
     private void limparNotificacaoUnica(Motorista motorista, Corrida corrida) {
         Motorista m = motoristaRepository.buscarPorId(motorista.getId());
         if (m != null) {
@@ -206,5 +205,21 @@ public class CorridaService {
 
     public Passageiro getPassageiroById(int id) {
         return passageiroRepository.buscarPorId(id);
+    }
+
+    /**
+     * Etapa PRELIMINAR: Verifica se existem motoristas elegíveis para uma corrida.
+     * Este método é chamado ANTES da tela de pagamento.
+     * @return true se houver pelo menos um motorista disponível, false caso contrário.
+     */
+    public boolean verificarMotoristasDisponiveis(Localizacao origem, CategoriaVeiculo categoria) {
+        long countMotoristas = motoristaRepository.getMotoristas().stream()
+                .filter(m -> m.getStatus() == MotoristaStatus.DISPONIVEL)
+                .filter(m -> {
+                    Veiculo v = veiculoRepository.buscarPorId(m.getIdVeiculo());
+                    return v != null && v.getCategoria() == categoria;
+                })
+                .count();
+        return countMotoristas > 0;
     }
 }

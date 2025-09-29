@@ -20,7 +20,7 @@ public class CadastroMotoristaView {
         ViewUtils.limparConsole();
         System.out.println("--- Cadastro de Motorista (Etapa 1/2: Dados Pessoais) ---");
         System.out.println("(Digite 'voltar' a qualquer momento para cancelar)");
-        String nome, cpf, email, senha, telefone;
+        String nome, cpf, email, senha, telefone, chavePix;
 
         while (true) {
             System.out.print("Nome completo: ");
@@ -62,9 +62,15 @@ public class CadastroMotoristaView {
             System.out.println("\n[ERRO] O telefone deve conter apenas números.");
         }
 
+        System.out.print("Sua Chave PIX (CPF, E-mail ou Telefone): ");
+        chavePix = ViewUtils.sc.nextLine();
+        if (chavePix.equalsIgnoreCase("voltar")) return;
+
         Motorista novoMotorista = motoristaService.criar(nome, email, senha, cpf, telefone);
 
         if (novoMotorista != null) {
+            novoMotorista.setChavePix(chavePix);
+            motoristaService.atualizar(novoMotorista);
             CadastroVeiculoView.executar(novoMotorista);
         } else {
             System.out.println("\nCadastro não pôde ser concluído. Pressione ENTER para voltar...");

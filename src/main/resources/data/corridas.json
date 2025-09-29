@@ -17,6 +17,49 @@
     "horaInicio": "2025-09-24T12:54:56.4841109",
     "horaFim": "2025-09-24T12:55:47.0031108",
     "categoriaVeiculo": "UBER_X",
-    "status": "FINALIZADA"
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": []
+  },
+  {
+    "id": 2,
+    "passageiroId": 1,
+    "motoristaId": 1,
+    "origem": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
+    "destino": {
+      "descricao": "Universidade Federal de Campina Grande (UFCG)",
+      "latitude": -7.2192,
+      "longitude": -35.9083
+    },
+    "valor": 8.27,
+    "horaInicio": "2025-09-29T12:03:31.8190665",
+    "horaFim": "2025-09-29T12:04:14.2700679",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": []
+  },
+  {
+    "id": 3,
+    "passageiroId": 1,
+    "motoristaId": 1,
+    "origem": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
+    "destino": {
+      "descricao": "Universidade Federal de Campina Grande (UFCG)",
+      "latitude": -7.2192,
+      "longitude": -35.9083
+    },
+    "valor": 8.27,
+    "horaInicio": "2025-09-29T12:45:30.2622657",
+    "horaFim": "2025-09-29T12:46:12.1145598",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": []
   }
 ]

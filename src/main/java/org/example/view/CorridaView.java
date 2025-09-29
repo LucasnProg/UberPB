@@ -2,6 +2,7 @@ package org.example.view;
 
 import org.example.model.entity.*;
 import org.example.model.service.CorridaService;
+import org.example.model.service.LocalizacaoService;
 import org.example.model.service.MotoristaService;
 import org.example.model.service.SimuladorViagem;
 
@@ -22,6 +23,8 @@ public class CorridaView {
      */
     public static void menuMotorista(Motorista motorista) {
         while (true) {
+            // Recarrega o estado do motorista do repositório a cada iteração do menu
+            // para garantir que a lista de notificações e o status estejam sempre atualizados.
             Motorista motoristaAtualizado = ms.buscarPorId(motorista.getId());
             if (motoristaAtualizado == null) {
                 System.out.println("[ERRO] Não foi possível encontrar os dados do motorista.");
@@ -31,23 +34,34 @@ public class CorridaView {
             ViewUtils.limparConsole();
             System.out.println("--- Menu do Motorista ---");
             System.out.println("Olá, " + motoristaAtualizado.getNome() + "! Status: " + motoristaAtualizado.getStatus());
+            if (motoristaAtualizado.getLocalizacao() != null) {
+                System.out.println("Localização Atual: " + motoristaAtualizado.getLocalizacao().getDescricao());
+            }
 
+            // Verifica se o motorista já tem uma corrida ativa
             Corrida corridaAtiva = cs.buscarCorridaAtivaPorMotorista(motoristaAtualizado);
             if (corridaAtiva != null) {
+                // Se tiver, vai direto para a tela de gerenciamento da corrida
                 gerenciarCorridaAtiva(corridaAtiva);
-                continue;
+                continue; // Volta ao início do loop após a ação
             }
 
             System.out.println("\n1 - Ver Corridas Notificadas (" + motoristaAtualizado.getCorridasNotificadas().size() + ")");
+            System.out.println("2 - Simular / Mudar Localização");
             System.out.println("0 - Fazer Logout");
             System.out.print("\nEscolha uma opção: ");
 
             String opcao = ViewUtils.sc.nextLine();
-            if (opcao.equals("1")) {
-                verCorridasNotificadas(motoristaAtualizado);
-            } else if (opcao.equals("0")) {
-                System.out.println("\nFazendo logout...");
-                return;
+            switch (opcao) {
+                case "1":
+                    verCorridasNotificadas(motoristaAtualizado);
+                    break;
+                case "2":
+                    simularNovaLocalizacao(motoristaAtualizado);
+                    break;
+                case "0":
+                    System.out.println("\nFazendo logout...");
+                    return; // Encerra o método e volta ao menu principal
             }
         }
     }
@@ -69,8 +83,9 @@ public class CorridaView {
         }
 
         for (Corrida c : notificadas) {
-            System.out.printf("ID: %d | Origem: %s | Destino: %s | Valor: R$ %.2f\n",
-                    c.getId(), c.getOrigem().getDescricao(), c.getDestino().getDescricao(), c.getValor());
+            String infoPagamento = (c.getFormaPagamento() == FormaPagamento.DINHEIRO) ? " (Pagamento em Dinheiro)" : "";
+            System.out.printf("ID: %d | Origem: %s | Destino: %s | Valor: R$ %.2f%s\n",
+                    c.getId(), c.getOrigem().getDescricao(), c.getDestino().getDescricao(), c.getValor(), infoPagamento);
         }
 
         System.out.print("\nDigite o ID da corrida para interagir (ou 0 para voltar): ");
@@ -109,6 +124,7 @@ public class CorridaView {
         System.out.println("Destino: " + corrida.getDestino().getDescricao());
         System.out.println("Categoria: " + corrida.getCategoriaVeiculo().getNome());
         System.out.printf("Valor Estimado: R$ %.2f\n", corrida.getValor());
+        System.out.println("Forma de Pagamento: " + corrida.getFormaPagamento().getDescricao());
 
         System.out.println("\n1 - Aceitar Corrida");
         System.out.println("2 - Negar Corrida");
@@ -137,42 +153,71 @@ public class CorridaView {
 
     /**
      * Exibe a tela de gerenciamento para uma corrida que já foi aceita.
-     * @param corrida A corrida ativa do motorista.
      */
     private static void gerenciarCorridaAtiva(Corrida corrida) {
         ViewUtils.limparConsole();
         System.out.println("--- Gerenciando Corrida Atual ---");
         Passageiro passageiro = cs.getPassageiroById(corrida.getPassageiroId());
 
-        System.out.println("ID da Corrida: " + corrida.getId());
         System.out.println("Passageiro: " + (passageiro != null ? passageiro.getNome() : "N/A"));
-        System.out.println("Origem: " + corrida.getOrigem().getDescricao());
-        System.out.println("Destino: " + corrida.getDestino().getDescricao());
         System.out.println("Status Atual: " + corrida.getStatus());
 
         if (corrida.getStatus() == StatusCorrida.ACEITA) {
-            System.out.print("\nDeseja INICIAR a corrida? (S/N): ");
-            if(ViewUtils.sc.nextLine().equalsIgnoreCase("S")){
-                MapaView.abrirMapa();
-                cs.iniciarCorrida(corrida);
-                SimuladorViagem.simular(corrida);
-                cs.finalizarCorrida(corrida);
-                System.out.println("\nPressione ENTER para voltar ao menu.");
-                ViewUtils.sc.nextLine();
-            }
+            System.out.println("\n[AGUARDANDO PAGAMENTO DO PASSAGEIRO...]");
+            System.out.println("(A tela será atualizada automaticamente)");
+            try { Thread.sleep(5000); } catch (InterruptedException e) {}
+
+        } else if (corrida.getStatus() == StatusCorrida.EM_CURSO) {
+            // A corrida só inicia a simulação depois que o passageiro paga
+            // e o status muda para EM_CURSO.
+            SimuladorViagem.prepararSimulacao(corrida);
+            MapaView.abrirMapa();
+            SimuladorViagem.simular(corrida);
+
+            cs.finalizarCorrida(corrida); // Finaliza ao fim da simulação
+            System.out.println("\nPressione ENTER para voltar ao menu.");
+            ViewUtils.sc.nextLine();
+        }
+    }
+
+    /**
+     * Permite ao motorista escolher uma nova localização para simulação.
+     * @param motorista O motorista que terá sua localização atualizada.
+     */
+    private static void simularNovaLocalizacao(Motorista motorista) {
+        ViewUtils.limparConsole();
+        System.out.println("--- Simular Nova Localização ---");
+
+        LocalizacaoService ls = new LocalizacaoService();
+        List<Localizacao> locais = ls.carregarLocais();
+
+        if (locais == null || locais.isEmpty()) {
+            System.out.println("Nenhum local cadastrado para simulação. Pressione ENTER.");
+            ViewUtils.sc.nextLine();
+            return;
         }
 
-        if (corrida.getStatus() == StatusCorrida.ACEITA) {
-            System.out.print("\nDeseja INICIAR a corrida? (S/N): ");
-            if(ViewUtils.sc.nextLine().equalsIgnoreCase("S")){
-                cs.iniciarCorrida(corrida);
-            }
-        } else if (corrida.getStatus() == StatusCorrida.EM_CURSO) {
-            System.out.print("\nDeseja FINALIZAR a corrida? (S/N): ");
-            if(ViewUtils.sc.nextLine().equalsIgnoreCase("S")){
-                cs.finalizarCorrida(corrida);
-            }
+        System.out.println("Escolha para onde você quer 'ir':");
+        int i = 1;
+        for (Localizacao local : locais) {
+            System.out.println(i++ + " - " + local.getDescricao());
         }
+        System.out.println("0 - Voltar");
+        System.out.print("\nEscolha uma opção: ");
+
+        try {
+            int escolha = Integer.parseInt(ViewUtils.sc.nextLine());
+            if (escolha > 0 && escolha <= locais.size()) {
+                Localizacao novaLocalizacao = locais.get(escolha - 1);
+                motorista.setLocalizacao(novaLocalizacao);
+                ms.atualizar(motorista);
+                System.out.println("\nLocalização atualizada para: " + novaLocalizacao.getDescricao());
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("\n[ERRO] Opção inválida.");
+        }
+        System.out.println("Pressione ENTER para voltar ao menu.");
+        ViewUtils.sc.nextLine();
     }
 
     /**

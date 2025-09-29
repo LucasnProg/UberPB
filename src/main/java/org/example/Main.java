@@ -2,22 +2,16 @@ package org.example;
 
 import org.example.view.View;
 
-import java.io.IOException;
-
+/**
+ * Ponto de entrada principal da aplicação UberPB.
+ */
 public class Main {
-    public static void main(String[] args) throws IOException {
-        View.iniciar();
-        //cli.iniciar();
-        //abrirMapa();
-    }
 
-    /*public static void abrirMapa() {
-        try {
-            File htmlFile = new File("src/main/java/org/example/view/Mapa/Mapa.html");
-            Desktop.getDesktop().browse(htmlFile.toURI());
-        } catch (IOException e) {
-            System.out.println("Não foi possível abrir o mapa.");
-            e.printStackTrace();
-        }
-    }*/
+    /**
+     * Método main que inicia a execução do sistema.
+     * @param args Argumentos de linha de comando (não utilizados).
+     */
+    public static void main(String[] args) {
+        View.iniciar();
+    }
 }

@@ -19,6 +19,7 @@ public class Corrida {
     private CategoriaVeiculo categoriaVeiculo;
     private StatusCorrida status;
     private List<Integer> motoristasQueRejeitaram = new ArrayList<>();
+    private FormaPagamento formaPagamento;
     /**
      * Construtor padrão utilizado para criar objetos temporários (ex: estimativas).
      */
@@ -47,6 +48,13 @@ public class Corrida {
         this.motoristasQueRejeitaram = motoristasQueRejeitaram;
     }
 
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
     public void adicionarRejeicao(int motoristaId) {
         this.motoristasQueRejeitaram.add(motoristaId);
     }

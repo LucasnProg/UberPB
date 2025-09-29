@@ -20,7 +20,6 @@ public class SolicitarCorridaView {
 
     /**
      * Executa o passo a passo para a solicitação de uma nova corrida.
-     * @param passageiro O passageiro que está solicitando a corrida.
      */
     public static void executar(Passageiro passageiro) {
         ViewUtils.limparConsole();
@@ -28,7 +27,7 @@ public class SolicitarCorridaView {
 
         List<Localizacao> locais = ls.carregarLocais();
         if (locais == null) {
-            System.out.println("\n[ERRO] Não foi possível carregar os locais. Pressione ENTER para voltar.");
+            System.out.println("\n[ERRO] Não foi possível carregar os locais. Pressione ENTER.");
             ViewUtils.sc.nextLine();
             return;
         }
@@ -37,12 +36,11 @@ public class SolicitarCorridaView {
         if (origem == null) return;
 
         locais = ls.carregarLocais();
-
         Localizacao destino = selecionarLocal("destino", locais);
         if (destino == null) return;
 
         if (origem.getDescricao().equalsIgnoreCase(destino.getDescricao())) {
-            System.out.println("\n[ERRO] A origem e o destino não podem ser iguais. Pressione ENTER para voltar.");
+            System.out.println("\n[ERRO] A origem e o destino não podem ser iguais. Pressione ENTER.");
             ViewUtils.sc.nextLine();
             return;
         }
@@ -50,33 +48,33 @@ public class SolicitarCorridaView {
         CategoriaVeiculo categoria = CorridaView.selecionarCategoria();
         if (categoria == null) return;
 
-        System.out.println("\nCalculando estimativa...");
+        System.out.println("\nCalculando estimativa e verificando disponibilidade de motoristas...");
         double estimativaValor = cs.calcularPrecoEstimado(origem, destino, categoria);
         System.out.printf("Preço Estimado: R$ %.2f\n", estimativaValor);
 
-        System.out.print("\nDeseja confirmar a solicitação? (S/N): ");
+        if (!cs.verificarMotoristasDisponiveis(origem, categoria)) {
+            System.out.println("\n[INFO] Desculpe, não há motoristas para esta categoria na sua região no momento.");
+            System.out.println("Pressione ENTER para voltar.");
+            ViewUtils.sc.nextLine();
+            return;
+        }
+
+        System.out.print("\nDeseja solicitar a corrida? (S/N): ");
         if (ViewUtils.sc.nextLine().equalsIgnoreCase("S")) {
-            System.out.println("\nEnviando sua solicitação...");
+            System.out.println("\nBuscando motoristas na sua região...");
+            // O Service agora tem uma sobrecarga para o método sem o pagamento
             Corrida corridaSolicitada = cs.solicitarCorrida(passageiro, origem, destino, categoria);
 
             if (corridaSolicitada != null) {
-                passageiro.getCorridasPendentes().add(corridaSolicitada);
-                ps.atualizar(passageiro);
-
-                System.out.println("\n[INFO] Solicitação enviada com sucesso!");
-                System.out.println("Você pode acompanhar o status no menu 'Acompanhar Corridas Solicitadas'.");
-
-            } else {
-                System.out.println("\n[ERRO] Não foi possível processar sua solicitação no momento.");
+                acompanharCorridaPassageiro(corridaSolicitada);
             }
         } else {
             System.out.println("\nSolicitação cancelada.");
         }
 
-        System.out.println("\nPressione ENTER para voltar ao menu principal.");
+        System.out.println("\nPressione ENTER para voltar ao menu.");
         ViewUtils.sc.nextLine();
     }
-
 
     /**
      * Exibe um menu para o usuário selecionar um local de uma lista OU cadastrar um novo.
@@ -173,18 +171,57 @@ public class SolicitarCorridaView {
         return novoLocal;
     }
 
+    /**
+     * Acompanha a corrida, aguardando o aceite, processando o pagamento e
+     * iniciando a simulação no mapa.
+     */
     private static void acompanharCorridaPassageiro(Corrida corrida) {
-        ViewUtils.limparConsole();
-        System.out.println("--- Acompanhando sua Viagem ---");
-        System.out.println("Motorista encontrado e a caminho!");
+        while (true) {
+            ViewUtils.limparConsole();
+            System.out.println("--- Acompanhando sua Solicitação ---");
 
-        // Abre o mapa para o passageiro
-        MapaView.abrirMapa();
+            Corrida corridaAtualizada = cs.buscarCorridaPorId(corrida.getId());
+            if (corridaAtualizada == null) break;
 
-        // Inicia a simulação
-        SimuladorViagem.simular(corrida);
+            if (corridaAtualizada.getStatus() == StatusCorrida.SOLICITADA) {
+                System.out.println("Status: Aguardando um motorista aceitar...");
+            }
 
-        System.out.println("\nViagem concluída! Pressione ENTER para voltar ao menu.");
+            if (corridaAtualizada.getStatus() == StatusCorrida.ACEITA) {
+                Motorista motorista = cs.getMotoristaById(corridaAtualizada.getMotoristaId());
+                System.out.println("Status: Motorista Encontrado!");
+                System.out.println("Motorista: " + motorista.getNome());
+                System.out.println("\nProsseguindo para o pagamento...");
+                System.out.println("Pressione ENTER para continuar.");
+                ViewUtils.sc.nextLine();
+
+                boolean pagamentoSucesso = PagamentoView.executar(corridaAtualizada);
+
+                if (pagamentoSucesso) {
+                    cs.iniciarCorrida(corridaAtualizada);
+                } else {
+                    cs.cancelarCorrida(corridaAtualizada, passageiro.getId());
+                    System.out.println("Pagamento cancelado. A corrida foi cancelada.");
+                    break;
+                }
+            }
+
+            if (corridaAtualizada.getStatus() == StatusCorrida.EM_CURSO) {
+                SimuladorViagem.prepararSimulacao(corridaAtualizada);
+                MapaView.abrirMapa();
+                SimuladorViagem.simular(corridaAtualizada);
+                break;
+            }
+
+            if (corridaAtualizada.getStatus() == StatusCorrida.FINALIZADA || corridaAtualizada.getStatus() == StatusCorrida.CANCELADA) {
+                System.out.println("Status: " + corridaAtualizada.getStatus());
+                break;
+            }
+
+            System.out.println("\n(Atualizando em 5 segundos...)");
+            try { Thread.sleep(5000); } catch (InterruptedException e) {}
+        }
+        System.out.println("\nPressione ENTER para voltar ao menu.");
         ViewUtils.sc.nextLine();
     }
 }

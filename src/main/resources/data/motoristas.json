@@ -1,5 +1,10 @@
 [
   {
+    "localizacaoAtual": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
     "idVeiculo": 1,
     "status": "DISPONIVEL",
     "corridasNotificadas": [],
@@ -20,7 +25,46 @@
         },
         "valor": 8.27,
         "categoriaVeiculo": "UBER_X",
-        "status": "ACEITA"
+        "status": "ACEITA",
+        "motoristasQueRejeitaram": []
+      },
+      {
+        "id": 2,
+        "passageiroId": 1,
+        "motoristaId": 1,
+        "origem": {
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
+        },
+        "destino": {
+          "descricao": "Universidade Federal de Campina Grande (UFCG)",
+          "latitude": -7.2192,
+          "longitude": -35.9083
+        },
+        "valor": 8.27,
+        "categoriaVeiculo": "UBER_X",
+        "status": "ACEITA",
+        "motoristasQueRejeitaram": []
+      },
+      {
+        "id": 3,
+        "passageiroId": 1,
+        "motoristaId": 1,
+        "origem": {
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
+        },
+        "destino": {
+          "descricao": "Universidade Federal de Campina Grande (UFCG)",
+          "latitude": -7.2192,
+          "longitude": -35.9083
+        },
+        "valor": 8.27,
+        "categoriaVeiculo": "UBER_X",
+        "status": "ACEITA",
+        "motoristasQueRejeitaram": []
       }
     ],
     "id": 1,
