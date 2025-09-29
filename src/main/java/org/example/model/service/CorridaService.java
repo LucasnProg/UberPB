@@ -7,6 +7,7 @@ import org.example.model.repository.PassageiroRepository;
 import org.example.model.repository.VeiculoRepository;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +28,43 @@ public class CorridaService {
         novaCorrida.setValor(valorEstimado);
         corridaRepository.salvar(novaCorrida);
 
-        notificarMotoristasDisponiveis(novaCorrida);
+        encontrarProximoMotoristaDisponivel(novaCorrida);
         return novaCorrida;
+    }
+
+    /**
+     * Lógica principal de matchmaking sequencial. Encontra o motorista elegível mais
+     * próximo que ainda não rejeitou a corrida e o notifica.
+     * @param corrida A corrida para a qual estamos procurando um motorista.
+     */
+    public void encontrarProximoMotoristaDisponivel(Corrida corrida) {
+        // Recarrega a corrida para garantir que temos a lista de rejeições mais atualizada
+        Corrida corridaAtual = corridaRepository.buscarPorId(corrida.getId());
+        if (corridaAtual == null) return;
+
+        List<Motorista> motoristasElegiveis = motoristaRepository.getMotoristas().stream()
+                .filter(m -> m.getStatus() == MotoristaStatus.DISPONIVEL)
+                .filter(m -> {
+                    Veiculo v = veiculoRepository.buscarPorId(m.getIdVeiculo());
+                    return v != null && v.getCategoria() == corridaAtual.getCategoriaVeiculo();
+                })
+                .filter(m -> !corridaAtual.getMotoristasQueRejeitaram().contains(m.getId()))
+                .collect(Collectors.toList());
+
+        if (motoristasElegiveis.isEmpty()) {
+            System.out.println("\n[INFO] Não há mais motoristas disponíveis para esta solicitação.");
+            return;
+        }
+
+        motoristasElegiveis.sort(Comparator.comparingDouble(m ->
+                Localizacao.calcularDistancia(m.getLocalizacao(), corridaAtual.getOrigem())
+        ));
+
+        Motorista motoristaMaisProximo = motoristasElegiveis.get(0);
+
+        System.out.println("\nNotificando o motorista mais próximo: " + motoristaMaisProximo.getNome());
+        motoristaMaisProximo.adicionarCorridaNotificada(corridaAtual);
+        motoristaRepository.atualizar(motoristaMaisProximo);
     }
 
     /**
@@ -142,7 +178,7 @@ public class CorridaService {
 
     public double calcularPrecoEstimado(Localizacao origem, Localizacao destino, CategoriaVeiculo categoria) {
         double distanciaKm = Localizacao.calcularDistancia(origem, destino);
-        double tempoEstimadoMinutos = (distanciaKm / 40.0) * 60; // Assumindo velocidade média de 40 km/h
+        double tempoEstimadoMinutos = (distanciaKm / 40.0) * 60;
 
         double tarifaBase = 4.50;
         double precoPorKm = 1.75;

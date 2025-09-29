@@ -1,6 +1,8 @@
 package org.example.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa uma Corrida no sistema, contendo todas as informações da viagem.
@@ -16,7 +18,7 @@ public class Corrida {
     private LocalDateTime horaFim;
     private CategoriaVeiculo categoriaVeiculo;
     private StatusCorrida status;
-
+    private List<Integer> motoristasQueRejeitaram = new ArrayList<>();
     /**
      * Construtor padrão utilizado para criar objetos temporários (ex: estimativas).
      */
@@ -37,6 +39,17 @@ public class Corrida {
         this.status = StatusCorrida.SOLICITADA;
     }
 
+    public List<Integer> getMotoristasQueRejeitaram() {
+        return motoristasQueRejeitaram;
+    }
+
+    public void setMotoristasQueRejeitaram(List<Integer> motoristasQueRejeitaram) {
+        this.motoristasQueRejeitaram = motoristasQueRejeitaram;
+    }
+
+    public void adicionarRejeicao(int motoristaId) {
+        this.motoristasQueRejeitaram.add(motoristaId);
+    }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
