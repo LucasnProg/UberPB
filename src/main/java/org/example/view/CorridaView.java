@@ -133,6 +133,7 @@ public class CorridaView {
         }
     }
 
+
     private static void gerenciarCorridaAtiva(Corrida corrida) {
         ViewUtils.limparConsole();
         System.out.println("--- Gerenciando Corrida Atual ---");

@@ -20,6 +20,8 @@ public class Corrida {
     private StatusCorrida status;
     private List<Integer> motoristasQueRejeitaram = new ArrayList<>();
     private FormaPagamento formaPagamento;
+
+    private boolean precisaTroco;
     /**
      * Construtor padrão utilizado para criar objetos temporários (ex: estimativas).
      */
@@ -79,4 +81,6 @@ public class Corrida {
     public void setCategoriaVeiculo(CategoriaVeiculo categoriaVeiculo) { this.categoriaVeiculo = categoriaVeiculo; }
     public StatusCorrida getStatus() { return status; }
     public void setStatus(StatusCorrida status) { this.status = status; }
+    public boolean isPrecisaTroco() { return precisaTroco;}
+    public void setPrecisaTroco(boolean precisaTroco) {this.precisaTroco = precisaTroco;}
 }

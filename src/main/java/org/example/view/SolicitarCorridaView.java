@@ -82,7 +82,6 @@ public class SolicitarCorridaView {
         ViewUtils.sc.nextLine();
     }
 
-
     private static Localizacao selecionarLocal(String tipo, List<Localizacao> locais) {
         while (true) {
             ViewUtils.limparConsole();
@@ -164,21 +163,77 @@ public class SolicitarCorridaView {
         return novoLocal;
     }
 
+    public static void exibirDetalhesPagamentoAoAceite(Corrida corrida, Motorista motorista) {
+        ViewUtils.limparConsole();
+        System.out.println("--- Pagamento da Corrida (Motorista Encontrado) ---");
+
+        if (corrida.getFormaPagamento() == FormaPagamento.PIX) {
+            String chavePix = (motorista != null && motorista.getChavePix() != null && !motorista.getChavePix().isEmpty())
+                    ? motorista.getChavePix()
+                    : "Chave PIX não cadastrada. (Simulação).";
+
+            System.out.println("Pagamento: PIX (Ao Motorista)");
+            System.out.printf("Valor: R$ %.2f\n", corrida.getValor());
+            System.out.println("----------------------------------------");
+            System.out.println("CHAVE PIX DO MOTORISTA:");
+            System.out.println(chavePix);
+            System.out.println("[QR CODE FICTÍCIO]");
+            System.out.println("----------------------------------------");
+
+        } else if (corrida.getFormaPagamento() == FormaPagamento.DINHEIRO) {
+            String trocoInfo = corrida.isPrecisaTroco() ? "PASSAGEIRO PRECISA DE TROCO!" : "Não precisa de troco.";
+
+            System.out.println("Pagamento: DINHEIRO (Ao Motorista)");
+            System.out.printf("Valor: R$ %.2f\n", corrida.getValor());
+            System.out.println("----------------------------------------");
+            System.out.println("OBSERVAÇÃO:");
+            System.out.println(trocoInfo);
+            System.out.println("----------------------------------------");
+
+        } else {
+            // Cartão ou PayPal
+            System.out.println("Pagamento: " + corrida.getFormaPagamento().getDescricao() + " (Via Aplicativo)");
+            System.out.printf("Valor: R$ %.2f\n", corrida.getValor());
+            System.out.println("\nO pagamento já foi processado/será debitado automaticamente. O motorista não precisa cobrar.");
+        }
+
+        System.out.println("\nPressione ENTER para iniciar a simulação da viagem.");
+        ViewUtils.sc.nextLine();
+    }
     private static void acompanharCorridaPassageiro(Corrida corrida) {
         while (true) {
             ViewUtils.limparConsole();
-            System.out.println("--- Acompanhando sua Solicitação ---");
+            System.out.println("---- Acompanhando sua Solicitação ----");
 
             Corrida corridaAtualizada = cs.buscarCorridaPorId(corrida.getId());
             if (corridaAtualizada == null) break;
 
             if (corridaAtualizada.getStatus() == StatusCorrida.SOLICITADA) {
                 System.out.println("Status: Aguardando um motorista aceitar...");
-            }
+                System.out.println("\nPressione 'C' e ENTER a qualquer momento para CANCELAR a busca.\n\n");
+            try {
 
-            if (corridaAtualizada.getStatus() == StatusCorrida.EM_CURSO) {
+                if (System.in.available() > 0) {
+                    String input = ViewUtils.sc.nextLine().toUpperCase();
+                    if (input.equals("C")) {
+                        cs.cancelarCorrida(corrida, corrida.getPassageiroId());
+                        System.out.println("\nBusca cancelada. Pressione ENTER para voltar ao menu.");
+                        ViewUtils.sc.nextLine();
+                        return;
+                    }
+                }
+                Thread.sleep(5000);
+
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
+            }
+            continue;
+        }
+        if (corridaAtualizada.getStatus() == StatusCorrida.EM_CURSO) {
                 Motorista motorista = cs.getMotoristaById(corridaAtualizada.getMotoristaId());
-                System.out.println("Status: Motorista Encontrado e a caminho!");
+                exibirDetalhesPagamentoAoAceite(corridaAtualizada, motorista);
+
+            System.out.println("Status: Motorista Encontrado e a caminho!");
                 System.out.println("Motorista: " + motorista.getNome());
 
                 SimuladorViagem.prepararSimulacao(corridaAtualizada);
