@@ -41,6 +41,7 @@ public class PagamentoView {
                     // A atualização da corrida agora acontece no service após a confirmação
 
                     if (processarPagamento(corrida)) {
+                        cs.atualizarFormaPagamento(corrida, formaEscolhida);
                         return formaEscolhida; // Retorna a forma de pagamento se o processo foi bem-sucedido
                     } else {
                         // Se o processamento falhar (ex: motorista sem PIX), volta ao menu de seleção

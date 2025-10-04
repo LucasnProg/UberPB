@@ -43,6 +43,17 @@ public class CorridaService {
     }
 
     /**
+     * Atualiza a Forma de Pagamento da corrida e a persiste no repositório.
+     * Este método é chamado pela PagamentoView após a escolha do usuário.
+     * @param corrida O objeto Corrida a ser atualizado.
+     * @param forma A FormaPagamento escolhida pelo usuário.
+     */
+    public void atualizarFormaPagamento(Corrida corrida, FormaPagamento forma) {
+        corrida.setFormaPagamento(forma);
+        corridaRepository.atualizar(corrida);}
+
+
+    /**
      * Cancela uma corrida, atualizando o status e removendo-a da lista de pendentes do passageiro.
      * @param corrida A corrida a ser cancelada.
      * @param passageiroId O ID do passageiro para encontrar e atualizar o objeto correto.
