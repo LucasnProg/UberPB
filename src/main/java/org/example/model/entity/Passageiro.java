@@ -18,7 +18,6 @@ public class Passageiro extends Usuario {
      */
     public Passageiro(String nome, String email, String senha, String cpf, String telefone) {
         super(nome, email, senha, cpf, telefone);
-        // A inicialização no construtor é boa para novos objetos.
         this.corridasPendentes = new ArrayList<>();
         this.historicoCorridas = new ArrayList<>();
     }
@@ -33,9 +32,7 @@ public class Passageiro extends Usuario {
 
 
     /**
-     * Retorna a lista de corridas pendentes.
-     * Se a lista for nula (ex: objeto carregado de um JSON antigo),
-     * ela é inicializada antes de ser retornada.
+     * Retorna a lista de corridas pendentes. Garante a inicialização da lista se for nula.
      * @return Uma lista de corridas pendentes, nunca nula.
      */
     public List<Corrida> getCorridasPendentes() {
@@ -46,8 +43,7 @@ public class Passageiro extends Usuario {
     }
 
     /**
-     * Retorna o histórico de corridas.
-     * Se a lista for nula, ela é inicializada antes de ser retornada.
+     * Retorna o histórico de corridas. Garante a inicialização da lista se for nula.
      * @return Uma lista com o histórico de corridas, nunca nula.
      */
     public List<Corrida> getHistoricoCorridas() {

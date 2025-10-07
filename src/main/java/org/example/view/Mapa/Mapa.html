@@ -1,63 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8">
-    <title>Escolha Origem e Destino</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <meta charset="UTF-8">
+    <title>Acompanhamento de Viagem - UberPB</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map { height: 100vh; }
-        body { margin: 0; }
-        #confirm { position: absolute; top: 10px; left: 10px; z-index: 1000; padding: 10px; background: white; border-radius: 5px; display:none; }
+        body { margin: 0; font-family: sans-serif; }
+        #map { height: 100vh; width: 100vw; }
+        .info-box {
+            position: absolute; top: 10px; right: 10px; background: white;
+            padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+            z-index: 1000; font-size: 14px;
+        }
     </style>
 </head>
 <body>
 <div id="map"></div>
-<button id="confirm">Confirmar Localização</button>
+<div id="info" class="info-box">Carregando dados da viagem...</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="dados_viagem.js"></script>
 
 <script>
-    var map = L.map('map').setView([-7.2307, -35.8811], 13); // posição inicial
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    const map = L.map('map').setView([(carro_pos.lat + destino.lat) / 2, (carro_pos.lon + destino.lon) / 2], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    var origem = null;
-    var destino = null;
-    var markerOrigem = null;
-    var markerDestino = null;
+    L.marker([carro_pos.lat, carro_pos.lon]).addTo(map).bindPopup(`<b>Origem_Motorista</b>`);
+    L.marker([origem.lat, origem.lon]).addTo(map).bindPopup(`<b>Ponto de Encontro:</b> ${origem.desc}`);
+    L.marker([destino.lat, destino.lon]).addTo(map).bindPopup(`<b>Destino Final:</b> ${destino.desc}`);
 
-    alert("Clique no mapa para selecionar a ORIGEM.");
+    // --- ROTAS (2 LINHAS) ---
+    // Rota 1: Motorista -> Passageiro (Tracejada)
+    L.polyline([[carro_pos.lat, carro_pos.lon], [origem.lat, origem.lon]], {color: 'red', dashArray: '5, 10'}).addTo(map);
+    // Rota 2: Passageiro -> Destino (Sólida)
+    L.polyline([[origem.lat, origem.lon], [destino.lat, destino.lon]], {color: 'blue'}).addTo(map);
 
-    map.on('click', function(e) {
-      if (!origem) {
-        origem = e.latlng;
-        markerOrigem = L.marker(origem, { draggable: true }).addTo(map);
-        alert("Origem selecionada. Agora clique no mapa para selecionar o DESTINO.");
-      } else if (!destino) {
-        destino = e.latlng;
-        markerDestino = L.marker(destino, { draggable: true, icon: L.icon({
-          iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-red.png',
-          shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-          iconSize: [25, 41], iconAnchor: [12, 41]
-        })}).addTo(map);
-        document.getElementById('confirm').style.display = 'block';
-        alert("Destino selecionado. Clique no botão CONFIRMAR para continuar.");
-      }
+    document.getElementById('info').innerHTML = `De: <b>${origem.desc}</b><br>Para: <b>${destino.desc}</b>`;
+
+    const carIcon = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/1048/1048314.png',
+        iconSize: [38, 38]
     });
+    const carMarker = L.marker([carro_pos.lat, carro_pos.lon], {icon: carIcon}).addTo(map);
 
-    document.getElementById('confirm').onclick = function() {
-      var latOrigem = markerOrigem.getLatLng().lat;
-      var lngOrigem = markerOrigem.getLatLng().lng;
-      var latDestino = markerDestino.getLatLng().lat;
-      var lngDestino = markerDestino.getLatLng().lng;
+    function atualizarPosicao() {
+        const head = document.getElementsByTagName('head')[0];
+        const oldScript = document.getElementById('trip-data-script');
+        if (oldScript) head.removeChild(oldScript);
 
-      var coords = { origem: {lat: latOrigem, lng: lngOrigem}, destino: {lat: latDestino, lng: lngDestino} };
-      console.log("Coordenadas selecionadas:", coords);
+        const newScript = document.createElement('script');
+        newScript.id = 'trip-data-script';
+        newScript.src = 'dados_viagem.js?' + new Date().getTime();
+        head.appendChild(newScript);
 
-      alert("Coordenadas confirmadas! Feche esta janela e volte ao CLI.");
-
-      window.close();
-    };
+        newScript.onload = () => {
+            carMarker.setLatLng([carro_pos.lat, carro_pos.lon]);
+        };
+    }
+    setInterval(atualizarPosicao, 3000);
 </script>
 </body>
 </html>

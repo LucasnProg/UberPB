@@ -10,24 +10,15 @@ public class PassageiroService {
 
     private final PassageiroRepository passageiroRepository = new PassageiroRepository();
 
-    /**
-     * Tenta autenticar um passageiro com base no email e senha.
-     * @param email O email do passageiro.
-     * @param senha A senha do passageiro.
-     * @return O objeto Passageiro se a autenticação for bem-sucedida, caso contrário null.
-     */
     public Passageiro login(String email, String senha) {
         Passageiro passageiro = passageiroRepository.buscarPorEmail(email);
         if (passageiro != null && passageiro.getSenha().equals(senha)) {
             return passageiro;
         }
+        System.out.println("\n[ERRO] E-mail ou senha inválidos.");
         return null;
     }
 
-    /**
-     * Cria um novo passageiro no sistema após validar se o email ou CPF já existem.
-     * @return O objeto Passageiro recém-criado, ou null se o cadastro falhar.
-     */
     public Passageiro criar(String nome, String email, String senha, String cpf, String telefone) {
         if (passageiroRepository.buscarPorEmail(email) != null) {
             System.out.println("\n[ERRO] O e-mail informado já está cadastrado.");
@@ -37,27 +28,16 @@ public class PassageiroService {
             System.out.println("\n[ERRO] O CPF informado já está cadastrado.");
             return null;
         }
-
         Passageiro novoPassageiro = new Passageiro(nome, email, senha, cpf, telefone);
         passageiroRepository.salvar(novoPassageiro);
         System.out.println("\nPassageiro cadastrado com sucesso!");
-        return novoPassageiro;
+        return passageiroRepository.buscarPorEmail(email);
     }
 
-    /**
-     * Busca um passageiro pelo seu ID.
-     * @param id O ID do passageiro.
-     * @return O objeto Passageiro encontrado, ou null.
-     */
     public Passageiro buscarPorId(int id) {
         return passageiroRepository.buscarPorId(id);
     }
 
-    /**
-     * Atualiza os dados de um passageiro no repositório.
-     * Essencial para salvar alterações feitas em listas (ex: corridas pendentes).
-     * @param passageiro O objeto Passageiro com os dados atualizados.
-     */
     public void atualizar(Passageiro passageiro) {
         passageiroRepository.atualizar(passageiro);
     }

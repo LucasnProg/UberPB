@@ -4,6 +4,7 @@ import org.example.model.entity.Corrida;
 import org.example.model.entity.Motorista;
 import org.example.model.entity.Passageiro;
 import org.example.model.service.CorridaService;
+import org.example.model.service.PassageiroService;
 
 /**
  * View responsável por mostrar ao passageiro suas corridas solicitadas
@@ -12,12 +13,17 @@ import org.example.model.service.CorridaService;
 public class AcompanharCorridasView {
 
     private static final CorridaService cs = new CorridaService();
+    private static final PassageiroService ps = new PassageiroService();
 
     public static void executar(Passageiro passageiro) {
+        // Recarrega os dados do passageiro para ter a lista de corridas mais atual
+        Passageiro passageiroAtualizado = ps.buscarPorId(passageiro.getId());
+        if (passageiroAtualizado == null) return;
+
         ViewUtils.limparConsole();
         System.out.println("--- Suas Corridas Solicitadas ---");
 
-        if (passageiro.getCorridasPendentes().isEmpty()) {
+        if (passageiroAtualizado.getCorridasPendentes().isEmpty()) {
             System.out.println("\nVocê não possui corridas pendentes no momento.");
         } else {
             for (Corrida corrida : passageiro.getCorridasPendentes()) {

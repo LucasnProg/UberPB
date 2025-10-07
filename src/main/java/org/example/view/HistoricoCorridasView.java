@@ -29,6 +29,7 @@ public class HistoricoCorridasView {
                 System.out.println("Origem: " + corrida.getOrigem().getDescricao());
                 System.out.println("Destino: " + corrida.getDestino().getDescricao());
                 System.out.printf("Valor Pago: R$ %.2f\n", corrida.getValor());
+                System.out.println("Forma de pagamento: " + corrida.getFormaPagamento().getDescricao());
 
                 Motorista motorista = cs.getMotoristaById(corrida.getMotoristaId());
                 if (motorista != null) {

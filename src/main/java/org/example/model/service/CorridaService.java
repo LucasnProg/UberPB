@@ -7,9 +7,13 @@ import org.example.model.repository.PassageiroRepository;
 import org.example.model.repository.VeiculoRepository;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service central para a lógica de negócio de Corridas, com busca sequencial de motoristas.
+ */
 public class CorridaService {
 
     private final MotoristaRepository motoristaRepository = new MotoristaRepository();
@@ -18,62 +22,117 @@ public class CorridaService {
     private final PassageiroRepository passageiroRepository = new PassageiroRepository();
 
     /**
-     * Etapa 1 do Fluxo: Cria a solicitação de corrida, salva no sistema
-     * e notifica todos os motoristas elegíveis.
+     * Etapa 1 do Fluxo: Cria a corrida, adiciona à lista de pendentes do passageiro
+     * e inicia a busca pelo primeiro motorista mais próximo.
      */
-    public Corrida solicitarCorrida(Passageiro passageiro, Localizacao origem, Localizacao destino, CategoriaVeiculo categoria) {
+    public Corrida solicitarCorrida(Passageiro passageiro, Localizacao origem, Localizacao destino, CategoriaVeiculo categoria, FormaPagamento formaPagamento) {
         double valorEstimado = calcularPrecoEstimado(origem, destino, categoria);
         Corrida novaCorrida = new Corrida(passageiro.getId(), origem, destino, categoria);
         novaCorrida.setValor(valorEstimado);
+        novaCorrida.setFormaPagamento(formaPagamento);
         corridaRepository.salvar(novaCorrida);
 
-        notificarMotoristasDisponiveis(novaCorrida);
+        Passageiro passageiroAtualizado = passageiroRepository.buscarPorId(passageiro.getId());
+        if (passageiroAtualizado != null) {
+            passageiroAtualizado.getCorridasPendentes().add(novaCorrida);
+            passageiroRepository.atualizar(passageiroAtualizado);
+        }
+
+        encontrarProximoMotoristaDisponivel(novaCorrida);
         return novaCorrida;
     }
 
     /**
-     * Etapa 2 do Fluxo: Um motorista tenta aceitar uma corrida.
-     * Contém a lógica de concorrência para garantir que apenas um motorista aceite.
+     * Atualiza a Forma de Pagamento da corrida e a persiste no repositório.
+     * Este método é chamado pela PagamentoView após a escolha do usuário.
+     * @param corrida O objeto Corrida a ser atualizado.
+     * @param forma A FormaPagamento escolhida pelo usuário.
+     */
+    public void atualizarFormaPagamento(Corrida corrida, FormaPagamento forma) {
+        corrida.setFormaPagamento(forma);
+        corridaRepository.atualizar(corrida);}
+
+
+    /**
+     * Cancela uma corrida, atualizando o status e removendo-a da lista de pendentes do passageiro.
+     * @param corrida A corrida a ser cancelada.
+     * @param passageiroId O ID do passageiro para encontrar e atualizar o objeto correto.
+     */
+    public void cancelarCorrida(Corrida corrida, int passageiroId) {
+        corrida.setStatus(StatusCorrida.CANCELADA);
+        corridaRepository.atualizar(corrida);
+
+        Passageiro passageiro = passageiroRepository.buscarPorId(passageiroId);
+        if (passageiro != null) {
+            passageiro.getCorridasPendentes().removeIf(c -> c.getId() == corrida.getId());
+            passageiroRepository.atualizar(passageiro);
+        }
+    }
+
+
+    /**
+     * Lógica principal de matchmaking: encontra o motorista elegível mais próximo.
+     */
+    public void encontrarProximoMotoristaDisponivel(Corrida corrida) {
+        Corrida corridaAtual = corridaRepository.buscarPorId(corrida.getId());
+        if (corridaAtual == null || corridaAtual.getStatus() != StatusCorrida.SOLICITADA) return;
+
+        List<Motorista> motoristasElegiveis = motoristaRepository.getMotoristas().stream()
+                .filter(m -> m.getStatus() == MotoristaStatus.DISPONIVEL)
+                .filter(m -> {
+                    Veiculo v = veiculoRepository.buscarPorId(m.getIdVeiculo());
+                    return v != null && v.getCategoria() == corridaAtual.getCategoriaVeiculo();
+                })
+                .filter(m -> !corridaAtual.getMotoristasQueRejeitaram().contains(m.getId()))
+                .sorted(Comparator.comparingDouble(m ->
+                        Localizacao.calcularDistancia(m.getLocalizacao(), corridaAtual.getOrigem())
+                ))
+                .collect(Collectors.toList());
+
+        if (motoristasElegiveis.isEmpty()) {
+            System.out.println("\n[INFO] Não há mais motoristas disponíveis para esta solicitação. Corrida cancelada.");
+            corridaAtual.setStatus(StatusCorrida.CANCELADA);
+            corridaRepository.atualizar(corridaAtual);
+            return;
+        }
+
+        Motorista motoristaMaisProximo = motoristasElegiveis.get(0);
+
+        System.out.println("\nNotificando o motorista mais próximo: " + motoristaMaisProximo.getNome());
+        motoristaMaisProximo.adicionarCorridaNotificada(corridaAtual);
+        motoristaRepository.atualizar(motoristaMaisProximo);
+    }
+
+    /**
+     * Um motorista aceita uma corrida. A corrida é imediatamente iniciada.
      */
     public boolean aceitarCorrida(Motorista motorista, Corrida corrida) {
         Corrida corridaAtual = corridaRepository.buscarPorId(corrida.getId());
-
         if (corridaAtual.getStatus() != StatusCorrida.SOLICITADA) {
             System.out.println("\n[AVISO] Outro motorista já aceitou esta corrida.");
             limparNotificacaoUnica(motorista, corrida);
             return false;
         }
 
+        // Atualiza a corrida: define motorista, status e hora de início
         corridaAtual.setMotoristaId(motorista.getId());
-        corridaAtual.setStatus(StatusCorrida.ACEITA);
+        corridaAtual.setStatus(StatusCorrida.EM_CURSO); // Status muda direto para EM_CURSO
+        corridaAtual.setHoraInicio(LocalDateTime.now()); // Hora de início é registrada no aceite
         corridaRepository.atualizar(corridaAtual);
 
+        // Atualiza o motorista
         Motorista motoristaAtualizado = motoristaRepository.buscarPorId(motorista.getId());
         motoristaAtualizado.setStatus(MotoristaStatus.EM_CORRIDA);
         motoristaAtualizado.getCorridasAceitas().add(corridaAtual);
         motoristaAtualizado.getCorridasNotificadas().removeIf(c -> c.getId() == corrida.getId());
         motoristaRepository.atualizar(motoristaAtualizado);
 
-        limparNotificacoesGeral(corrida);
+        System.out.println("Corrida iniciada! Boa viagem.");
         return true;
     }
 
     /**
-     * Etapa 3 do Fluxo: O motorista inicia a viagem, alterando o status da corrida.
-     */
-    public void iniciarCorrida(Corrida corrida) {
-        if (corrida.getStatus() != StatusCorrida.ACEITA) {
-            System.out.println("A corrida não pode ser iniciada neste estado.");
-            return;
-        }
-        corrida.setHoraInicio(LocalDateTime.now());
-        corrida.setStatus(StatusCorrida.EM_CURSO);
-        corridaRepository.atualizar(corrida);
-        System.out.println("Corrida iniciada! Boa viagem.");
-    }
-
-    /**
-     * Etapa 4 do Fluxo: O motorista finaliza a viagem.
+     * O motorista finaliza a viagem, atualizando o histórico do passageiro.
      */
     public void finalizarCorrida(Corrida corrida) {
         if (corrida.getStatus() != StatusCorrida.EM_CURSO) {
@@ -101,37 +160,6 @@ public class CorridaService {
         System.out.println("Corrida finalizada!");
     }
 
-    private void notificarMotoristasDisponiveis(Corrida corrida) {
-        List<Motorista> motoristasElegiveis = motoristaRepository.getMotoristas().stream()
-                .filter(m -> m.getStatus() == MotoristaStatus.DISPONIVEL)
-                .filter(m -> {
-                    Veiculo v = veiculoRepository.buscarPorId(m.getIdVeiculo());
-                    return v != null && v.getCategoria() == corrida.getCategoriaVeiculo();
-                })
-                .collect(Collectors.toList());
-
-        if (motoristasElegiveis.isEmpty()) {
-            System.out.println("\n[INFO] Nenhum motorista da categoria selecionada está disponível no momento.");
-            return;
-        }
-
-        System.out.println("\nProcurando motorista...");
-        for (Motorista motorista : motoristasElegiveis) {
-            motorista.adicionarCorridaNotificada(corrida);
-            motoristaRepository.atualizar(motorista);
-        }
-    }
-
-    private void limparNotificacoesGeral(Corrida corridaAceita) {
-        List<Motorista> todosMotoristas = motoristaRepository.getMotoristas();
-        for (Motorista motorista : todosMotoristas) {
-            boolean foiRemovido = motorista.getCorridasNotificadas().removeIf(c -> c.getId() == corridaAceita.getId());
-            if (foiRemovido) {
-                motoristaRepository.atualizar(motorista);
-            }
-        }
-    }
-
     private void limparNotificacaoUnica(Motorista motorista, Corrida corrida) {
         Motorista m = motoristaRepository.buscarPorId(motorista.getId());
         if (m != null) {
@@ -142,29 +170,24 @@ public class CorridaService {
 
     public double calcularPrecoEstimado(Localizacao origem, Localizacao destino, CategoriaVeiculo categoria) {
         double distanciaKm = Localizacao.calcularDistancia(origem, destino);
-        double tempoEstimadoMinutos = (distanciaKm / 40.0) * 60; // Assumindo velocidade média de 40 km/h
-
+        double tempoEstimadoMinutos = (distanciaKm / 40.0) * 60;
         double tarifaBase = 4.50;
         double precoPorKm = 1.75;
         double precoPorMinuto = 0.30;
-
         double precoBase = tarifaBase + (distanciaKm * precoPorKm) + (tempoEstimadoMinutos * precoPorMinuto);
         double precoComCategoria = aplicarMultiplicadorCategoria(precoBase, categoria);
         double fatorDemanda = obterFatorDeDemanda();
         double precoFinal = precoComCategoria * fatorDemanda;
-
         return Math.round(precoFinal * 100.0) / 100.0;
     }
 
     private double obterFatorDeDemanda() {
         int horaAtual = LocalDateTime.now().getHour();
         if ((horaAtual >= 7 && horaAtual < 9) || (horaAtual >= 17 && horaAtual < 19)) {
-            System.out.println("[INFO] Aplicando tarifa de horário de pico (25% de acréscimo).");
-            return 1.25;
+            return 1.25; // Tarifa de pico
         }
         if (horaAtual >= 0 && horaAtual < 5) {
-            System.out.println("[INFO] Aplicando tarifa de horário noturno (35% de acréscimo).");
-            return 1.35;
+            return 1.35; // Tarifa noturna
         }
         return 1.0;
     }
@@ -182,7 +205,7 @@ public class CorridaService {
     public Corrida buscarCorridaAtivaPorMotorista(Motorista motorista) {
         return corridaRepository.getCorridas().stream()
                 .filter(c -> c.getMotoristaId() == motorista.getId() &&
-                        (c.getStatus() == StatusCorrida.ACEITA || c.getStatus() == StatusCorrida.EM_CURSO))
+                        (c.getStatus() == StatusCorrida.EM_CURSO)) // Apenas EM_CURSO é considerada ativa
                 .findFirst()
                 .orElse(null);
     }
@@ -197,5 +220,20 @@ public class CorridaService {
 
     public Passageiro getPassageiroById(int id) {
         return passageiroRepository.buscarPorId(id);
+    }
+
+    public boolean verificarMotoristasDisponiveis(Localizacao origem, CategoriaVeiculo categoria) {
+        long countMotoristas = motoristaRepository.getMotoristas().stream()
+                .filter(m -> m.getStatus() == MotoristaStatus.DISPONIVEL)
+                .filter(m -> {
+                    Veiculo v = veiculoRepository.buscarPorId(m.getIdVeiculo());
+                    return v != null && v.getCategoria() == categoria;
+                })
+                .count();
+        return countMotoristas > 0;
+    }
+
+    public void atualizarCorrida(Corrida corrida) {
+        corridaRepository.atualizar(corrida);
     }
 }
