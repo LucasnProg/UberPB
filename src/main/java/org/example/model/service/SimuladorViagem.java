@@ -19,9 +19,8 @@ public class SimuladorViagem {
      * DEVE ser chamado ANTES de abrir o mapa no navegador para evitar erros.
      * @param corrida A corrida que será simulada.
      */
-    public static void prepararSimulacao(Corrida corrida) {
-        // A posição inicial do carro é a origem da corrida.
-        escreverArquivoJS(corrida.getOrigem(), corrida.getDestino(), corrida.getOrigem());
+    public static void prepararSimulacao(Corrida corrida, Localizacao localizacaoMotorista) {
+        escreverArquivoJS(corrida.getOrigem(), corrida.getDestino(), localizacaoMotorista);
     }
 
     /**

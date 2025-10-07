@@ -8,15 +8,9 @@
         body { margin: 0; font-family: sans-serif; }
         #map { height: 100vh; width: 100vw; }
         .info-box {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            z-index: 1000;
-            font-size: 14px;
+            position: absolute; top: 10px; right: 10px; background: white;
+            padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+            z-index: 1000; font-size: 14px;
         }
     </style>
 </head>
@@ -28,54 +22,41 @@
 <script src="dados_viagem.js"></script>
 
 <script>
-    // Inicializa o mapa, centralizado entre origem e destino
-    const map = L.map('map').setView([(origem.lat + destino.lat) / 2, (origem.lon + destino.lon) / 2], 14);
+    const map = L.map('map').setView([(carro_pos.lat + destino.lat) / 2, (carro_pos.lon + destino.lon) / 2], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    L.marker([carro_pos.lat, carro_pos.lon]).addTo(map).bindPopup(`<b>Origem_Motorista</b>`);
+    L.marker([origem.lat, origem.lon]).addTo(map).bindPopup(`<b>Ponto de Encontro:</b> ${origem.desc}`);
+    L.marker([destino.lat, destino.lon]).addTo(map).bindPopup(`<b>Destino Final:</b> ${destino.desc}`);
 
-    // Marcadores de Origem e Destino
-    L.marker([origem.lat, origem.lon]).addTo(map).bindPopup(`<b>Origem:</b> ${origem.desc}`).openPopup();
-    L.marker([destino.lat, destino.lon]).addTo(map).bindPopup(`<b>Destino:</b> ${destino.desc}`);
-
-    // Rota (linha entre os pontos)
+    // --- ROTAS (2 LINHAS) ---
+    // Rota 1: Motorista -> Passageiro (Tracejada)
+    L.polyline([[carro_pos.lat, carro_pos.lon], [origem.lat, origem.lon]], {color: 'red', dashArray: '5, 10'}).addTo(map);
+    // Rota 2: Passageiro -> Destino (Sólida)
     L.polyline([[origem.lat, origem.lon], [destino.lat, destino.lon]], {color: 'blue'}).addTo(map);
 
-    // Caixa de informações
     document.getElementById('info').innerHTML = `De: <b>${origem.desc}</b><br>Para: <b>${destino.desc}</b>`;
 
-    // Ícone customizado para o carro
     const carIcon = L.icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/512/1048/1048314.png',
         iconSize: [38, 38]
     });
-
-    // Marcador do Carro (começa na origem)
     const carMarker = L.marker([carro_pos.lat, carro_pos.lon], {icon: carIcon}).addTo(map);
 
-    // Função para recarregar o script de dados e atualizar o mapa
     function atualizarPosicao() {
-        // Cria um novo elemento de script para evitar cache
         const head = document.getElementsByTagName('head')[0];
         const oldScript = document.getElementById('trip-data-script');
-        if (oldScript) {
-            head.removeChild(oldScript);
-        }
+        if (oldScript) head.removeChild(oldScript);
 
         const newScript = document.createElement('script');
         newScript.id = 'trip-data-script';
-        // Adiciona um parâmetro aleatório para forçar o navegador a recarregar
         newScript.src = 'dados_viagem.js?' + new Date().getTime();
         head.appendChild(newScript);
 
-        // Quando o novo script carregar, atualiza a posição do marcador
         newScript.onload = () => {
             carMarker.setLatLng([carro_pos.lat, carro_pos.lon]);
         };
     }
-
-    // A cada 3 segundos, chama a função para atualizar a posição
     setInterval(atualizarPosicao, 3000);
 </script>
 </body>
