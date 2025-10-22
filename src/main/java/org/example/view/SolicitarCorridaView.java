@@ -236,7 +236,7 @@ public class SolicitarCorridaView {
             System.out.println("Status: Motorista Encontrado e a caminho!");
                 System.out.println("Motorista: " + motorista.getNome());
 
-                SimuladorViagem.prepararSimulacao(corridaAtualizada);
+                SimuladorViagem.prepararSimulacao(corridaAtualizada, motorista.getLocalizacao());
                 MapaView.abrirMapa();
                 AvaliacaoView.avaliarMotoristaPeloPassageiro(corridaAtualizada);
                 SimuladorViagem.simular(corridaAtualizada);

@@ -20,7 +20,6 @@ public class Passageiro extends Usuario {
      */
     public Passageiro(String nome, String email, String senha, String cpf, String telefone) {
         super(nome, email, senha, cpf, telefone);
-        // A inicialização no construtor é boa para novos objetos.
         this.corridasPendentes = new ArrayList<>();
         this.historicoCorridas = new ArrayList<>();
     }

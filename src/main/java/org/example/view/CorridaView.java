@@ -33,16 +33,16 @@ public class CorridaView {
                 System.out.println("Localização Atual: " + motoristaAtualizado.getLocalizacao().getDescricao());
             }
 
-            // Verifica se o motorista já tem uma corrida em andamento
             Corrida corridaAtiva = cs.buscarCorridaAtivaPorMotorista(motoristaAtualizado);
             if (corridaAtiva != null) {
-                gerenciarCorridaAtiva(corridaAtiva);
+                gerenciarCorridaAtiva(corridaAtiva, motorista.getLocalizacao());
                 continue;
             }
 
             System.out.println("\n1 - Ver Corridas Notificadas (" + motoristaAtualizado.getCorridasNotificadas().size() + ")");
             System.out.println("2 - Simular / Mudar Localização");
             System.out.println("3 - Avaliar Corridas Pendentes");
+            System.out.println("2 - Atualizar localização");
             System.out.println("0 - Fazer Logout");
             System.out.print("\nEscolha uma opção: ");
 
@@ -140,7 +140,7 @@ public class CorridaView {
     }
 
 
-    private static void gerenciarCorridaAtiva(Corrida corrida) {
+    private static void gerenciarCorridaAtiva(Corrida corrida, Localizacao locMotorista) {
         ViewUtils.limparConsole();
         System.out.println("--- Gerenciando Corrida Atual ---");
         Passageiro passageiro = cs.getPassageiroById(corrida.getPassageiroId());
@@ -148,9 +148,8 @@ public class CorridaView {
         System.out.println("Passageiro: " + (passageiro != null ? passageiro.getNome() : "N/A"));
         System.out.println("Status Atual: " + corrida.getStatus());
 
-        // Como a corrida já começa EM_CURSO, vamos direto para a simulação
         if (corrida.getStatus() == StatusCorrida.EM_CURSO) {
-            SimuladorViagem.prepararSimulacao(corrida);
+            SimuladorViagem.prepararSimulacao(corrida, locMotorista);
             MapaView.abrirMapa();
             SimuladorViagem.simular(corrida);
 
