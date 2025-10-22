@@ -19,6 +19,10 @@
     "categoriaVeiculo": "UBER_X",
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -41,6 +45,10 @@
     "categoriaVeiculo": "UBER_X",
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -63,6 +71,10 @@
     "categoriaVeiculo": "UBER_X",
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -84,6 +96,10 @@
     "status": "ACEITA",
     "motoristasQueRejeitaram": [],
     "formaPagamento": "CARTAO_CREDITO",
+    "avaliacaoMotorista": 0,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": false,
     "precisaTroco": false
   },
   {
@@ -107,6 +123,10 @@
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
     "formaPagamento": "DINHEIRO",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -130,6 +150,10 @@
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
     "formaPagamento": "PIX",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -153,6 +177,10 @@
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
     "formaPagamento": "PAYPAL",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -176,6 +204,10 @@
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
     "formaPagamento": "PIX",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -199,6 +231,10 @@
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
     "formaPagamento": "DINHEIRO",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   },
   {
@@ -222,6 +258,64 @@
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
     "formaPagamento": "PIX",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": true,
+    "precisaTroco": false
+  },
+  {
+    "id": 11,
+    "passageiroId": 1,
+    "motoristaId": 1,
+    "origem": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
+    "destino": {
+      "descricao": "Universidade Federal de Campina Grande (UFCG)",
+      "latitude": -7.2192,
+      "longitude": -35.9083
+    },
+    "valor": 10.34,
+    "horaInicio": "2025-10-22T18:09:39.2385421",
+    "horaFim": "2025-10-22T18:10:23.9516123",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "DINHEIRO",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 5,
+    "motoristaAvaliou": true,
+    "passageiroAvaliou": true,
+    "precisaTroco": false
+  },
+  {
+    "id": 12,
+    "passageiroId": 1,
+    "motoristaId": 1,
+    "origem": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
+    "destino": {
+      "descricao": "Universidade Federal de Campina Grande (UFCG)",
+      "latitude": -7.2192,
+      "longitude": -35.9083
+    },
+    "valor": 10.34,
+    "horaInicio": "2025-10-22T18:40:43.2015559",
+    "horaFim": "2025-10-22T18:41:26.6208512",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "avaliacaoMotorista": 5,
+    "avaliacaoPassageiro": 4,
+    "motoristaAvaliou": true,
+    "passageiroAvaliou": true,
     "precisaTroco": false
   }
 ]
