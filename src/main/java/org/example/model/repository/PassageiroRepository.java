@@ -1,6 +1,7 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Passageiro;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,5 +44,10 @@ public class PassageiroRepository {
 
     public Passageiro buscarPorCpf(String cpf) {
         return passageiroDB.carregar().stream().filter(p -> p.getCpf().equals(cpf)).findFirst().orElse(null);
+    }
+
+    // NOVO: limpa todos os registros
+    public void limpar() {
+        passageiroDB.salvar(new ArrayList<>());
     }
 }

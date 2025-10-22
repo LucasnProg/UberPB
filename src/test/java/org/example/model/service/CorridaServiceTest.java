@@ -24,7 +24,10 @@ class CorridaServiceTest {
         passageiroRepo = new PassageiroRepository();
         corridaService = new CorridaService();
 
-        // Aqui você pode adicionar lógica para limpar arquivos ou listas em memória, se necessário
+        // Limpar dados anteriores (útil para rodar vários testes)
+        motoristaRepo.limpar();
+        veiculoRepo.limpar();
+        passageiroRepo.limpar();
     }
 
     @Test
@@ -40,16 +43,23 @@ class CorridaServiceTest {
         );
         veiculoRepo.salvar(veiculo);
 
-        // 3. Criar motorista
+        // 3. Criar motorista com localização inicial
         Motorista motorista = new Motorista("João", "joao@email.com", "senha123", "98765432100", "11999999999");
         motorista.setIdVeiculo(veiculo.getId());
         motorista.setStatus(MotoristaStatus.DISPONIVEL);
+        motorista.setLocalizacao(new Localizacao(0, 0)); // IMPORTANTE: evitar NullPointerException
         motoristaRepo.salvar(motorista);
 
         // 4. Solicitar corrida
         Localizacao origem = new Localizacao(0, 0);
         Localizacao destino = new Localizacao(5, 5);
-        Corrida corrida = corridaService.solicitarCorrida(passageiro, origem, destino, CategoriaVeiculo.UBER_X);
+        Corrida corrida = corridaService.solicitarCorrida(
+                passageiro,
+                origem,
+                destino,
+                CategoriaVeiculo.UBER_X,
+                FormaPagamento.CARTAO_CREDITO
+        );
 
         assertNotNull(corrida);
         assertEquals(StatusCorrida.SOLICITADA, corrida.getStatus());
@@ -59,21 +69,17 @@ class CorridaServiceTest {
         assertTrue(aceite);
 
         Corrida corridaAtualizada = corridaService.buscarCorridaPorId(corrida.getId());
-        assertEquals(StatusCorrida.ACEITA, corridaAtualizada.getStatus());
+        assertEquals(StatusCorrida.EM_CURSO, corridaAtualizada.getStatus());
         assertEquals(motorista.getId(), corridaAtualizada.getMotoristaId());
-
-        // 6. Iniciar corrida
-        corridaService.iniciarCorrida(corridaAtualizada);
-        assertEquals(StatusCorrida.EM_CURSO, corridaService.buscarCorridaPorId(corrida.getId()).getStatus());
         assertNotNull(corridaAtualizada.getHoraInicio());
 
-        // 7. Finalizar corrida
+        // 6. Finalizar corrida
         corridaService.finalizarCorrida(corridaAtualizada);
         Corrida corridaFinalizada = corridaService.buscarCorridaPorId(corrida.getId());
         assertEquals(StatusCorrida.FINALIZADA, corridaFinalizada.getStatus());
         assertNotNull(corridaFinalizada.getHoraFim());
 
-        // 8. Verificar atualização do passageiro e motorista
+        // 7. Verificar atualização do passageiro e motorista
         Passageiro passageiroAtualizado = corridaService.getPassageiroById(passageiro.getId());
         Motorista motoristaAtualizado = corridaService.getMotoristaById(motorista.getId());
 
@@ -93,18 +99,28 @@ class CorridaServiceTest {
         );
         veiculoRepo.salvar(veiculo);
 
+        // Motorista 1
         Motorista m1 = new Motorista("Carlos", "carlos@email.com", "senha123", "22233344455", "11955555555");
         m1.setIdVeiculo(veiculo.getId());
         m1.setStatus(MotoristaStatus.DISPONIVEL);
+        m1.setLocalizacao(new Localizacao(1,1)); // IMPORTANTE
         motoristaRepo.salvar(m1);
 
+        // Motorista 2
         Motorista m2 = new Motorista("Lucas", "lucas@email.com", "senha123", "33344455566", "11944444444");
         m2.setIdVeiculo(veiculo.getId());
         m2.setStatus(MotoristaStatus.DISPONIVEL);
+        m2.setLocalizacao(new Localizacao(2,2)); // IMPORTANTE
         motoristaRepo.salvar(m2);
 
-        Corrida corrida = corridaService.solicitarCorrida(passageiro,
-                new Localizacao(0,0), new Localizacao(10,10), CategoriaVeiculo.UBER_XL);
+        // Solicitar corrida
+        Corrida corrida = corridaService.solicitarCorrida(
+                passageiro,
+                new Localizacao(0,0),
+                new Localizacao(10,10),
+                CategoriaVeiculo.UBER_XL,
+                FormaPagamento.DINHEIRO
+        );
 
         assertTrue(corridaService.aceitarCorrida(m1, corrida));
 

@@ -2,6 +2,8 @@
   {
     "corridasPendentes": [],
     "historicoCorridas": [],
+    "mediaAvaliacao": 0.0,
+    "avaliacoesRecebidas": [],
     "id": 1,
     "nome": "João",
     "email": "joao@email.com",

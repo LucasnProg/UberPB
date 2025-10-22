@@ -1,7 +1,6 @@
 package org.example.model.service;
 
 import org.example.model.entity.Motorista;
-import org.example.model.repository.MotoristaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +12,13 @@ class MotoristaServiceTest {
 
     @BeforeEach
     void setUp() {
-        // não existe limparTodos, então apenas cria nova instância
         service = new MotoristaService();
+        service.limpar(); // limpa dados antigos antes de cada teste
     }
 
     @Test
     void testCriarMotorista() {
         Motorista m = service.criar("Carlos", "carlos@email.com", "senha123", "12345678900", "11988888888");
-
         assertNotNull(m);
         assertEquals("Carlos", m.getNome());
         assertEquals("carlos@email.com", m.getEmail());
@@ -33,16 +31,13 @@ class MotoristaServiceTest {
     void testLoginMotorista() {
         Motorista m = service.criar("Ana", "ana@email.com", "senha123", "55566677788", "11966666666");
 
-        // Login correto
         Motorista loginOk = service.login("ana@email.com", "senha123");
         assertNotNull(loginOk);
         assertEquals(m.getCpf(), loginOk.getCpf());
 
-        // Senha errada
         Motorista loginErrado = service.login("ana@email.com", "senhaErrada");
         assertNull(loginErrado);
 
-        // Email não cadastrado
         Motorista loginInvalido = service.login("outro@email.com", "senha123");
         assertNull(loginInvalido);
     }

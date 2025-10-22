@@ -3,15 +3,18 @@ package org.example.model.repository;
 import org.example.model.entity.Gerente;
 import java.util.List;
 
-/**
- * Repositório para gerenciar a persistência de entidades Gerente.
- */
 public class GerenteRepository {
 
     private final JsonRepository<Gerente> gerentesDB;
 
+    // Construtor padrão (produção)
     public GerenteRepository() {
         this.gerentesDB = new JsonRepository<>("src/main/resources/data/gerentes.json", Gerente.class);
+    }
+
+    // ✅ Construtor adicional (para testes)
+    public GerenteRepository(String caminhoArquivo) {
+        this.gerentesDB = new JsonRepository<>(caminhoArquivo, Gerente.class);
     }
 
     public void salvar(Gerente gerente) {
@@ -23,10 +26,20 @@ public class GerenteRepository {
     }
 
     public Gerente buscarPorEmail(String email) {
-        return gerentesDB.carregar().stream().filter(g -> g.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
+        return gerentesDB.carregar().stream()
+                .filter(g -> g.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 
     public Gerente buscarPorCpf(String cpf) {
-        return gerentesDB.carregar().stream().filter(g -> g.getCpf().equals(cpf)).findFirst().orElse(null);
+        return gerentesDB.carregar().stream()
+                .filter(g -> g.getCpf().equals(cpf))
+                .findFirst()
+                .orElse(null);
     }
+
+        public void limpar() {
+            gerentesDB.salvar(List.of()); // salva uma lista vazia
+        }
 }

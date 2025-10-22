@@ -47,7 +47,7 @@ public class MotoristaRepository {
 
     public Motorista buscarPorEmail(String email) {
         return motoristasDB.carregar().stream()
-                .filter(m -> m.getEmail().equals(email))
+                .filter(m -> m.getEmail().equalsIgnoreCase(email))
                 .findFirst().orElse(null);
     }
 

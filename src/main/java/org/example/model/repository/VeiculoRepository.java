@@ -1,6 +1,7 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Veiculo;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,5 +29,10 @@ public class VeiculoRepository {
 
     public Veiculo buscarPorPlaca(String placa) {
         return veiculosDB.carregar().stream().filter(v -> v.getPlaca().equalsIgnoreCase(placa)).findFirst().orElse(null);
+    }
+
+    // NOVO: limpa todos os registros
+    public void limpar() {
+        veiculosDB.salvar(new ArrayList<>());
     }
 }

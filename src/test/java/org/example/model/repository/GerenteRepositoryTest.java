@@ -4,16 +4,24 @@ import org.example.model.entity.Gerente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GerenteRepositoryTest {
 
     private GerenteRepository repo;
+    private Path tempFilePath;
 
     @BeforeEach
-    void setUp() {
-        repo = new GerenteRepository();
-        repo.limpar(); // Limpa todos os gerentes antes de cada teste
+    void setUp() throws Exception {
+        // Cria um arquivo JSON temporário vazio
+        tempFilePath = Files.createTempFile("gerentes_test", ".json");
+        Files.writeString(tempFilePath, "[]");
+
+        // Usa o construtor de teste que aceita o caminho
+        repo = new GerenteRepository(tempFilePath.toString());
     }
 
     @Test

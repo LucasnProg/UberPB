@@ -34,5 +34,10 @@ public class GerenteService {
         return novoGerente;
     }
 
-
+    /**
+     * Limpa todos os gerentes cadastrados (útil para testes)
+     */
+    public void limpar() {
+        gerenteRepository.limpar();
+    }
 }

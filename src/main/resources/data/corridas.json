@@ -317,5 +317,150 @@
     "motoristaAvaliou": true,
     "passageiroAvaliou": true,
     "precisaTroco": false
+  },
+  {
+    "id": 13,
+    "passageiroId": 2,
+    "motoristaId": 0,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 10.0,
+      "longitude": 10.0
+    },
+    "valor": 5182.87,
+    "categoriaVeiculo": "UBER_XL",
+    "status": "SOLICITADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "DINHEIRO",
+    "avaliacaoMotorista": 0,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": false,
+    "precisaTroco": false
+  },
+  {
+    "id": 14,
+    "passageiroId": 3,
+    "motoristaId": 5,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 1733.19,
+    "horaInicio": "2025-10-22T20:36:51.5179464",
+    "horaFim": "2025-10-22T20:36:51.5337609",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "CARTAO_CREDITO",
+    "avaliacaoMotorista": 0,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": false,
+    "precisaTroco": false
+  },
+  {
+    "id": 15,
+    "passageiroId": 2,
+    "motoristaId": 0,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 10.0,
+      "longitude": 10.0
+    },
+    "valor": 5182.87,
+    "categoriaVeiculo": "UBER_XL",
+    "status": "SOLICITADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "DINHEIRO",
+    "avaliacaoMotorista": 0,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": false,
+    "precisaTroco": false
+  },
+  {
+    "id": 16,
+    "passageiroId": 3,
+    "motoristaId": 5,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 1733.19,
+    "horaInicio": "2025-10-22T20:39:46.4987274",
+    "horaFim": "2025-10-22T20:39:46.5245872",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "CARTAO_CREDITO",
+    "avaliacaoMotorista": 0,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": false,
+    "precisaTroco": false
+  },
+  {
+    "id": 17,
+    "passageiroId": 1,
+    "motoristaId": 1,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 10.0,
+      "longitude": 10.0
+    },
+    "valor": 5182.87,
+    "horaInicio": "2025-10-22T20:42:58.0586535",
+    "categoriaVeiculo": "UBER_XL",
+    "status": "EM_CURSO",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "DINHEIRO",
+    "avaliacaoMotorista": 0,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": false,
+    "precisaTroco": false
+  },
+  {
+    "id": 18,
+    "passageiroId": 1,
+    "motoristaId": 1,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 1733.19,
+    "horaInicio": "2025-10-22T20:42:58.1216031",
+    "horaFim": "2025-10-22T20:42:58.1324489",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "CARTAO_CREDITO",
+    "avaliacaoMotorista": 0,
+    "avaliacaoPassageiro": 0,
+    "motoristaAvaliou": false,
+    "passageiroAvaliou": false,
+    "precisaTroco": false
   }
 ]
