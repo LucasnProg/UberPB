@@ -20,6 +20,10 @@ public class Corrida {
     private StatusCorrida status;
     private List<Integer> motoristasQueRejeitaram = new ArrayList<>();
     private FormaPagamento formaPagamento;
+    private int avaliacaoMotorista;
+    private int avaliacaoPassageiro;
+    private boolean motoristaAvaliou = false;
+    private boolean passageiroAvaliou = false;
 
     private boolean precisaTroco;
     /**
@@ -83,4 +87,21 @@ public class Corrida {
     public void setStatus(StatusCorrida status) { this.status = status; }
     public boolean isPrecisaTroco() { return precisaTroco;}
     public void setPrecisaTroco(boolean precisaTroco) {this.precisaTroco = precisaTroco;}
+    public int getAvaliacaoMotorista() {
+        return avaliacaoMotorista;
+    }
+    public void setAvaliacaoMotorista(int avaliacaoMotorista) {
+        this.avaliacaoMotorista = avaliacaoMotorista;
+    }
+    public int getAvaliacaoPassageiro() {
+        return avaliacaoPassageiro;
+    }
+    public void setAvaliacaoPassageiro(int avaliacaoPassageiro) {
+        this.avaliacaoPassageiro = avaliacaoPassageiro;
+    }
+    public boolean isMotoristaAvaliou() { return motoristaAvaliou; }
+    public void setMotoristaAvaliou(boolean motoristaAvaliou) { this.motoristaAvaliou = motoristaAvaliou; }
+
+    public boolean isPassageiroAvaliou() { return passageiroAvaliou; }
+    public void setPassageiroAvaliou(boolean passageiroAvaliou) { this.passageiroAvaliou = passageiroAvaliou; }
 }

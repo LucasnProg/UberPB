@@ -5,6 +5,8 @@ import org.example.model.repository.CorridaRepository;
 import org.example.model.repository.MotoristaRepository;
 import org.example.model.repository.PassageiroRepository;
 import org.example.model.repository.VeiculoRepository;
+import org.example.model.service.MotoristaService;
+import org.example.model.service.PassageiroService;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -20,7 +22,8 @@ public class CorridaService {
     private final VeiculoRepository veiculoRepository = new VeiculoRepository();
     private final CorridaRepository corridaRepository = new CorridaRepository();
     private final PassageiroRepository passageiroRepository = new PassageiroRepository();
-
+    private final MotoristaService motoristaService = new MotoristaService();
+    private final PassageiroService passageiroService = new PassageiroService();
     /**
      * Etapa 1 do Fluxo: Cria a corrida, adiciona à lista de pendentes do passageiro
      * e inicia a busca pelo primeiro motorista mais próximo.
@@ -84,9 +87,6 @@ public class CorridaService {
                     return v != null && v.getCategoria() == corridaAtual.getCategoriaVeiculo();
                 })
                 .filter(m -> !corridaAtual.getMotoristasQueRejeitaram().contains(m.getId()))
-                .sorted(Comparator.comparingDouble(m ->
-                        Localizacao.calcularDistancia(m.getLocalizacao(), corridaAtual.getOrigem())
-                ))
                 .collect(Collectors.toList());
 
         if (motoristasElegiveis.isEmpty()) {
@@ -95,6 +95,26 @@ public class CorridaService {
             corridaRepository.atualizar(corridaAtual);
             return;
         }
+
+        Comparator<Motorista> comparadorDistancia = Comparator.comparingDouble(m ->
+                Localizacao.calcularDistancia(m.getLocalizacao(), corridaAtual.getOrigem())
+        );
+
+        Comparator<Motorista> comparadorAvaliacao = Comparator.comparing(
+                Motorista::getMediaAvaliacao, Comparator.reverseOrder()
+        );
+
+        Comparator<Motorista> comparadorFinal;
+
+        if (corridaAtual.getCategoriaVeiculo() == CategoriaVeiculo.UBER_X) {
+
+            comparadorFinal = comparadorDistancia.thenComparing(comparadorAvaliacao);
+
+        } else {
+
+            comparadorFinal = comparadorAvaliacao.thenComparing(comparadorDistancia);
+        }
+        motoristasElegiveis.sort(comparadorFinal);
 
         Motorista motoristaMaisProximo = motoristasElegiveis.get(0);
 
@@ -114,10 +134,9 @@ public class CorridaService {
             return false;
         }
 
-        // Atualiza a corrida: define motorista, status e hora de início
         corridaAtual.setMotoristaId(motorista.getId());
-        corridaAtual.setStatus(StatusCorrida.EM_CURSO); // Status muda direto para EM_CURSO
-        corridaAtual.setHoraInicio(LocalDateTime.now()); // Hora de início é registrada no aceite
+        corridaAtual.setStatus(StatusCorrida.EM_CURSO);
+        corridaAtual.setHoraInicio(LocalDateTime.now());
         corridaRepository.atualizar(corridaAtual);
 
         // Atualiza o motorista
@@ -208,6 +227,49 @@ public class CorridaService {
                         (c.getStatus() == StatusCorrida.EM_CURSO)) // Apenas EM_CURSO é considerada ativa
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<Corrida> buscarCorridasFinalizadas(int idUsuario) {
+        return corridaRepository.getCorridas().stream()
+                .filter(c -> c.getStatus() == StatusCorrida.FINALIZADA)
+                .filter(c -> c.getPassageiroId() == idUsuario || c.getMotoristaId() == idUsuario)
+                .collect(Collectors.toList());
+    }
+
+    public void processarAvaliacao(Corrida corrida) {
+        // 1. Salva as notas na Corrida (persistência)
+        corridaRepository.atualizar(corrida);
+
+        // 2. Atualiza a média do Motorista
+        Motorista motorista = motoristaRepository.buscarPorId(corrida.getMotoristaId());
+        if (motorista != null) {
+            motoristaService.recalcularMediaAvaliacao(motorista, corrida.getAvaliacaoMotorista());
+        }
+
+        // 3. Atualiza a média do Passageiro
+        Passageiro passageiro = passageiroRepository.buscarPorId(corrida.getPassageiroId());
+        if (passageiro != null) {
+            passageiroService.recalcularMediaAvaliacao(passageiro, corrida.getAvaliacaoPassageiro());
+        }
+    }
+    public void processarAvaliacaoMotorista(Corrida corrida, int nota) {
+        corridaRepository.atualizar(corrida);
+        Motorista motorista = motoristaRepository.buscarPorId(corrida.getMotoristaId());
+        if (motorista != null) {
+            motoristaService.recalcularMediaAvaliacao(motorista, nota);
+        }
+        corrida.setPassageiroAvaliou(true);
+        corridaRepository.atualizar(corrida);
+    }
+
+    public void processarAvaliacaoPassageiro(Corrida corrida, int nota) {
+        corridaRepository.atualizar(corrida);
+        Passageiro passageiro = passageiroRepository.buscarPorId(corrida.getPassageiroId());
+        if (passageiro != null) {
+            passageiroService.recalcularMediaAvaliacao(passageiro, nota);
+        }
+        corrida.setMotoristaAvaliou(true);
+        corridaRepository.atualizar(corrida);
     }
 
     public Corrida buscarCorridaPorId(int id) {

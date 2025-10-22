@@ -1,4 +1,3 @@
-// Arquivo: view/SolicitarCorridaView.java
 package org.example.view;
 
 import org.example.model.entity.*;
@@ -6,6 +5,7 @@ import org.example.model.service.CorridaService;
 import org.example.model.service.LocalizacaoService;
 import org.example.model.service.PassageiroService;
 import org.example.model.service.SimuladorViagem;
+
 
 import java.util.List;
 
@@ -238,6 +238,7 @@ public class SolicitarCorridaView {
 
                 SimuladorViagem.prepararSimulacao(corridaAtualizada);
                 MapaView.abrirMapa();
+                AvaliacaoView.avaliarMotoristaPeloPassageiro(corridaAtualizada);
                 SimuladorViagem.simular(corridaAtualizada);
                 break;
             }

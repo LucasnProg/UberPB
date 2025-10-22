@@ -12,6 +12,8 @@ public class Passageiro extends Usuario {
     private Localizacao localCasa;
     private List<Corrida> corridasPendentes;
     private List<Corrida> historicoCorridas;
+    private double mediaAvaliacao;
+    private List<Integer> avaliacoesRecebidas = new ArrayList<>();
 
     /**
      * Construtor para a classe Passageiro.
@@ -30,6 +32,22 @@ public class Passageiro extends Usuario {
     public void setLocalCasa(Localizacao localCasa) {
         this.localCasa = localCasa;
     }
+    public double getMediaAvaliacao() {
+        return mediaAvaliacao;
+    }
+    public void setMediaAvaliacao(double mediaAvaliacao) {
+        this.mediaAvaliacao = mediaAvaliacao;
+    }
+
+    public List<Integer> getAvaliacoesRecebidas() {
+        if (this.avaliacoesRecebidas == null) {
+            this.avaliacoesRecebidas = new ArrayList<>();
+        }
+        return this.avaliacoesRecebidas;
+    }
+
+    public void adicionarAvaliacao(int nota) {this.getAvaliacoesRecebidas().add(nota);}
+
 
 
     /**

@@ -26,6 +26,8 @@ public class CorridaView {
 
             ViewUtils.limparConsole();
             System.out.println("--- Menu do Motorista ---");
+            System.out.printf("Olá, %s! ⭐ Avaliação Média: %.2f\n",
+                    motoristaAtualizado.getNome(), motoristaAtualizado.getMediaAvaliacao());
             System.out.println("Olá, " + motoristaAtualizado.getNome() + "! Status: " + motoristaAtualizado.getStatus());
             if (motoristaAtualizado.getLocalizacao() != null) {
                 System.out.println("Localização Atual: " + motoristaAtualizado.getLocalizacao().getDescricao());
@@ -40,6 +42,7 @@ public class CorridaView {
 
             System.out.println("\n1 - Ver Corridas Notificadas (" + motoristaAtualizado.getCorridasNotificadas().size() + ")");
             System.out.println("2 - Simular / Mudar Localização");
+            System.out.println("3 - Avaliar Corridas Pendentes");
             System.out.println("0 - Fazer Logout");
             System.out.print("\nEscolha uma opção: ");
 
@@ -50,6 +53,9 @@ public class CorridaView {
                     break;
                 case "2":
                     simularNovaLocalizacao(motoristaAtualizado);
+                    break;
+                case "3":
+                    AvaliacaoPendentesView.avaliarComoMotorista(motoristaAtualizado);
                     break;
                 case "0":
                     System.out.println("\nFazendo logout...");
@@ -149,6 +155,7 @@ public class CorridaView {
             SimuladorViagem.simular(corrida);
 
             cs.finalizarCorrida(corrida); // Finaliza ao fim da simulação
+            AvaliacaoView.avaliarPassageiroPeloMotorista(corrida);
             System.out.println("\nPressione ENTER para voltar ao menu.");
             ViewUtils.sc.nextLine();
         }

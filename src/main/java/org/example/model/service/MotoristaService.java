@@ -94,4 +94,19 @@ public class MotoristaService {
         CorridaService corridaService = new CorridaService();
         corridaService.encontrarProximoMotoristaDisponivel(corridaAtual);
     }
+
+    public void recalcularMediaAvaliacao(Motorista motorista, int novaNota) {
+        motorista.adicionarAvaliacao(novaNota);
+        int totalAvaliacoes = motorista.getAvaliacoesRecebidas().size();
+        if (totalAvaliacoes > 0) {
+            double soma = motorista.getAvaliacoesRecebidas().stream()
+                    .mapToInt(Integer::intValue)
+                    .sum();
+            double novaMedia = soma / totalAvaliacoes;
+            motorista.setMediaAvaliacao(Math.round(novaMedia * 100.0) / 100.0);
+        } else {
+            motorista.setMediaAvaliacao(0.0);
+        }
+        motoristaRepository.atualizar(motorista);
+    }
 }

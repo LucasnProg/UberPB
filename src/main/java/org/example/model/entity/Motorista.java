@@ -13,6 +13,8 @@ public class Motorista extends Usuario {
     private MotoristaStatus status;
     private List<Corrida> corridasNotificadas = new ArrayList<>();
     private List<Corrida> corridasAceitas = new ArrayList<>();
+    private double mediaAvaliacao;
+    private List<Integer> avaliacoesRecebidas = new ArrayList<>();
     private String chavePix;
 
     public Motorista(String nome, String email, String senha, String cpf, String telefone) {
@@ -42,4 +44,18 @@ public class Motorista extends Usuario {
     public void setCorridasNotificadas(List<Corrida> corridasNotificadas) { this.corridasNotificadas = corridasNotificadas; }
     public List<Corrida> getCorridasAceitas() { return corridasAceitas; }
     public void setCorridasAceitas(List<Corrida> corridasAceitas) { this.corridasAceitas = corridasAceitas; }
+    public double getMediaAvaliacao() {
+        return mediaAvaliacao;
+    }
+    public void setMediaAvaliacao(double mediaAvaliacao) {
+        this.mediaAvaliacao = mediaAvaliacao;
+    }
+    public List<Integer> getAvaliacoesRecebidas() {
+        if (this.avaliacoesRecebidas == null) {
+            this.avaliacoesRecebidas = new ArrayList<>();
+        }
+        return this.avaliacoesRecebidas;
+    }
+
+    public void adicionarAvaliacao(int nota) {this.getAvaliacoesRecebidas().add(nota);}
 }

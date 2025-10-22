@@ -33,6 +33,23 @@ public class PassageiroService {
         System.out.println("\nPassageiro cadastrado com sucesso!");
         return passageiroRepository.buscarPorEmail(email);
     }
+    public void recalcularMediaAvaliacao(Passageiro passageiro, int novaNota) {
+        passageiro.adicionarAvaliacao(novaNota);
+
+        int totalAvaliacoes = passageiro.getAvaliacoesRecebidas().size();
+        if (totalAvaliacoes > 0) {
+            double soma = passageiro.getAvaliacoesRecebidas().stream()
+                    .mapToInt(Integer::intValue)
+                    .sum();
+
+            double novaMedia = soma / totalAvaliacoes;
+
+            passageiro.setMediaAvaliacao(Math.round(novaMedia * 100.0) / 100.0);
+        } else {
+            passageiro.setMediaAvaliacao(0.0);
+        }
+        passageiroRepository.atualizar(passageiro);
+    }
 
     public Passageiro buscarPorId(int id) {
         return passageiroRepository.buscarPorId(id);
