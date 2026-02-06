@@ -200,5 +200,26 @@
     "motoristasQueRejeitaram": [],
     "formaPagamento": "DINHEIRO",
     "precisaTroco": false
+  },
+  {
+    "id": 10,
+    "passageiroId": 2,
+    "motoristaId": 0,
+    "origem": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
+    "destino": {
+      "descricao": "Universidade Federal de Campina Grande (UFCG)",
+      "latitude": -7.2192,
+      "longitude": -35.9083
+    },
+    "valor": 8.27,
+    "categoriaVeiculo": "UBER_X",
+    "status": "CANCELADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
   }
 ]

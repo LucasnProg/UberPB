@@ -124,5 +124,15 @@
     "senha": "senha123",
     "cpf": "111.222.333-44",
     "telefone": "129736812653"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "id": 2,
+    "nome": "John",
+    "email": "john@teste.com",
+    "senha": "123456",
+    "cpf": "111.111.111-11",
+    "telefone": "00000000000"
   }
 ]
