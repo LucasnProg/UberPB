@@ -70,4 +70,16 @@ public class RestauranteRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    /**
+     * Busca um restaurante pelo Email.
+     * @param email O email do restaurante.
+     * @return O restaurante encontrado ou null se não existir.
+     */
+    public Restaurante buscarPorEmail(String email) {
+        return restauranteDB.carregar().stream()
+                .filter(r -> r.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
 }
