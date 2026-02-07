@@ -1,9 +1,13 @@
 package org.example.view;
 
+import org.example.model.entity.Entregador;
 import org.example.model.entity.Motorista;
 import org.example.model.entity.Passageiro;
+import org.example.model.entity.Restaurante;
+import org.example.model.service.EntregadorService;
 import org.example.model.service.MotoristaService;
 import org.example.model.service.PassageiroService;
+import org.example.model.service.RestauranteService;
 
 /**
  * View responsável pelo fluxo de login do usuário.
@@ -11,6 +15,8 @@ import org.example.model.service.PassageiroService;
 public class LoginView {
     private static final PassageiroService passageiroService = new PassageiroService();
     private static final MotoristaService motoristaService = new MotoristaService();
+    private static final RestauranteService restauranteService = new RestauranteService();
+    private static final EntregadorService entregadorService = new EntregadorService();
 
     /**
      * Exibe a interface de login, coleta as credenciais e direciona o usuário.
@@ -22,14 +28,21 @@ public class LoginView {
         int tipoLogin = 0;
 
         while (true) {
-            System.out.println("\nComo você deseja logar?\n1 - Como Passageiro\n2 - Como Motorista");
+            System.out.println("\nComo você deseja logar?");
+            System.out.println("1 - Como Passageiro");
+            System.out.println("2 - Como Motorista");
+            System.out.println("3 - Como Restaurante");
+            System.out.println("4 - Como Entregador");
             System.out.print("Escolha uma opção: ");
             String input = ViewUtils.sc.nextLine();
-            if (input.equalsIgnoreCase("voltar")) return;
+            if (input.equalsIgnoreCase("voltar"))
+                return;
             try {
                 tipoLogin = Integer.parseInt(input);
-                if (tipoLogin == 1 || tipoLogin == 2) break;
-                else System.out.println("\n[ERRO] Opção inválida.");
+                if (tipoLogin >= 1 && tipoLogin <= 4)
+                    break;
+                else
+                    System.out.println("\n[ERRO] Opção inválida.");
             } catch (NumberFormatException e) {
                 System.out.println("\n[ERRO] Entrada inválida.");
             }
@@ -37,11 +50,13 @@ public class LoginView {
 
         System.out.print("\nEmail: ");
         String email = ViewUtils.sc.nextLine();
-        if (email.equalsIgnoreCase("voltar")) return;
+        if (email.equalsIgnoreCase("voltar"))
+            return;
 
         System.out.print("Senha: ");
         String senha = ViewUtils.sc.nextLine();
-        if (senha.equalsIgnoreCase("voltar")) return;
+        if (senha.equalsIgnoreCase("voltar"))
+            return;
 
         if (tipoLogin == 1) {
             Passageiro passageiroLogado = passageiroService.login(email, senha);
@@ -50,12 +65,26 @@ public class LoginView {
                 ViewUtils.sc.nextLine();
                 MenuPassageiroView.exibir(passageiroLogado);
             }
-        } else {
+        } else if (tipoLogin == 2) {
             Motorista motoristaLogado = motoristaService.login(email, senha);
             if (motoristaLogado != null) {
                 System.out.println("\nLogin como Motorista bem-sucedido! Pressione ENTER para continuar.");
                 ViewUtils.sc.nextLine();
                 CorridaView.menuMotorista(motoristaLogado);
+            }
+        } else if (tipoLogin == 3) {
+            Restaurante restauranteLogado = restauranteService.login(email, senha);
+            if (restauranteLogado != null) {
+                System.out.println("\nLogin como Restaurante bem-sucedido! Pressione ENTER para continuar.");
+                ViewUtils.sc.nextLine();
+                MenuRestauranteView.exibir(restauranteLogado);
+            }
+        } else if (tipoLogin == 4) {
+            Entregador entregadorLogado = entregadorService.login(email, senha);
+            if (entregadorLogado != null) {
+                System.out.println("\nLogin como Entregador bem-sucedido! Pressione ENTER para continuar.");
+                ViewUtils.sc.nextLine();
+                MenuEntregadorView.exibir(entregadorLogado);
             }
         }
     }
