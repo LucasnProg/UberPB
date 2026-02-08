@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "nome": "restaurante teste",
+    "email": "restaurante@teste.com",
+    "senha": "123456",
+    "cpf": "12.345.678/0000-00",
+    "telefone": "00000000000"
+  }
+]

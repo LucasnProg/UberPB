@@ -1,0 +1,11 @@
+[
+  {
+    "status": "DISPONIVEL",
+    "id": 1,
+    "nome": "entregador",
+    "email": "entregador@teste.com",
+    "senha": "123456",
+    "cpf": "000.000.000-00",
+    "telefone": "000000000"
+  }
+]

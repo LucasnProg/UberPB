@@ -16,7 +16,9 @@ public class MenuPrincipalView {
             System.out.println("=== UberPB CLI - Menu Principal ===");
             System.out.println("1 - Cadastrar como Passageiro");
             System.out.println("2 - Cadastrar como Motorista");
-            System.out.println("3 - Login");
+            System.out.println("3 - Cadastrar como Restaurante");
+            System.out.println("4 - Cadastrar como Entregador");
+            System.out.println("5 - Login");
             System.out.println("0 - Sair");
             System.out.print("\nEscolha uma opção: ");
 
@@ -34,6 +36,12 @@ public class MenuPrincipalView {
                     CadastroMotoristaView.executar();
                     break;
                 case 3:
+                    CadastroRestauranteView.executar();
+                    break;
+                case 4:
+                    CadastroEntregadorView.executar();
+                    break;
+                case 5:
                     LoginView.loginUsuario();
                     break;
                 case 0:
