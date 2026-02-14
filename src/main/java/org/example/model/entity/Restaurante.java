@@ -1,5 +1,8 @@
 package org.example.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Representa um estabelecimento (Restaurante) no sistema Uber Eats.
  * Herda de Usuario para aproveitar atributos de autenticação e contato.
@@ -9,6 +12,9 @@ public class Restaurante extends Usuario {
 
     private String categoria;
     private Localizacao endereco;
+    private ArrayList<MenuItem> menu;
+    private List<Pedido> pedidosNotificados = new ArrayList<>();
+    private List<Pedido> pedidosAceitos = new ArrayList<>();
 
     /**
      * Construtor para a classe Restaurante.
@@ -19,8 +25,11 @@ public class Restaurante extends Usuario {
      * @param cnpj     CNPJ do restaurante (passado para o campo CPF da classe pai).
      * @param telefone Telefone do estabelecimento.
      */
-    public Restaurante(String nome, String email, String senha, String cnpj, String telefone) {
+    public Restaurante(String nome, String email, String senha, String cnpj, String telefone, String categoria, Localizacao localizacao) {
         super(nome, email, senha, cnpj, telefone); // CNPJ é armazenado no campo CPF
+        this.menu = new ArrayList<>();
+        this.endereco = localizacao;
+        this.categoria = categoria;
     }
 
     // --- Getters e Setters ---
@@ -51,7 +60,33 @@ public class Restaurante extends Usuario {
         return endereco;
     }
 
+    public ArrayList<MenuItem> getMenu(){return menu;}
+
+    public void setMenu(ArrayList<MenuItem> menu) {
+        this.menu = menu;
+    }
+
     public void setEndereco(Localizacao endereco) {
         this.endereco = endereco;
+    }
+
+    public List<Pedido> getPedidosNotificados() {
+        return pedidosNotificados;
+    }
+
+    public void setPedidosNotificados(List<Pedido> pedidosNotificados) {
+        this.pedidosNotificados = pedidosNotificados;
+    }
+
+    public List<Pedido> getPedidosAceitos() {
+        return pedidosAceitos;
+    }
+
+    public void setPedidosAceitos(List<Pedido> pedidosAceitos) {
+        this.pedidosAceitos = pedidosAceitos;
+    }
+
+    public void adicionarPedidoNotificado(Pedido pedido) {
+        this.pedidosNotificados.add(pedido);
     }
 }

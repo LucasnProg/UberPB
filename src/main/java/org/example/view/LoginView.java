@@ -29,7 +29,7 @@ public class LoginView {
 
         while (true) {
             System.out.println("\nComo você deseja logar?");
-            System.out.println("1 - Como Passageiro");
+            System.out.println("1 - Como Passageiro/Cliente");
             System.out.println("2 - Como Motorista");
             System.out.println("3 - Como Restaurante");
             System.out.println("4 - Como Entregador");

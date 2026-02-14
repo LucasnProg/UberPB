@@ -9,9 +9,11 @@ import java.util.List;
 public class LocalizacaoRepository {
 
     private final JsonRepository<Localizacao> localizacaoDB;
+    private final JsonRepository<Localizacao> bairrosDB;
 
     public LocalizacaoRepository() {
         this.localizacaoDB = new JsonRepository<>("src/main/resources/data/localizacoes.json", Localizacao.class);
+        this.bairrosDB = new JsonRepository<>("src/main/resources/data/bairros.json", Localizacao.class);
     }
 
     /**
@@ -20,6 +22,10 @@ public class LocalizacaoRepository {
      */
     public List<Localizacao> carregar() {
         return localizacaoDB.carregar();
+    }
+
+    public List<Localizacao> carregarBairros() {
+        return bairrosDB.carregar();
     }
 
     /**

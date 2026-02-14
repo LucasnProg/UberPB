@@ -2,6 +2,8 @@ package org.example.model.service;
 
 import org.example.model.entity.Corrida;
 import org.example.model.entity.Localizacao;
+import org.example.model.entity.Pedido;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
@@ -24,12 +26,53 @@ public class SimuladorViagem {
     }
 
     /**
+     * Prepara o arquivo de dados para a simulação, escrevendo o estado inicial.
+     * DEVE ser chamado ANTES de abrir o mapa no navegador para evitar erros.
+     * @param pedido A corrida que será simulada.
+     */
+    public static void prepararSimulacaoEntrega(Pedido pedido, Localizacao localizacaoEntregador) {
+        escreverArquivoJS(pedido.getOrigem(), pedido.getDestino(), localizacaoEntregador);
+    }
+
+    /**
      * Executa a simulação de uma corrida, atualizando o arquivo JS para o mapa.
      * @param corrida O objeto Corrida a ser simulado.
      */
     public static void simular(Corrida corrida) {
         Localizacao origem = corrida.getOrigem();
         Localizacao destino = corrida.getDestino();
+
+        System.out.println("\n--- Iniciando simulação da viagem no mapa ---");
+        System.out.println("Por favor, verifique a janela do navegador que foi aberta.");
+
+        // O passo 0 já foi escrito pelo prepararSimulacao, então começamos do 1.
+        for (int i = 1; i <= NUMERO_DE_PASSOS; i++) {
+            double fator = (double) i / NUMERO_DE_PASSOS;
+            double latAtual = origem.getLatitude() + fator * (destino.getLatitude() - origem.getLatitude());
+            double lonAtual = origem.getLongitude() + fator * (destino.getLongitude() - origem.getLongitude());
+
+            Localizacao posAtual = new Localizacao(latAtual, lonAtual);
+            escreverArquivoJS(origem, destino, posAtual);
+
+            System.out.printf("Simulação: Passo %d de %d... Posição: (%.4f, %.4f)\n", i, NUMERO_DE_PASSOS, latAtual, lonAtual);
+
+            try {
+                Thread.sleep(INTERVALO_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Simulação interrompida.");
+            }
+        }
+        System.out.println("--- Simulação da viagem finalizada ---");
+    }
+
+    /**
+     * Executa a simulação de uma entrega, atualizando o arquivo JS para o mapa.
+     * @param pedido O objeto Corrida a ser simulado.
+     */
+    public static void simularEntrega(Pedido pedido) {
+        Localizacao origem = pedido.getOrigem();
+        Localizacao destino = pedido.getDestino();
 
         System.out.println("\n--- Iniciando simulação da viagem no mapa ---");
         System.out.println("Por favor, verifique a janela do navegador que foi aberta.");

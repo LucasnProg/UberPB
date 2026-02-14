@@ -1,6 +1,8 @@
 package org.example.model.service;
 
+import org.example.model.entity.Localizacao;
 import org.example.model.entity.Passageiro;
+import org.example.model.entity.Restaurante;
 import org.example.model.repository.PassageiroRepository;
 
 /**
@@ -41,4 +43,12 @@ public class PassageiroService {
     public void atualizar(Passageiro passageiro) {
         passageiroRepository.atualizar(passageiro);
     }
+
+    public static Localizacao getLocalizacaoPorId(int idCliente){
+        PassageiroService ps = new PassageiroService();
+        Passageiro passageiro = ps.buscarPorId(idCliente);
+
+        return passageiro.getLocalCasa();
+    }
+
 }

@@ -14,7 +14,7 @@ public class MenuPrincipalView {
         while (opcao != 0) {
             ViewUtils.limparConsole();
             System.out.println("=== UberPB CLI - Menu Principal ===");
-            System.out.println("1 - Cadastrar como Passageiro");
+            System.out.println("1 - Cadastrar como Passageiro/Cliente");
             System.out.println("2 - Cadastrar como Motorista");
             System.out.println("3 - Cadastrar como Restaurante");
             System.out.println("4 - Cadastrar como Entregador");

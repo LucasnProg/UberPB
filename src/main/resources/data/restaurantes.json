@@ -1,10 +1,62 @@
 [
   {
+    "categoria": "Lanchonete",
+    "endereco": {
+      "descricao": "Universitário",
+      "latitude": -7.214,
+      "longitude": -35.909
+    },
+    "menu": [
+      {
+        "id": 1,
+        "nome": "Pastel",
+        "ingredientes": "carne",
+        "preco": 5.0,
+        "tempoPreparo": 10
+      },
+      {
+        "id": 2,
+        "nome": "coxinha",
+        "ingredientes": "frango",
+        "preco": 5.0,
+        "tempoPreparo": 10
+      }
+    ],
+    "pedidosNotificados": [
+    ],
+    "pedidosAceitos": [],
     "id": 1,
-    "nome": "restaurante teste",
-    "email": "restaurante@teste.com",
-    "senha": "123456",
-    "cpf": "12.345.678/0000-00",
-    "telefone": "00000000000"
+    "nome": "Tia Lu",
+    "email": "tialu@gmail.com",
+    "senha": "senha123",
+    "cpf": "11.222.333/1234-00",
+    "telefone": "8898980008"
+  },
+  {
+    "categoria": "Comida Oriental",
+    "endereco": {
+      "descricao": "Prata",
+      "latitude": -7.2212,
+      "longitude": -35.8905
+    },
+    "menu": [
+      {
+        "id": 1,
+        "nome": "temaki",
+        "ingredientes": "peixe cru",
+        "preco": 18.9,
+        "tempoPreparo": 20
+      }
+    ],
+    "pedidosNotificados": [
+
+    ],
+    "pedidosAceitos": [],
+    "id": 2,
+    "nome": "YummiSushi",
+    "email": "sushi@gmail.com",
+    "senha": "sushi123",
+    "cpf": "11.000.111/0101-01",
+    "telefone": "1092837475"
   }
 ]

@@ -31,4 +31,8 @@ public class LocalizacaoService {
         }
         localizacaoRepository.adicionar(local);
     }
+
+    public List<Localizacao> carregarBairros() {
+        return localizacaoRepository.carregarBairros();
+    }
 }

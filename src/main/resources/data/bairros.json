@@ -1,0 +1,82 @@
+[
+  {
+    "descricao": "Centro",
+    "latitude": -7.2241,
+    "longitude": -35.8834
+  },
+{
+  "descricao": "Catolé",
+  "latitude": -7.2389,
+  "longitude": -35.8752 },
+{
+  "descricao": "Bodocongó",
+  "latitude": -7.2235,
+  "longitude": -35.9142 },
+{
+  "descricao": "Alto Branco",
+  "latitude": -7.2115,
+  "longitude": -35.8755 },
+{ "descricao": "Liberdade",
+  "latitude": -7.2345,
+  "longitude": -35.8950 },
+{
+  "descricao": "Universitário",
+  "latitude": -7.2140,
+  "longitude": -35.9090 },
+{
+  "descricao": "José Pinheiro",
+  "latitude": -7.2260,
+  "longitude": -35.8680 },
+{
+  "descricao": "Santa Rosa",
+  "latitude": -7.2310,
+  "longitude": -35.9080 },
+{
+  "descricao": "Cruzeiro",
+  "latitude": -7.2430,
+  "longitude": -35.8900 },
+{
+  "descricao": "Malvinas",
+  "latitude": -7.2280,
+  "longitude": -35.9320 },
+{
+  "descricao": "Prata",
+  "latitude": -7.2212,
+  "longitude": -35.8905 },
+{
+  "descricao": "Itararé",
+  "latitude": -7.2425,
+  "longitude": -35.8650 },
+{
+  "descricao": "Jardim Tavares",
+  "latitude": -7.2100,
+  "longitude": -35.8700 },
+{
+  "descricao": "Mirante",
+  "latitude": -7.2350,
+  "longitude": -35.8620 },
+{
+  "descricao": "Conceição",
+  "latitude": -7.2160,
+  "longitude": -35.8880 },
+{
+  "descricao": "Palmeira",
+  "latitude": -7.2130,
+  "longitude": -35.8980 },
+{
+  "descricao": "Santo Antônio",
+  "latitude": -7.2120,
+  "longitude": -35.8920 },
+{
+  "descricao": "Bela Vista",
+  "latitude": -7.2220,
+  "longitude": -35.9050 },
+{
+  "descricao": "Dinamérica",
+  "latitude": -7.2350,
+  "longitude": -35.9150 },
+{
+  "descricao": "Três Irmãs",
+  "latitude": -7.2550,
+  "longitude": -35.9250 }
+]

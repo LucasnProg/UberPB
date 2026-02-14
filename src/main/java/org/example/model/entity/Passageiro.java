@@ -12,6 +12,8 @@ public class Passageiro extends Usuario {
     private Localizacao localCasa;
     private List<Corrida> corridasPendentes;
     private List<Corrida> historicoCorridas;
+    private List<Pedido> pedidosPendentes;
+    private List<Pedido> historicoPedidos;
 
     /**
      * Construtor para a classe Passageiro.
@@ -20,6 +22,8 @@ public class Passageiro extends Usuario {
         super(nome, email, senha, cpf, telefone);
         this.corridasPendentes = new ArrayList<>();
         this.historicoCorridas = new ArrayList<>();
+        this.historicoPedidos = new ArrayList<>();
+        this.pedidosPendentes = new ArrayList<>();
     }
 
     public Localizacao getLocalCasa() {
@@ -51,5 +55,28 @@ public class Passageiro extends Usuario {
             this.historicoCorridas = new ArrayList<>();
         }
         return this.historicoCorridas;
+    }
+
+    public List<Pedido> getPedidosPendentes() {
+        if(this.pedidosPendentes == null){
+            this.pedidosPendentes = new ArrayList<>();
+        }
+        return pedidosPendentes;
+    }
+
+    public void setPedidosPendentes(List<Pedido> pedidosPendentes) {
+        this.pedidosPendentes = pedidosPendentes;
+    }
+
+    public List<Pedido> getHistoricoPedidos() {
+        if (this.historicoCorridas == null){
+            this.historicoPedidos = new ArrayList<>();
+        }
+
+        return historicoPedidos;
+    }
+
+    public void setHistoricoPedidos(List<Pedido> historicoPedidos) {
+        this.historicoPedidos = historicoPedidos;
     }
 }

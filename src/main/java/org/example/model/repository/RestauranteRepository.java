@@ -1,6 +1,9 @@
 package org.example.model.repository;
 
+import org.example.model.entity.MenuItem;
 import org.example.model.entity.Restaurante;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,4 +85,9 @@ public class RestauranteRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public ArrayList<Restaurante> getAll(){
+        return (ArrayList<Restaurante>) restauranteDB.carregar();
+    }
+
 }

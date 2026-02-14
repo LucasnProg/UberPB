@@ -1,7 +1,12 @@
 package org.example.model.service;
 
+import org.example.model.entity.Localizacao;
+import org.example.model.entity.MenuItem;
 import org.example.model.entity.Restaurante;
 import org.example.model.repository.RestauranteRepository;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Service responsável pela lógica de negócio relacionada a Restaurantes.
@@ -30,7 +35,7 @@ public class RestauranteService {
      * @param telefone Telefone.
      * @return O restaurante cadastrado ou null se falhar validação.
      */
-    public Restaurante criar(String nome, String email, String senha, String cnpj, String telefone) {
+    public Restaurante criar(String nome, String email, String senha, String cnpj, String telefone, String categoria, Localizacao localizacao) {
         if (restauranteRepository.buscarPorEmail(email) != null) {
             System.out.println("\n[ERRO] O e-mail informado já está cadastrado.");
             return null;
@@ -40,7 +45,7 @@ public class RestauranteService {
             System.out.println("\n[ERRO] O CNPJ informado já está cadastrado.");
             return null;
         }
-        Restaurante novoRestaurante = new Restaurante(nome, email, senha, cnpj, telefone);
+        Restaurante novoRestaurante = new Restaurante(nome, email, senha, cnpj, telefone, categoria, localizacao);
         restauranteRepository.salvar(novoRestaurante);
         System.out.println("\nRestaurante cadastrado com sucesso!");
         return novoRestaurante;
@@ -52,5 +57,50 @@ public class RestauranteService {
 
     public void atualizar(Restaurante restaurante) {
         restauranteRepository.atualizar(restaurante);
+    }
+
+    public ArrayList<Restaurante> listarRestaurantes(){
+        return restauranteRepository.getAll();
+    }
+
+    public ArrayList<MenuItem> getMenu(int restauranteId){
+        Restaurante restaurante = restauranteRepository.buscarPorId(restauranteId);
+
+        return restaurante.getMenu();
+    }
+
+    public static Localizacao getLocalizacaoPorID(int IdRestaurante){
+        RestauranteService rs = new RestauranteService();
+        Restaurante restaurante = rs.buscarPorId(IdRestaurante);
+
+        return restaurante.getEndereco();
+    }
+
+    public void adicionarItemAoCardapio(Restaurante restaurante,MenuItem item){
+        try{
+            item.setId(restaurante.getMenu().size()+1);
+            restaurante.getMenu().add(item);
+        } catch (NullPointerException e){
+            item.setId(1);
+            ArrayList<MenuItem> menu = new ArrayList<>();
+            menu.add(item);
+            restaurante.setMenu(menu);
+        }
+        atualizar(restaurante);
+    }
+
+    public void removerItemPorId(Restaurante restaurante, int id){
+        restaurante.getMenu().removeIf(item -> item.getId() == id);
+
+        atualizar(restaurante);
+    }
+
+    public MenuItem getItemPorId(Restaurante restaurante, int id){
+        for (MenuItem item : restaurante.getMenu()){
+            if (item.getId() == id){
+                return item;
+            }
+        }
+        return null;
     }
 }

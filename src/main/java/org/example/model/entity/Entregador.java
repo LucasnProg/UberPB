@@ -1,5 +1,8 @@
 package org.example.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Representa um parceiro de entrega (Entregador) no sistema.
  * Herda as funcionalidades básicas de Usuario.
@@ -7,8 +10,9 @@ package org.example.model.entity;
 public class Entregador extends Usuario {
 
     private Localizacao localizacaoAtual;
-    private String chavePix;
     private EntregadorStatus status;
+    private List<Pedido> entregasNotificadas = new ArrayList<>();
+    private List<Pedido> entregasAceitas = new ArrayList<>();
 
     /**
      * Construtor para a classe Entregador.
@@ -33,14 +37,6 @@ public class Entregador extends Usuario {
         this.localizacaoAtual = localizacaoAtual;
     }
 
-    public String getChavePix() {
-        return chavePix;
-    }
-
-    public void setChavePix(String chavePix) {
-        this.chavePix = chavePix;
-    }
-
     public EntregadorStatus getStatus() {
         return status;
     }
@@ -49,4 +45,23 @@ public class Entregador extends Usuario {
         this.status = status;
     }
 
+    public List<Pedido> getEntregasNotificadas() {
+        return entregasNotificadas;
+    }
+
+    public void setEntregasNotificadas(List<Pedido> entregasNotificadas) {
+        this.entregasNotificadas = entregasNotificadas;
+    }
+
+    public List<Pedido> getEntregasAceitas() {
+        return entregasAceitas;
+    }
+
+    public void setEntregasAceitas(List<Pedido> entregasAceitas) {
+        this.entregasAceitas = entregasAceitas;
+    }
+
+    public void adicionarPedidoNotificada(Pedido pedido) {
+        this.entregasNotificadas.add(pedido);
+    }
 }

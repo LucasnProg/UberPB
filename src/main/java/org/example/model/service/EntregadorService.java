@@ -1,7 +1,12 @@
 package org.example.model.service;
 
 import org.example.model.entity.Entregador;
+import org.example.model.entity.Localizacao;
+import org.example.model.entity.Motorista;
 import org.example.model.repository.EntregadorRepository;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * Service responsável pela lógica de negócio relacionada a Entregadores.
@@ -9,7 +14,7 @@ import org.example.model.repository.EntregadorRepository;
 public class EntregadorService {
 
     private final EntregadorRepository entregadorRepository = new EntregadorRepository();
-
+    private LocalizacaoService ls = new LocalizacaoService();
     /**
      * Realiza o login do entregador.
      * 
@@ -57,5 +62,19 @@ public class EntregadorService {
 
     public void atualizar(Entregador entregador) {
         entregadorRepository.atualizar(entregador);
+    }
+
+    /**
+     * Sorteia uma localização e a define como a posição atual do motorista.
+     */
+    private void simularLocalizacaoInicial(Entregador entregador) {
+        List<Localizacao> locaisDisponiveis = ls.carregarLocais();
+        if (locaisDisponiveis != null && !locaisDisponiveis.isEmpty()) {
+            Random random = new Random();
+            int indiceAleatorio = random.nextInt(locaisDisponiveis.size());
+            Localizacao localizacaoSimulada = locaisDisponiveis.get(indiceAleatorio);
+            entregador.setLocalizacaoAtual(localizacaoSimulada);
+            entregadorRepository.atualizar(entregador);
+        }
     }
 }

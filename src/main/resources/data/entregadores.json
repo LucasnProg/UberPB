@@ -1,11 +1,14 @@
 [
   {
     "status": "DISPONIVEL",
+    "entregasNotificadas": [
+    ],
+    "entregasAceitas": [],
     "id": 1,
-    "nome": "entregador",
-    "email": "entregador@teste.com",
-    "senha": "123456",
-    "cpf": "000.000.000-00",
-    "telefone": "000000000"
+    "nome": "Manoel",
+    "email": "manoel@gmail.com",
+    "senha": "senha123",
+    "cpf": "111.222.333-12",
+    "telefone": "09190920000"
   }
 ]

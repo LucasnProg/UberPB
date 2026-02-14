@@ -1,6 +1,8 @@
 package org.example.model.repository;
 
 import org.example.model.entity.Entregador;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,4 +84,6 @@ public class EntregadorRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public ArrayList<Entregador> getEntregadores(){ return (ArrayList<Entregador>) entregadorDB.carregar();}
 }
