@@ -202,3 +202,4 @@ class PedidoServiceTest {
         assertEquals(StatusCorrida.EM_CURSO, ativo.getStatusPedido());
     }
 }
+// test
