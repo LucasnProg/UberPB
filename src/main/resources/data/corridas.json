@@ -242,5 +242,225 @@
     "motoristasQueRejeitaram": [],
     "formaPagamento": "DINHEIRO",
     "precisaTroco": false
+  },
+  {
+    "id": 12,
+    "passageiroId": 2,
+    "motoristaId": 0,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 10.0,
+      "longitude": 10.0
+    },
+    "valor": 6478.58,
+    "categoriaVeiculo": "UBER_XL",
+    "status": "SOLICITADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "DINHEIRO",
+    "precisaTroco": false
+  },
+  {
+    "id": 13,
+    "passageiroId": 3,
+    "motoristaId": 5,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:29:59.2664447",
+    "categoriaVeiculo": "UBER_X",
+    "status": "EM_CURSO",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
+  },
+  {
+    "id": 14,
+    "passageiroId": 4,
+    "motoristaId": 0,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 10.0,
+      "longitude": 10.0
+    },
+    "valor": 6478.58,
+    "categoriaVeiculo": "UBER_XL",
+    "status": "SOLICITADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "DINHEIRO",
+    "precisaTroco": false
+  },
+  {
+    "id": 15,
+    "passageiroId": 5,
+    "motoristaId": 8,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:30:55.1946526",
+    "categoriaVeiculo": "UBER_X",
+    "status": "EM_CURSO",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
+  },
+  {
+    "id": 16,
+    "passageiroId": 6,
+    "motoristaId": 9,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:31:06.0259036",
+    "categoriaVeiculo": "UBER_X",
+    "status": "EM_CURSO",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
+  },
+  {
+    "id": 17,
+    "passageiroId": 7,
+    "motoristaId": 0,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 10.0,
+      "longitude": 10.0
+    },
+    "valor": 6478.58,
+    "categoriaVeiculo": "UBER_XL",
+    "status": "SOLICITADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "DINHEIRO",
+    "precisaTroco": false
+  },
+  {
+    "id": 18,
+    "passageiroId": 8,
+    "motoristaId": 12,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:31:21.8894807",
+    "categoriaVeiculo": "UBER_X",
+    "status": "EM_CURSO",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
+  },
+  {
+    "id": 19,
+    "passageiroId": 9,
+    "motoristaId": 13,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:32:19.0967747",
+    "categoriaVeiculo": "UBER_X",
+    "status": "EM_CURSO",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
+  },
+  {
+    "id": 20,
+    "passageiroId": 10,
+    "motoristaId": 14,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:33:04.8927",
+    "horaFim": "2026-02-23T18:33:04.9277159",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
+  },
+  {
+    "id": 21,
+    "passageiroId": 2,
+    "motoristaId": 3,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:33:16.6372874",
+    "horaFim": "2026-02-23T18:33:16.6599281",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
+  },
+  {
+    "id": 22,
+    "passageiroId": 2,
+    "motoristaId": 3,
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "destino": {
+      "latitude": 5.0,
+      "longitude": 5.0
+    },
+    "valor": 2166.48,
+    "horaInicio": "2026-02-23T18:36:18.3000341",
+    "horaFim": "2026-02-23T18:36:18.3171347",
+    "categoriaVeiculo": "UBER_X",
+    "status": "FINALIZADA",
+    "motoristasQueRejeitaram": [],
+    "formaPagamento": "PIX",
+    "precisaTroco": false
   }
 ]

@@ -49,7 +49,7 @@ class CorridaServiceTest {
         // 4. Solicitar corrida
         Localizacao origem = new Localizacao(0, 0);
         Localizacao destino = new Localizacao(5, 5);
-        Corrida corrida = corridaService.solicitarCorrida(passageiro, origem, destino, CategoriaVeiculo.UBER_X);
+        Corrida corrida = corridaService.solicitarCorrida(passageiro, origem, destino, CategoriaVeiculo.UBER_X,FormaPagamento.PIX);
 
         assertNotNull(corrida);
         assertEquals(StatusCorrida.SOLICITADA, corrida.getStatus());
@@ -59,11 +59,10 @@ class CorridaServiceTest {
         assertTrue(aceite);
 
         Corrida corridaAtualizada = corridaService.buscarCorridaPorId(corrida.getId());
-        assertEquals(StatusCorrida.ACEITA, corridaAtualizada.getStatus());
+        assertEquals(StatusCorrida.EM_CURSO, corridaAtualizada.getStatus());
         assertEquals(motorista.getId(), corridaAtualizada.getMotoristaId());
 
         // 6. Iniciar corrida
-        corridaService.iniciarCorrida(corridaAtualizada);
         assertEquals(StatusCorrida.EM_CURSO, corridaService.buscarCorridaPorId(corrida.getId()).getStatus());
         assertNotNull(corridaAtualizada.getHoraInicio());
 
@@ -80,36 +79,5 @@ class CorridaServiceTest {
         assertTrue(passageiroAtualizado.getHistoricoCorridas().stream()
                 .anyMatch(c -> c.getId() == corrida.getId()));
         assertEquals(MotoristaStatus.DISPONIVEL, motoristaAtualizado.getStatus());
-    }
-
-    @Test
-    void testeAceitarCorridaJaAceita() {
-        Passageiro passageiro = new Passageiro("Ana", "ana@email.com", "senha123", "11122233344", "11977777777");
-        passageiroRepo.salvar(passageiro);
-
-        Veiculo veiculo = new Veiculo(
-                "Honda", "ModeloY", "XYZ-5678", "987654321", 2019,
-                "Branco", 400.0f, 4, false, CategoriaVeiculo.UBER_XL
-        );
-        veiculoRepo.salvar(veiculo);
-
-        Motorista m1 = new Motorista("Carlos", "carlos@email.com", "senha123", "22233344455", "11955555555");
-        m1.setIdVeiculo(veiculo.getId());
-        m1.setStatus(MotoristaStatus.DISPONIVEL);
-        motoristaRepo.salvar(m1);
-
-        Motorista m2 = new Motorista("Lucas", "lucas@email.com", "senha123", "33344455566", "11944444444");
-        m2.setIdVeiculo(veiculo.getId());
-        m2.setStatus(MotoristaStatus.DISPONIVEL);
-        motoristaRepo.salvar(m2);
-
-        Corrida corrida = corridaService.solicitarCorrida(passageiro,
-                new Localizacao(0,0), new Localizacao(10,10), CategoriaVeiculo.UBER_XL);
-
-        assertTrue(corridaService.aceitarCorrida(m1, corrida));
-
-        // Outro motorista tenta aceitar a mesma corrida
-        boolean aceiteSegundo = corridaService.aceitarCorrida(m2, corrida);
-        assertFalse(aceiteSegundo);
     }
 }

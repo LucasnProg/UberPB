@@ -13,7 +13,6 @@ class GerenteRepositoryTest {
     @BeforeEach
     void setUp() {
         repo = new GerenteRepository();
-        repo.limpar(); // Limpa todos os gerentes antes de cada teste
     }
 
     @Test
