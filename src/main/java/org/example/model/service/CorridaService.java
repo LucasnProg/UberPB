@@ -236,4 +236,5 @@ public class CorridaService {
     public void atualizarCorrida(Corrida corrida) {
         corridaRepository.atualizar(corrida);
     }
+
 }

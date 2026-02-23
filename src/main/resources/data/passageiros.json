@@ -1,397 +1,48 @@
 [
   {
-    "corridasPendentes": [
-      {
-        "id": 11,
-        "passageiroId": 1,
-        "motoristaId": 0,
-        "origem": {
-          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
-          "latitude": -7.2041,
-          "longitude": -35.9115
-        },
-        "destino": {
-          "descricao": "Universidade Federal de Campina Grande (UFCG)",
-          "latitude": -7.2192,
-          "longitude": -35.9083
-        },
-        "valor": 8.27,
-        "categoriaVeiculo": "UBER_X",
-        "status": "SOLICITADA",
-        "motoristasQueRejeitaram": [],
-        "formaPagamento": "DINHEIRO",
-        "precisaTroco": false
-      }
-    ],
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
+    "id": 1,
+    "nome": "Ana",
+    "email": "ana@email.com",
+    "senha": "senha123",
+    "cpf": "33344455566",
+    "telefone": "11966666666"
+  },
+  {
+    "corridasPendentes": [],
     "historicoCorridas": [
       {
-        "id": 5,
-        "passageiroId": 1,
-        "motoristaId": 1,
+        "id": 22,
+        "passageiroId": 2,
+        "motoristaId": 3,
         "origem": {
-          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
-          "latitude": -7.2041,
-          "longitude": -35.9115
+          "latitude": 0.0,
+          "longitude": 0.0
         },
         "destino": {
-          "descricao": "Universidade Federal de Campina Grande (UFCG)",
-          "latitude": -7.2192,
-          "longitude": -35.9083
+          "latitude": 5.0,
+          "longitude": 5.0
         },
-        "valor": 8.27,
-        "horaInicio": "2025-09-29T14:14:54.1862409",
-        "horaFim": "2025-09-29T14:15:41.288449",
-        "categoriaVeiculo": "UBER_X",
-        "status": "FINALIZADA",
-        "motoristasQueRejeitaram": [],
-        "formaPagamento": "DINHEIRO",
-        "precisaTroco": false
-      },
-      {
-        "id": 6,
-        "passageiroId": 1,
-        "motoristaId": 1,
-        "origem": {
-          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
-          "latitude": -7.2041,
-          "longitude": -35.9115
-        },
-        "destino": {
-          "descricao": "Universidade Federal de Campina Grande (UFCG)",
-          "latitude": -7.2192,
-          "longitude": -35.9083
-        },
-        "valor": 8.27,
-        "horaInicio": "2025-10-07T15:19:01.1905261",
-        "horaFim": "2025-10-07T15:19:46.0896463",
+        "valor": 2166.48,
+        "horaInicio": "2026-02-23T18:36:18.3000341",
+        "horaFim": "2026-02-23T18:36:18.3171347",
         "categoriaVeiculo": "UBER_X",
         "status": "FINALIZADA",
         "motoristasQueRejeitaram": [],
         "formaPagamento": "PIX",
-        "precisaTroco": false
-      },
-      {
-        "id": 7,
-        "passageiroId": 1,
-        "motoristaId": 1,
-        "origem": {
-          "descricao": "Açude Velho (Monumento \u0027Os Pioneiros\u0027)",
-          "latitude": -7.2301,
-          "longitude": -35.8896
-        },
-        "destino": {
-          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
-          "latitude": -7.2041,
-          "longitude": -35.9115
-        },
-        "valor": 12.79,
-        "horaInicio": "2025-10-07T15:43:44.5321687",
-        "horaFim": "2025-10-07T15:44:28.9836434",
-        "categoriaVeiculo": "UBER_X",
-        "status": "FINALIZADA",
-        "motoristasQueRejeitaram": [],
-        "formaPagamento": "PAYPAL",
-        "precisaTroco": false
-      },
-      {
-        "id": 8,
-        "passageiroId": 1,
-        "motoristaId": 1,
-        "origem": {
-          "descricao": "Vila Sítio São João",
-          "latitude": -7.2081,
-          "longitude": -35.9054
-        },
-        "destino": {
-          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
-          "latitude": -7.2041,
-          "longitude": -35.9115
-        },
-        "valor": 6.27,
-        "horaInicio": "2025-10-07T15:46:04.9036806",
-        "horaFim": "2025-10-07T15:46:48.0191267",
-        "categoriaVeiculo": "UBER_X",
-        "status": "FINALIZADA",
-        "motoristasQueRejeitaram": [],
-        "formaPagamento": "PIX",
-        "precisaTroco": false
-      },
-      {
-        "id": 9,
-        "passageiroId": 1,
-        "motoristaId": 1,
-        "origem": {
-          "descricao": "Vila Sítio São João",
-          "latitude": -7.2081,
-          "longitude": -35.9054
-        },
-        "destino": {
-          "descricao": "Universidade Federal de Campina Grande (UFCG)",
-          "latitude": -7.2192,
-          "longitude": -35.9083
-        },
-        "valor": 7.31,
-        "horaInicio": "2025-10-07T15:55:08.755334",
-        "horaFim": "2025-10-07T15:55:54.1228326",
-        "categoriaVeiculo": "UBER_X",
-        "status": "FINALIZADA",
-        "motoristasQueRejeitaram": [],
-        "formaPagamento": "DINHEIRO",
         "precisaTroco": false
       }
     ],
-    "pedidosPendentes": [
-      {
-        "idPedido": 1,
-        "idCliente": 1,
-        "idRestaurante": 3,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Pastel",
-            "ingredientes": "carne",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 10.56,
-        "formaPagamento": "DINHEIRO",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 2,
-        "idCliente": 1,
-        "idRestaurante": 3,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Pastel",
-            "ingredientes": "carne",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 11.48,
-        "formaPagamento": "PIX",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 3,
-        "idCliente": 1,
-        "idRestaurante": 3,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Pastel",
-            "ingredientes": "carne",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 12.78,
-        "formaPagamento": "PIX",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 4,
-        "idCliente": 1,
-        "idRestaurante": 2,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "temaki",
-            "ingredientes": "peixe cru",
-            "preco": 18.9,
-            "tempoPreparo": 20
-          }
-        ],
-        "valor": 23.84,
-        "formaPagamento": "PIX",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Prata",
-          "latitude": -7.2212,
-          "longitude": -35.8905
-        },
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 5,
-        "idCliente": 1,
-        "idRestaurante": 2,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "temaki",
-            "ingredientes": "peixe cru",
-            "preco": 18.9,
-            "tempoPreparo": 20
-          }
-        ],
-        "valor": 23.84,
-        "formaPagamento": "PIX",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Prata",
-          "latitude": -7.2212,
-          "longitude": -35.8905
-        },
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 6,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Pastel",
-            "ingredientes": "carne",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 9.38,
-        "formaPagamento": "PIX",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 7,
-        "idCliente": 1,
-        "idRestaurante": 2,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "temaki",
-            "ingredientes": "peixe cru",
-            "preco": 18.9,
-            "tempoPreparo": 20
-          }
-        ],
-        "valor": 21.42,
-        "formaPagamento": "PIX",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Prata",
-          "latitude": -7.2212,
-          "longitude": -35.8905
-        },
-        "horaInicio": "2026-02-14T21:30:00",
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 8,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Pastel",
-            "ingredientes": "carne",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 10.56,
-        "formaPagamento": "PIX",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "horaInicio": "2026-02-14T10:30:00",
-        "precisaTroco": false
-      },
-      {
-        "idPedido": 9,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 0,
-        "itensPedidos": [
-          {
-            "id": 2,
-            "nome": "coxinha",
-            "ingredientes": "frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 12.78,
-        "formaPagamento": "DINHEIRO",
-        "statusPedido": "SOLICITADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "precisaTroco": false
-      }
-    ],
-    "id": 1,
-    "nome": "lucas",
-    "email": "lucas@gmail.com",
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
+    "id": 2,
+    "nome": "Maria",
+    "email": "maria@email.com",
     "senha": "senha123",
-    "cpf": "111.222.333-44",
-    "telefone": "129736812653"
+    "cpf": "12345678900",
+    "telefone": "11988888888"
   }
 ]

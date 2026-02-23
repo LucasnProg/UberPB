@@ -2,6 +2,8 @@
   {
     "corridasPendentes": [],
     "historicoCorridas": [],
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
     "id": 1,
     "nome": "João",
     "email": "joao@email.com",

@@ -1,14 +1,13 @@
 [
   {
     "status": "DISPONIVEL",
-    "entregasNotificadas": [
-    ],
+    "entregasNotificadas": [],
     "entregasAceitas": [],
     "id": 1,
-    "nome": "Manoel",
-    "email": "manoel@gmail.com",
+    "nome": "Pedro",
+    "email": "pedro@email.com",
     "senha": "senha123",
-    "cpf": "111.222.333-12",
-    "telefone": "09190920000"
+    "cpf": "11122233344",
+    "telefone": "11977777777"
   }
 ]
