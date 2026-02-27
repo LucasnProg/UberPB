@@ -2,26 +2,38 @@ package org.example.model.entity;
 
 import java.time.LocalDateTime;
 
+/**
+ * Avaliação (Rating/Review)
+ *
+ * Estrutura genérica para suportar avaliações em:
+ * - Corridas: Passageiro <-> Motorista
+ * - Pedidos: Cliente <-> Entregador/Restaurante
+ */
 public class Avaliacao {
 
     private int id;
 
+    // Quem avaliou
     private TipoParteAvaliacao tipoAvaliador;
     private int avaliadorId;
 
+    // Quem foi avaliado
     private TipoParteAvaliacao tipoAvaliado;
     private int avaliadoId;
 
+    // Contexto
     private TipoAvaliacaoContexto contexto;
 
+    // Referência ao contexto (apenas um deve ser preenchido)
     private Integer corridaId;
     private Integer pedidoId;
 
-    private int nota;
+    // Conteúdo
+    private int nota; // 1..5
     private String comentario;
-
     private LocalDateTime dataHora;
 
+    /** Construtor padrão (necessário para Gson). */
     public Avaliacao() {}
 
     public Avaliacao(
