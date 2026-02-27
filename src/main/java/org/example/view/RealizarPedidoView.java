@@ -147,7 +147,7 @@ public class RealizarPedidoView {
                         System.out.println("\nBuscando motoristas na sua região...");
                         Pedido pedidoSolicitado = ps.realizarPedido(passageiro.getId(), restaurante.getId(), restaurante.getEndereco(), destino, formaPagamento, itensPedido, dataAgendamento);
                         if (pedidoSolicitado != null) {
-                            acompanharPedidoPassageiro(pedidoSolicitado);
+                            acompanharPedidoPassageiro(pedidoSolicitado, passageiro);
                         }
                     } else {
                         System.out.println("\nSolicitação cancelada.");
@@ -186,13 +186,14 @@ public class RealizarPedidoView {
         } else {
             System.out.println("Pagamento: " + pedido.getFormaPagamento().getDescricao() + " (Via Aplicativo)");
             System.out.printf("Valor: R$ %.2f\n", pedido.getValor());
+
             System.out.println("\nO pagamento já foi processado/será debitado automaticamente. O motorista não precisa cobrar.");
         }
 
         System.out.println("\nPressione ENTER para iniciar a simulação da viagem.");
         ViewUtils.sc.nextLine();
     }
-    private static void acompanharPedidoPassageiro(Pedido pedido) {
+    private static void acompanharPedidoPassageiro(Pedido pedido, Passageiro passageiro) {
         while (true) {
             ViewUtils.limparConsole();
             System.out.println("---- Acompanhando sua Solicitação ----");
@@ -231,6 +232,13 @@ public class RealizarPedidoView {
                 SimuladorViagem.prepararSimulacaoEntrega(pedidoAtualizado, entregador.getLocalizacaoAtual());
                 MapaView.abrirMapa();
                 SimuladorViagem.simularEntrega(pedidoAtualizado);
+
+                // Finaliza a entrega (atualiza status, histórico do cliente e libera entregador)
+                ps.finalizarCorrida(pedidoAtualizado);
+
+                // Após finalizar, permite ao cliente avaliar Restaurante e Entregador
+                AvaliarEntregaView.executar(pedidoAtualizado);
+
                 break;
             }
 
