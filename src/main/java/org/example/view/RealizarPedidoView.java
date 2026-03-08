@@ -119,30 +119,30 @@ public class RealizarPedidoView {
                     if (formaPagamento != null) {
                         LocalDateTime dataAgendamento = null;
                         System.out.println("\nDeseja agendar seu pedido? (S/N):");
-                            if (ViewUtils.sc.nextLine().equalsIgnoreCase("S")) {
-                                while (true) {
-                                    try {
-                                        System.out.println("\n--- Formulário de Agendamento de horario---");
+                        if (ViewUtils.sc.nextLine().equalsIgnoreCase("S")) {
+                            while (true) {
+                                try {
+                                    System.out.println("\n--- Formulário de Agendamento de horario---");
 
-                                        System.out.print("Digite o horário (formato: HH:MM): ");
-                                        String horaInput = ViewUtils.sc.nextLine();
+                                    System.out.print("Digite o horário (formato: HH:MM): ");
+                                    String horaInput = ViewUtils.sc.nextLine();
 
-                                        LocalTime horaAgendada = LocalTime.parse(horaInput, DateTimeFormatter.ofPattern("HH:mm"));
-                                        dataAgendamento = LocalDateTime.of(LocalDate.now(), horaAgendada);
+                                    LocalTime horaAgendada = LocalTime.parse(horaInput, DateTimeFormatter.ofPattern("HH:mm"));
+                                    dataAgendamento = LocalDateTime.of(LocalDate.now(), horaAgendada);
 
-                                        if (dataAgendamento.isBefore(LocalDateTime.now())) {
-                                            System.out.println("[ERRO] A data de agendamento não pode ser no passado.");
-                                            continue;
-                                        }
-
-                                        System.out.println("O pedido sairá para entrega próximo ao horario agendado: " + horaAgendada);
-                                        break;
-
-                                    } catch (DateTimeParseException e) {
-                                        System.out.println("[ERRO] Formato de data ou hora inválido. Tente novamente.");
+                                    if (dataAgendamento.isBefore(LocalDateTime.now())) {
+                                        System.out.println("[ERRO] A data de agendamento não pode ser no passado.");
+                                        continue;
                                     }
+
+                                    System.out.println("O pedido sairá para entrega próximo ao horario agendado: " + horaAgendada);
+                                    break;
+
+                                } catch (DateTimeParseException e) {
+                                    System.out.println("[ERRO] Formato de data ou hora inválido. Tente novamente.");
                                 }
                             }
+                        }
 
                         System.out.println("\nBuscando motoristas na sua região...");
                         Pedido pedidoSolicitado = ps.realizarPedido(passageiro.getId(), restaurante.getId(), restaurante.getEndereco(), destino, formaPagamento, itensPedido, dataAgendamento);
@@ -192,57 +192,112 @@ public class RealizarPedidoView {
         System.out.println("\nPressione ENTER para iniciar a simulação da viagem.");
         ViewUtils.sc.nextLine();
     }
+
     private static void acompanharPedidoPassageiro(Pedido pedido) {
         while (true) {
             ViewUtils.limparConsole();
-            System.out.println("---- Acompanhando sua Solicitação ----");
+            System.out.println("---- Acompanhando seu Pedido ----");
 
             Pedido pedidoAtualizado = ps.buscarPedidoPorId(pedido.getIdPedido());
-            if (pedidoAtualizado == null) break;
+            if (pedidoAtualizado == null) {
+                System.out.println("[ERRO] Pedido não encontrado.");
+                System.out.println("Pressione ENTER para voltar.");
+                ViewUtils.sc.nextLine();
+                return;
+            }
 
+            // Exibição amigável do status (para o Cliente)
+            System.out.println("Pedido #" + pedidoAtualizado.getIdPedido());
+            System.out.println("Status: " + ps.formatarStatusParaCliente(pedidoAtualizado));
+            System.out.println();
+
+            // Caso seja agendado e ainda não chegou a hora
+            if (pedidoAtualizado.getStatusPedido() == StatusCorrida.SOLICITADA
+                    && pedidoAtualizado.getHoraInicio() != null
+                    && LocalDateTime.now().isBefore(pedidoAtualizado.getHoraInicio())) {
+
+                System.out.println("⏰ Pedido agendado para: " + pedidoAtualizado.getHoraInicio().toLocalTime());
+                System.out.println("\n(Atualizando em 5 segundos...)");
+                try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
+                continue;
+            }
+
+            // 1) Enquanto está SOLICITADA, o cliente pode cancelar.
+            //    Também fazemos um "aceite automático" para a simulação evoluir sem o menu do entregador.
             if (pedidoAtualizado.getStatusPedido() == StatusCorrida.SOLICITADA) {
-                System.out.println("Status: Aguardando um entregador aceitar...");
-                System.out.println("\nPressione 'C' e ENTER a qualquer momento para CANCELAR a busca.\n\n");
+                System.out.println("Pressione 'C' e ENTER para CANCELAR a busca, ou apenas aguarde...");
                 try {
-
                     if (System.in.available() > 0) {
                         String input = ViewUtils.sc.nextLine().toUpperCase();
                         if (input.equals("C")) {
-                            ps.cancelarPedido(pedido, pedido.getIdCliente());
-                            System.out.println("\nBusca cancelada. Pressione ENTER para voltar ao menu.");
+                            ps.cancelarPedido(pedidoAtualizado, pedidoAtualizado.getIdCliente());
+                            System.out.println("\nPedido cancelado. Pressione ENTER para voltar ao menu.");
                             ViewUtils.sc.nextLine();
                             return;
                         }
                     }
-                    Thread.sleep(5000);
 
+                    // Simula que um entregador aceita após um tempo (para o CLI não ficar travado em SOLICITADA)
+                    ps.tentarAceiteAutomatico(pedidoAtualizado);
+
+                    Thread.sleep(5000);
                 } catch (Exception e) {
                     Thread.currentThread().interrupt();
                 }
                 continue;
             }
-            if (pedidoAtualizado.getStatusPedido() == StatusCorrida.EM_CURSO) {
-                Entregador entregador = ps.getEntregadorById(pedido.getIdEntregador());
-                exibirDetalhesPagamentoAoAceite(pedidoAtualizado, entregador);
 
-                System.out.println("Status: Entregador Encontrado e a caminho!");
-                System.out.println("Entregador: " + entregador.getNome());
+            // 2) Status intermediários (ACEITA / EM_PREPARO / SAIU_PARA_ENTREGA)
+            if (pedidoAtualizado.getStatusPedido() == StatusCorrida.ACEITA
+                    || pedidoAtualizado.getStatusPedido() == StatusCorrida.EM_PREPARO
+                    || pedidoAtualizado.getStatusPedido() == StatusCorrida.SAIU_PARA_ENTREGA) {
 
-                SimuladorViagem.prepararSimulacaoEntrega(pedidoAtualizado, entregador.getLocalizacaoAtual());
-                MapaView.abrirMapa();
-                SimuladorViagem.simularEntrega(pedidoAtualizado);
-                break;
+                // Evolui automaticamente (simulação de preparo/saída)
+                ps.avancarStatusAutomatico(pedidoAtualizado);
+
+                System.out.println("\n(Atualizando em 5 segundos...)");
+                try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
+                continue;
             }
 
-            if (pedidoAtualizado.getStatusPedido() == StatusCorrida.FINALIZADA || pedidoAtualizado.getStatusPedido() == StatusCorrida.CANCELADA) {
-                System.out.println("Status: " + pedidoAtualizado.getStatusPedido());
-                break;
+            // 3) Quando entra em EM_CURSO, abre o mapa e simula a rota até a entrega.
+            if (pedidoAtualizado.getStatusPedido() == StatusCorrida.EM_CURSO) {
+                Entregador entregador = ps.getEntregadorById(pedidoAtualizado.getIdEntregador());
+                if (entregador != null) {
+                    exibirDetalhesPagamentoAoAceite(pedidoAtualizado, entregador);
+
+                    System.out.println("Entregador: " + entregador.getNome());
+                    System.out.println("Status: " + ps.formatarStatusParaCliente(pedidoAtualizado));
+
+                    SimuladorViagem.prepararSimulacaoEntrega(pedidoAtualizado, entregador.getLocalizacaoAtual());
+                    MapaView.abrirMapa();
+                    SimuladorViagem.simularEntrega(pedidoAtualizado);
+
+                    // Finaliza e persiste
+                    ps.finalizarCorrida(pedidoAtualizado);
+
+                    // Se você já implementou a feature de avaliação pós-entrega, descomente:
+                    // AvaliarEntregaView.executar(pedidoAtualizado);
+                } else {
+                    System.out.println("[ERRO] Entregador não encontrado. Não foi possível simular a entrega.");
+                }
+
+                System.out.println("\nPressione ENTER para voltar ao menu.");
+                ViewUtils.sc.nextLine();
+                return;
+            }
+
+            // 4) Estados finais
+            if (pedidoAtualizado.getStatusPedido() == StatusCorrida.FINALIZADA
+                    || pedidoAtualizado.getStatusPedido() == StatusCorrida.CANCELADA) {
+                System.out.println("Status: " + ps.formatarStatusParaCliente(pedidoAtualizado));
+                System.out.println("\nPressione ENTER para voltar ao menu.");
+                ViewUtils.sc.nextLine();
+                return;
             }
 
             System.out.println("\n(Atualizando em 5 segundos...)");
-            try { Thread.sleep(5000); } catch (InterruptedException e) {}
+            try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
         }
     }
-
-
 }

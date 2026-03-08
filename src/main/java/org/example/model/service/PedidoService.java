@@ -33,6 +33,12 @@ public class PedidoService {
         novoPedido.setValor(valorEstimado);
         novoPedido.setFormaPagamento(formaPagamento);
         novoPedido.setStatusPedido(StatusCorrida.SOLICITADA);
+
+        // Para pedidos imediatos, registra o horário de criação. Para agendados, o construtor já recebe 'horaInicio' com o horário.
+        if (novoPedido.getHoraInicio() == null) {
+            novoPedido.setHoraInicio(LocalDateTime.now());
+        }
+
         pedidoRepository.salvar(novoPedido);
 
         Passageiro clienteAtualizado = clienteRepository.buscarPorId(passageiroId);
@@ -53,8 +59,8 @@ public class PedidoService {
      */
     public void atualizarFormaPagamento(Pedido pedido, FormaPagamento formaPagamento) {
         pedido.setFormaPagamento(formaPagamento);
-        pedidoRepository.atualizar(pedido);}
-
+        pedidoRepository.atualizar(pedido);
+    }
 
     /**
      * Cancela um pedido, atualizando o status e removendo-a da lista de pendentes do passageiro.
@@ -71,7 +77,6 @@ public class PedidoService {
             clienteRepository.atualizar(cliente);
         }
     }
-
 
     /**
      * Lógica principal de matchmaking: encontra o entregador elegível mais próximo.
@@ -117,9 +122,10 @@ public class PedidoService {
 
         // Atualiza a corrida: define entregador, status e hora de início
         pedidoAtual.setIdEntregador(entregador.getId());
-        pedidoAtual.setStatusPedido(StatusCorrida.EM_CURSO); // Status muda direto para EM_CURSO
-        if (pedidoAtual.getHoraInicio() !=null){
-            pedidoAtual.setHoraInicio(LocalDateTime.now()); // Hora de início é registrada no aceite, caso não seja definido
+        pedidoAtual.setStatusPedido(StatusCorrida.ACEITA);
+        pedidoAtual.setHoraAceite(LocalDateTime.now()); // Momento do aceite (usado para evolução automática do status no CLI)
+        if (pedidoAtual.getHoraInicio() == null) {
+            pedidoAtual.setHoraInicio(LocalDateTime.now()); // Hora de início (para pedidos imediatos)
         }
         pedidoRepository.atualizar(pedidoAtual);
 
@@ -139,7 +145,7 @@ public class PedidoService {
      */
     public void finalizarCorrida(Pedido pedido) {
         if (pedido.getStatusPedido() != StatusCorrida.EM_CURSO) {
-            System.out.println("A corrida ainda não foi iniciada.");
+            System.out.println("O pedido ainda não foi iniciado.");
             return;
         }
 
@@ -178,44 +184,22 @@ public class PedidoService {
         }
 
         double distanciaKm = Localizacao.calcularDistancia(origem, destino);
-        double tempoEstimadoMinutos = (distanciaKm / 40.0) * 60;
-        double tarifaBase = 1.00;
-        double precoPorKm = 0.80;
-        double precoPorMinuto = 0.15;
-        double precoEntrega = tarifaBase + (distanciaKm * precoPorKm) + (tempoEstimadoMinutos * precoPorMinuto);
-        double fatorDemanda = obterFatorDeDemanda();
-        double precoFinal = (precoEntrega * fatorDemanda) + valorDosItens;
-        return Math.round(precoFinal * 100.0) / 100.0;
+        double taxaPorKm = 1.5;
+        double taxaFixa = 4.0;
+
+        return (distanciaKm * taxaPorKm) + taxaFixa + valorDosItens;
     }
 
-    private double obterFatorDeDemanda() {
-        int horaAtual = LocalDateTime.now().getHour();
-        if ((horaAtual >= 7 && horaAtual < 9) || (horaAtual >= 17 && horaAtual < 19)) {
-            return 1.25; // Tarifa de pico
-        }
-        if (horaAtual >= 0 && horaAtual < 5) {
-            return 1.35; // Tarifa noturna
-        }
-        return 1.0;
-    }
-
-    public int calcularTempoDeEntrega(Localizacao origem, Localizacao destino, ArrayList<MenuItem> itensPedido){
-        int maiorTempo = 0;
-        for (MenuItem item : itensPedido){
-            if (item.getTempoPreparo()>maiorTempo){
-                maiorTempo = item.getTempoPreparo();
-            }
+    public int calcularTempoDeEntrega(Localizacao origem, Localizacao destino, ArrayList<MenuItem> itensPedido) {
+        int tempoPreparo = 0;
+        for (MenuItem itens : itensPedido){
+            tempoPreparo += itens.getTempoPreparo();
         }
         double distanciaKm = Localizacao.calcularDistancia(origem, destino);
-        return (int) ((distanciaKm / 40.0) * 60) + maiorTempo;
-    }
+        int velocidadeMediaKmH = 30;
+        int tempoEntregaMin = (int) ((distanciaKm / velocidadeMediaKmH) * 60);
 
-    public Pedido buscarPedidoAtivoPorEntregador(Entregador entregador) {
-        return pedidoRepository.getPedidos().stream()
-                .filter(p -> p.getIdEntregador() == entregador.getId() &&
-                        (p.getStatusPedido() == StatusCorrida.EM_CURSO)) // Apenas EM_CURSO é considerada ativa
-                .findFirst()
-                .orElse(null);
+        return tempoPreparo + tempoEntregaMin;
     }
 
     public Pedido buscarPedidoPorId(int id) {
@@ -236,6 +220,105 @@ public class PedidoService {
                 .count();
 
         return countEntregadores > 0;
+    }
+
+    /**
+     * Simula o aceite automático do pedido (já que o Menu Entregador/Restaurante ainda está "Em breve").
+     * Se existir um entregador DISPONÍVEL, o sistema seleciona o mais próximo e aceita o pedido.
+     *
+     * Esse método é útil para o CLI do Cliente (acompanhamento), permitindo que o status evolua sem
+     * depender de um operador no menu do entregador.
+     */
+    public boolean tentarAceiteAutomatico(Pedido pedido) {
+        Pedido pedidoAtual = pedidoRepository.buscarPorId(pedido.getIdPedido());
+        if (pedidoAtual == null) return false;
+
+        // Só faz sentido se ainda está solicitado e já passou do horário agendado (quando houver)
+        if (pedidoAtual.getStatusPedido() != StatusCorrida.SOLICITADA) return false;
+
+        if (pedidoAtual.getHoraInicio() != null && LocalDateTime.now().isBefore(pedidoAtual.getHoraInicio())) {
+            return false; // ainda não chegou o horário do agendamento
+        }
+
+        List<Entregador> entregadoresElegiveis = entregadorRepository.getEntregadores().stream()
+                .filter(e -> e.getStatus() == EntregadorStatus.DISPONIVEL)
+                .filter(e -> !pedidoAtual.getEntregadoresQueRejeitaram().contains(e.getId()))
+                .sorted(Comparator.comparingDouble(e ->
+                        Localizacao.calcularDistancia(e.getLocalizacaoAtual(), pedidoAtual.getOrigem())
+                ))
+                .toList();
+
+        if (entregadoresElegiveis.isEmpty()) {
+            return false;
+        }
+
+        // Simula o aceite do mais próximo
+        return aceitarPedido(entregadoresElegiveis.getFirst(), pedidoAtual);
+    }
+
+    /**
+     * Evolui automaticamente o status de um pedido após o ACEITE.
+     *
+     * Regras de tempo (simulação simples para CLI):
+     * - ACEITA -> EM_PREPARO (após 5s)
+     * - EM_PREPARO -> SAIU_PARA_ENTREGA (após 15s)
+     * - SAIU_PARA_ENTREGA -> EM_CURSO (após 20s)
+     *
+     * Retorna o pedido atualizado do repositório.
+     */
+    public Pedido avancarStatusAutomatico(Pedido pedido) {
+        Pedido pedidoAtual = pedidoRepository.buscarPorId(pedido.getIdPedido());
+        if (pedidoAtual == null) return null;
+
+        // só avança se já aceito e ainda não está em curso/finalizado/cancelado
+        if (pedidoAtual.getStatusPedido() == StatusCorrida.CANCELADA ||
+                pedidoAtual.getStatusPedido() == StatusCorrida.FINALIZADA ||
+                pedidoAtual.getStatusPedido() == StatusCorrida.EM_CURSO) {
+            return pedidoAtual;
+        }
+
+        if (pedidoAtual.getHoraAceite() == null) {
+            return pedidoAtual;
+        }
+
+        long segundos = java.time.Duration.between(pedidoAtual.getHoraAceite(), LocalDateTime.now()).getSeconds();
+
+        if (pedidoAtual.getStatusPedido() == StatusCorrida.ACEITA && segundos >= 5) {
+            pedidoAtual.setStatusPedido(StatusCorrida.EM_PREPARO);
+            pedidoRepository.atualizar(pedidoAtual);
+            return pedidoAtual;
+        }
+
+        if (pedidoAtual.getStatusPedido() == StatusCorrida.EM_PREPARO && segundos >= 15) {
+            pedidoAtual.setStatusPedido(StatusCorrida.SAIU_PARA_ENTREGA);
+            pedidoRepository.atualizar(pedidoAtual);
+            return pedidoAtual;
+        }
+
+        if (pedidoAtual.getStatusPedido() == StatusCorrida.SAIU_PARA_ENTREGA && segundos >= 20) {
+            pedidoAtual.setStatusPedido(StatusCorrida.EM_CURSO);
+            pedidoRepository.atualizar(pedidoAtual);
+            return pedidoAtual;
+        }
+
+        return pedidoAtual;
+    }
+
+    /**
+     * Retorna uma mensagem amigável de status para exibição no CLI do Cliente.
+     */
+    public String formatarStatusParaCliente(Pedido pedido) {
+        if (pedido == null || pedido.getStatusPedido() == null) return "Status desconhecido";
+
+        return switch (pedido.getStatusPedido()) {
+            case SOLICITADA -> "Aguardando um entregador aceitar...";
+            case ACEITA -> "Entregador aceitou! Restaurante recebeu seu pedido.";
+            case EM_PREPARO -> "Restaurante está preparando seu pedido...";
+            case SAIU_PARA_ENTREGA -> "Pedido saiu para entrega!";
+            case EM_CURSO -> "Entregador a caminho do seu endereço!";
+            case FINALIZADA -> "Pedido entregue!";
+            case CANCELADA -> "Pedido cancelado.";
+        };
     }
 
     public void atualizarPedido(Pedido pedido) {

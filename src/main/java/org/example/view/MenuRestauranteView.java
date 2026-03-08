@@ -14,6 +14,7 @@ public class MenuRestauranteView {
             System.out.println("-----------------------");
             System.out.println("1 - Gerenciar Cardápio");
             System.out.println("2 - Ver Pedidos Recebidos (Em breve)");
+            System.out.println("3 - Avaliar Experiência");
             System.out.println("0 - Logout");
             System.out.print("\nEscolha uma opção: ");
 
@@ -26,8 +27,12 @@ public class MenuRestauranteView {
             switch (opcao) {
                 case 1:
                     GerenciarCarpadioView.executar(restaurante);
+                    break;
                 case 2:
                     ViewUtils.sc.nextLine();
+                    break;
+                case 3:
+                    AvaliarExperienciaRestauranteView.executar(restaurante);
                     break;
                 case 0:
                     break;

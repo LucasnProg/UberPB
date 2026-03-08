@@ -15,6 +15,7 @@ public class MenuEntregadorView {
             System.out.println("1 - Ver Pedidos Disponíveis (Em breve)");
             System.out.println("2 - Meus Pedidos Aceitos (Em breve)");
             System.out.println("3 - Alterar Status (Em breve)");
+            System.out.println("4 - Avaliar Experiência");
             System.out.println("0 - Logout");
             System.out.print("\nEscolha uma opção: ");
 
@@ -30,6 +31,9 @@ public class MenuEntregadorView {
                 case 3:
                     System.out.println("\nFuncionalidade em desenvolvimento...");
                     ViewUtils.sc.nextLine();
+                    break;
+                case 4:
+                    AvaliarExperienciaEntregadorView.executar(entregador);
                     break;
                 case 0:
                     break;

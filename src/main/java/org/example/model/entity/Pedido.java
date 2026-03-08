@@ -19,12 +19,13 @@ public class Pedido {
     private Localizacao origem;
     private Localizacao destino;
     private LocalDateTime horaInicio;
+    private LocalDateTime horaAceite;
     private LocalDateTime horaFim;
     private boolean precisaTroco;
 
     public Pedido() {}
 
-    public Pedido(int idCliente, int idRestaurante, ArrayList<MenuItem> itensPedidos,LocalDateTime horaInicio) {
+    public Pedido(int idCliente, int idRestaurante, ArrayList<MenuItem> itensPedidos, LocalDateTime horaInicio) {
         this.idCliente = idCliente;
         this.idRestaurante = idRestaurante;
         this.itensPedidos = itensPedidos;
@@ -136,6 +137,14 @@ public class Pedido {
 
     public void setHoraInicio(LocalDateTime horaInicio) {
         this.horaInicio = horaInicio;
+    }
+
+    public LocalDateTime getHoraAceite() {
+        return horaAceite;
+    }
+
+    public void setHoraAceite(LocalDateTime horaAceite) {
+        this.horaAceite = horaAceite;
     }
 
     public LocalDateTime getHoraFim() {
