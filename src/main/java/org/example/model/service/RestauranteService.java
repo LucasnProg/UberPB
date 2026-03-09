@@ -35,7 +35,8 @@ public class RestauranteService {
      * @param telefone Telefone.
      * @return O restaurante cadastrado ou null se falhar validação.
      */
-    public Restaurante criar(String nome, String email, String senha, String cnpj, String telefone, String categoria, Localizacao localizacao) {
+    public Restaurante criar(String nome, String email, String senha, String cnpj, String telefone, String categoria,
+            Localizacao localizacao) {
         if (restauranteRepository.buscarPorEmail(email) != null) {
             System.out.println("\n[ERRO] O e-mail informado já está cadastrado.");
             return null;
@@ -59,28 +60,28 @@ public class RestauranteService {
         restauranteRepository.atualizar(restaurante);
     }
 
-    public ArrayList<Restaurante> listarRestaurantes(){
+    public ArrayList<Restaurante> listarRestaurantes() {
         return restauranteRepository.getAll();
     }
 
-    public ArrayList<MenuItem> getMenu(int restauranteId){
+    public ArrayList<MenuItem> getMenu(int restauranteId) {
         Restaurante restaurante = restauranteRepository.buscarPorId(restauranteId);
 
         return restaurante.getMenu();
     }
 
-    public static Localizacao getLocalizacaoPorID(int IdRestaurante){
+    public static Localizacao getLocalizacaoPorID(int IdRestaurante) {
         RestauranteService rs = new RestauranteService();
         Restaurante restaurante = rs.buscarPorId(IdRestaurante);
 
         return restaurante.getEndereco();
     }
 
-    public void adicionarItemAoCardapio(Restaurante restaurante,MenuItem item){
-        try{
-            item.setId(restaurante.getMenu().size()+1);
+    public void adicionarItemAoCardapio(Restaurante restaurante, MenuItem item) {
+        try {
+            item.setId(restaurante.getMenu().size() + 1);
             restaurante.getMenu().add(item);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             item.setId(1);
             ArrayList<MenuItem> menu = new ArrayList<>();
             menu.add(item);
@@ -89,18 +90,46 @@ public class RestauranteService {
         atualizar(restaurante);
     }
 
-    public void removerItemPorId(Restaurante restaurante, int id){
+    public void removerItemPorId(Restaurante restaurante, int id) {
         restaurante.getMenu().removeIf(item -> item.getId() == id);
 
         atualizar(restaurante);
     }
 
-    public MenuItem getItemPorId(Restaurante restaurante, int id){
-        for (MenuItem item : restaurante.getMenu()){
-            if (item.getId() == id){
+    public MenuItem getItemPorId(Restaurante restaurante, int id) {
+        for (MenuItem item : restaurante.getMenu()) {
+            if (item.getId() == id) {
                 return item;
             }
         }
         return null;
+    }
+
+    public void aceitarPedido(Restaurante restaurante, org.example.model.entity.Pedido pedido) {
+        restaurante.getPedidosNotificados().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+        restaurante.getPedidosAceitos().add(pedido);
+        atualizar(restaurante);
+
+        org.example.model.service.PedidoService ps = new org.example.model.service.PedidoService();
+        org.example.model.entity.Pedido p = ps.buscarPedidoPorId(pedido.getIdPedido());
+        if (p != null) {
+            if (p.getStatusPedido() == org.example.model.entity.StatusCorrida.SOLICITADA
+                    || p.getStatusPedido() == org.example.model.entity.StatusCorrida.ACEITA) {
+                p.setStatusPedido(org.example.model.entity.StatusCorrida.EM_PREPARO);
+                ps.atualizarPedido(p);
+            }
+        }
+    }
+
+    public void rejeitarPedido(Restaurante restaurante, org.example.model.entity.Pedido pedido) {
+        restaurante.getPedidosNotificados().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+        atualizar(restaurante);
+
+        org.example.model.service.PedidoService ps = new org.example.model.service.PedidoService();
+        org.example.model.entity.Pedido p = ps.buscarPedidoPorId(pedido.getIdPedido());
+        if (p != null) {
+            p.setStatusPedido(org.example.model.entity.StatusCorrida.CANCELADA);
+            ps.atualizarPedido(p);
+        }
     }
 }
