@@ -4,7 +4,7 @@ import org.example.model.entity.Passageiro;
 
 public class MenuPassageiroView {
 
-    public static void exibir(Passageiro passageiro) {
+    public static void exibir(Passageiro passageiro) throws InterruptedException {
         int opcao = -1;
         while (opcao != 0) {
             ViewUtils.limparConsole();

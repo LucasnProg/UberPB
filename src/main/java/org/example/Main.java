@@ -11,7 +11,7 @@ public class Main {
      * Método main que inicia a execução do sistema.
      * @param args Argumentos de linha de comando (não utilizados).
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         View.iniciar();
     }
 }

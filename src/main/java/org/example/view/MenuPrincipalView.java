@@ -8,7 +8,7 @@ public class MenuPrincipalView {
     /**
      * Exibe o menu principal em um loop até que o usuário escolha sair.
      */
-    public static void exibirMenu() {
+    public static void exibirMenu() throws InterruptedException {
         int opcao = -1;
 
         while (opcao != 0) {

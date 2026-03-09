@@ -21,7 +21,7 @@ public class LoginView {
     /**
      * Exibe a interface de login, coleta as credenciais e direciona o usuário.
      */
-    public static void loginUsuario() {
+    public static void loginUsuario() throws InterruptedException {
         ViewUtils.limparConsole();
         System.out.println("--- Login ---");
         System.out.println("(Digite 'voltar' a qualquer momento para retornar ao menu)");

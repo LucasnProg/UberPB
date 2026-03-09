@@ -16,10 +16,10 @@ import java.util.List;
  */
 public class PedidoService {
 
-    private final EntregadorRepository entregadorRepository = new EntregadorRepository();
+    private static final EntregadorRepository entregadorRepository = new EntregadorRepository();
     private static final PedidoRepository pedidoRepository = new PedidoRepository();
     private static final PassageiroRepository clienteRepository = new PassageiroRepository();
-    private final RestauranteRepository restauranteRepository = new RestauranteRepository();
+    private static final RestauranteRepository restauranteRepository = new RestauranteRepository();
 
     /**
      * Etapa 1 do Fluxo: Cria o pedido, adiciona à lista de pendentes do cliente
@@ -411,5 +411,25 @@ public class PedidoService {
 
     public void atualizarPedido(Pedido pedido) {
         pedidoRepository.atualizar(pedido);
+    }
+
+
+    public static void entregaConcluida(Pedido pedido) {
+        Restaurante restaurante = restauranteRepository.buscarPorId(pedido.getIdRestaurante());
+        Entregador entregador = entregadorRepository.buscarPorId(pedido.getIdEntregador());
+        Passageiro cliente = clienteRepository.buscarPorId(pedido.getIdCliente());
+
+        cliente.getPedidosPendentes().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+        entregador.getEntregasAceitas().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+        restaurante.getPedidosAceitos().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+
+        entregador.getEntregasAceitas().add(pedido);
+        restaurante.getPedidosAceitos().add(pedido);
+        cliente.getHistoricoPedidos().add(pedido);
+
+        restauranteRepository.atualizar(restaurante);
+        entregadorRepository.atualizar(entregador);
+        pedidoRepository.atualizar(pedido);
+        clienteRepository.atualizar(cliente);
     }
 }

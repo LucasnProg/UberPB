@@ -3,8 +3,10 @@ package org.example.view;
 import org.example.model.entity.Entregador;
 import org.example.model.entity.MenuItem;
 import org.example.model.entity.Pedido;
+import org.example.model.entity.Restaurante;
 import org.example.model.service.PedidoService;
 import org.example.model.service.RestauranteService;
+import org.example.model.service.SimuladorViagem;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -91,7 +93,10 @@ public class GerenciarPedidosEntregadorView {
                 case 1:
                     boolean aceito = pedidoService.aceitarPedido(entregador, pedidoSelecionado);
                     if (aceito) {
-                        System.out.println("\nPedido aceito! Vá para o restaurante.");
+                        Restaurante restaurante = restauranteService.buscarPorId(pedidoSelecionado.getIdRestaurante());
+                        SimuladorViagem.prepararSimulacaoEntrega(pedidoSelecionado,restaurante, entregador);
+                        MapaView.abrirMapa();
+                        SimuladorViagem.simularEntrega(pedidoSelecionado);
                     }
                     System.out.println("\nPressione ENTER para continuar.");
                     ViewUtils.sc.nextLine();

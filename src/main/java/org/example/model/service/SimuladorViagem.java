@@ -1,11 +1,10 @@
 package org.example.model.service;
 
-import org.example.model.entity.Corrida;
-import org.example.model.entity.Localizacao;
-import org.example.model.entity.Pedido;
+import org.example.model.entity.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 /**
@@ -13,8 +12,8 @@ import java.util.Locale;
  */
 public class SimuladorViagem {
 
-    private static final int NUMERO_DE_PASSOS = 20; // A viagem será dividida em 20 etapas
-    private static final int INTERVALO_MS = 2000;   // Intervalo de 2 segundos entre cada etapa
+    private static final int NUMERO_DE_PASSOS = 20;
+    private static final int INTERVALO_MS = 2000;
 
     /**
      * Prepara o arquivo de dados para a simulação, escrevendo o estado inicial.
@@ -30,10 +29,9 @@ public class SimuladorViagem {
      * DEVE ser chamado ANTES de abrir o mapa no navegador para evitar erros.
      * @param pedido A corrida que será simulada.
      */
-    public static void prepararSimulacaoEntrega(Pedido pedido, Localizacao localizacaoEntregador) {
-        escreverArquivoJS(pedido.getOrigem(), pedido.getDestino(), localizacaoEntregador);
+    public static void prepararSimulacaoEntrega(Pedido pedido, Restaurante restaurante, Entregador entregador) {
+        escreverDadosEntrega(restaurante.getEndereco(), pedido.getDestino(),entregador.getLocalizacaoAtual());
     }
-
     /**
      * Executa a simulação de uma corrida, atualizando o arquivo JS para o mapa.
      * @param corrida O objeto Corrida a ser simulado.
@@ -45,7 +43,7 @@ public class SimuladorViagem {
         System.out.println("\n--- Iniciando simulação da viagem no mapa ---");
         System.out.println("Por favor, verifique a janela do navegador que foi aberta.");
 
-        // O passo 0 já foi escrito pelo prepararSimulacao, então começamos do 1.
+
         for (int i = 1; i <= NUMERO_DE_PASSOS; i++) {
             double fator = (double) i / NUMERO_DE_PASSOS;
             double latAtual = origem.getLatitude() + fator * (destino.getLatitude() - origem.getLatitude());
@@ -74,10 +72,9 @@ public class SimuladorViagem {
         Localizacao origem = pedido.getOrigem();
         Localizacao destino = pedido.getDestino();
 
-        System.out.println("\n--- Iniciando simulação da viagem no mapa ---");
+        System.out.println("\n--- Iniciando simulação da entrega no mapa ---");
         System.out.println("Por favor, verifique a janela do navegador que foi aberta.");
 
-        // O passo 0 já foi escrito pelo prepararSimulacao, então começamos do 1.
         for (int i = 1; i <= NUMERO_DE_PASSOS; i++) {
             double fator = (double) i / NUMERO_DE_PASSOS;
             double latAtual = origem.getLatitude() + fator * (destino.getLatitude() - origem.getLatitude());
@@ -95,7 +92,12 @@ public class SimuladorViagem {
                 System.err.println("Simulação interrompida.");
             }
         }
-        System.out.println("--- Simulação da viagem finalizada ---");
+        System.out.println("--- Simulação da entrega finalizada ---");
+
+        pedido.setStatusPedido(StatusCorrida.FINALIZADA);
+        pedido.setHoraFim(LocalDateTime.now());
+
+        PedidoService.entregaConcluida(pedido);
     }
 
     /**
@@ -107,7 +109,6 @@ public class SimuladorViagem {
         String origemDesc = origem.getDescricao().replace("\"", "\\\"");
         String destinoDesc = destino.getDescricao().replace("\"", "\\\"");
 
-        // Usa Locale.US para garantir que o separador decimal seja '.'
         String conteudo = String.format(Locale.US,
                 "var origem = { lat: %f, lon: %f, desc: \"%s\" };\n" +
                         "var destino = { lat: %f, lon: %f, desc: \"%s\" };\n" +
@@ -123,4 +124,27 @@ public class SimuladorViagem {
             System.err.println("Erro ao escrever arquivo de simulação: " + e.getMessage());
         }
     }
+
+    /**
+     * Escreve/sobrescreve o arquivo dados_viagem.js com as coordenadas atuais.
+     */
+    private static void escreverDadosEntrega(Localizacao localizacaoRestaurante, Localizacao localizacaoEntrega, Localizacao localizacaoEntregador) {
+        String caminhoArquivo = "src/main/java/org/example/view/Mapa/dados_viagem.js";
+
+        String conteudo = String.format(Locale.US,
+                "var origem = { lat: %f, lon: %f, desc: \"%s\" };\n" +
+                        "var destino = { lat: %f, lon: %f, desc: \"%s\" };\n" +
+                        "var carro_pos = { lat: %f, lon: %f };",
+                localizacaoRestaurante.getLatitude(), localizacaoRestaurante.getLongitude(), localizacaoEntrega.getDescricao(),
+                localizacaoEntrega.getLatitude(), localizacaoEntrega.getLongitude(), localizacaoEntrega.getDescricao(),
+                localizacaoEntregador.getLatitude(), localizacaoEntregador.getLongitude()
+        );
+
+        try (FileWriter writer = new FileWriter(caminhoArquivo)) {
+            writer.write(conteudo);
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever arquivo de simulação: " + e.getMessage());
+        }
+    }
+
 }

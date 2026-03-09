@@ -93,5 +93,50 @@
     "agendamento": false,
     "aceiteEntregador": true,
     "aceiteRestaurante": true
+  },
+  {
+    "idPedido": 3,
+    "idCliente": 1,
+    "idRestaurante": 1,
+    "idEntregador": 1,
+    "itensPedidos": [
+      {
+        "id": 1,
+        "nome": "Coxinha",
+        "ingredientes": "Frango",
+        "preco": 5.0,
+        "tempoPreparo": 10
+      },
+      {
+        "id": 1,
+        "nome": "Coxinha",
+        "ingredientes": "Frango",
+        "preco": 5.0,
+        "tempoPreparo": 10
+      }
+    ],
+    "valor": 17.64062614482343,
+    "formaPagamento": "CARTAO_CREDITO",
+    "statusPedido": "FINALIZADA",
+    "EntregadoresQueRejeitaram": [
+      0
+    ],
+    "origem": {
+      "descricao": "Universitário",
+      "latitude": -7.214,
+      "longitude": -35.909
+    },
+    "destino": {
+      "descricao": "Dinamérica",
+      "latitude": -7.235,
+      "longitude": -35.915
+    },
+    "horaInicio": "2026-03-09T18:44:20.5163784",
+    "horaAceite": "2026-03-09T18:47:41.6971849",
+    "horaFim": "2026-03-09T18:48:03.1795554",
+    "precisaTroco": false,
+    "agendamento": false,
+    "aceiteEntregador": true,
+    "aceiteRestaurante": true
   }
 ]
