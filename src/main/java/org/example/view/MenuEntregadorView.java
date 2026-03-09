@@ -12,7 +12,7 @@ public class MenuEntregadorView {
             System.out.println("Bem-vindo, " + entregador.getNome());
             System.out.println("Status atual: " + entregador.getStatus());
             System.out.println("-----------------------");
-            System.out.println("1 - Ver Pedidos Disponíveis (Em breve)");
+            System.out.println("1 - Ver Pedidos Disponíveis");
             System.out.println("2 - Meus Pedidos Aceitos (Em breve)");
             System.out.println("3 - Alterar Status (Em breve)");
             System.out.println("4 - Avaliar Experiência");
@@ -27,6 +27,8 @@ public class MenuEntregadorView {
 
             switch (opcao) {
                 case 1:
+                    GerenciarPedidosEntregadorView.executar(entregador);
+                    break;
                 case 2:
                 case 3:
                     System.out.println("\nFuncionalidade em desenvolvimento...");
