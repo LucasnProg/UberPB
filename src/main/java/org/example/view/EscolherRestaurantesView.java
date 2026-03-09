@@ -41,6 +41,8 @@ public class EscolherRestaurantesView {
             } catch (NumberFormatException e) {
                 System.out.println("\n[ERRO] Entrada inválida. Pressione ENTER para tentar novamente.");
                 ViewUtils.sc.nextLine();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }

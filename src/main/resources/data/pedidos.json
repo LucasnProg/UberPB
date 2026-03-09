@@ -1,2 +1,83 @@
 [
+  {
+    "idPedido": 1,
+    "idCliente": 3,
+    "idRestaurante": 1,
+    "idEntregador": 0,
+    "itensPedidos": [],
+    "valor": 6093.157792270528,
+    "formaPagamento": "PIX",
+    "statusPedido": "SOLICITADA",
+    "EntregadoresQueRejeitaram": [
+      0
+    ],
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "horaInicio": "2026-03-09T12:16:16.3676928",
+    "precisaTroco": false
+  },
+  {
+    "idPedido": 2,
+    "idCliente": 3,
+    "idRestaurante": 1,
+    "idEntregador": 0,
+    "itensPedidos": [
+      {
+        "id": 1,
+        "nome": "Coxinha de frango",
+        "ingredientes": "Frango",
+        "preco": 5.0,
+        "tempoPreparo": 5
+      },
+      {
+        "id": 1,
+        "nome": "Coxinha de frango",
+        "ingredientes": "Frango",
+        "preco": 5.0,
+        "tempoPreparo": 5
+      }
+    ],
+    "valor": 6103.157792270528,
+    "formaPagamento": "DINHEIRO",
+    "statusPedido": "SOLICITADA",
+    "EntregadoresQueRejeitaram": [
+      0
+    ],
+    "origem": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "horaInicio": "2026-03-09T12:23:12.4095231",
+    "precisaTroco": false
+  },
+  {
+    "idPedido": 3,
+    "idCliente": 3,
+    "idRestaurante": 1,
+    "idEntregador": 0,
+    "itensPedidos": [
+      {
+        "id": 1,
+        "nome": "Coxinha de frango",
+        "ingredientes": "Frango",
+        "preco": 5.0,
+        "tempoPreparo": 5
+      }
+    ],
+    "valor": 14.097411781640378,
+    "formaPagamento": "PIX",
+    "statusPedido": "SOLICITADA",
+    "EntregadoresQueRejeitaram": [
+      0
+    ],
+    "origem": {
+      "descricao": "Bodocongó",
+      "latitude": -7.2235,
+      "longitude": -35.9142
+    },
+    "horaInicio": "2026-03-09T18:30:00",
+    "precisaTroco": false
+  }
 ]

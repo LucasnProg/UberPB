@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.model.entity.Entregador;
 import org.example.model.service.EntregadorService;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ public class CadastroEntregadorView {
 
     public static void executar() {
         ViewUtils.limparConsole();
-        System.out.println("--- Cadastro de Entregador ---");
+        System.out.println("--- Cadastro de Entregador (Etapa 1/2: Dados pessoais) ---");
         System.out.println("(Digite 'voltar' a qualquer momento para cancelar)");
         String nome, cpf, email, senha, telefone;
 
@@ -68,9 +69,13 @@ public class CadastroEntregadorView {
             System.out.println("\n[ERRO] O telefone deve conter apenas números.");
         }
 
-        entregadorService.criar(nome, email, senha, cpf, telefone);
+        Entregador novoEntregador = entregadorService.criar(nome, email, senha, cpf, telefone);
 
-        System.out.println("\nPressione ENTER para continuar...");
-        ViewUtils.sc.nextLine();
+        if (novoEntregador != null){
+            CadastroMotocicletaView.executar(novoEntregador);
+        } else {
+            System.out.println("\nCadastro não pôde ser concluído. Pressione ENTER para voltar...");
+            ViewUtils.sc.nextLine();
+        }
     }
 }

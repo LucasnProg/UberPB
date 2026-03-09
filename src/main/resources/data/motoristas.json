@@ -24,12 +24,12 @@
     "telefone": "11920202020"
   },
   {
-    "idVeiculo": 12,
+    "idVeiculo": 13,
     "status": "DISPONIVEL",
     "corridasNotificadas": [],
     "corridasAceitas": [
       {
-        "id": 22,
+        "id": 23,
         "passageiroId": 2,
         "motoristaId": 3,
         "origem": {
@@ -41,7 +41,7 @@
           "longitude": 5.0
         },
         "valor": 2166.48,
-        "horaInicio": "2026-02-23T18:36:18.3000341",
+        "horaInicio": "2026-02-24T07:48:39.7948102",
         "categoriaVeiculo": "UBER_X",
         "status": "EM_CURSO",
         "motoristasQueRejeitaram": [],
@@ -55,5 +55,18 @@
     "senha": "senha123",
     "cpf": "98765432100",
     "telefone": "11999999999"
+  },
+  {
+    "idVeiculo": 14,
+    "status": "DISPONIVEL",
+    "corridasNotificadas": [],
+    "corridasAceitas": [],
+    "chavePix": "Cpf",
+    "id": 4,
+    "nome": "lucas",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "111.222.333-44",
+    "telefone": "988888888"
   }
 ]

@@ -20,7 +20,7 @@ public class RealizarPedidoView {
     private static final PedidoService ps = new PedidoService();
     private static final LocalizacaoService ls = new LocalizacaoService();
 
-    public static void executar(Restaurante restaurante, Passageiro passageiro) {
+    public static void executar(Restaurante restaurante, Passageiro passageiro) throws InterruptedException {
         ArrayList<MenuItem> itensPedido = new ArrayList<>();
         ViewUtils.limparConsole();
         ArrayList<MenuItem> cardapio = null;
@@ -32,7 +32,7 @@ public class RealizarPedidoView {
             System.out.println("\nRestaurante Ainda não possui cardápio cadastrado.");
             return;
         }
-        if (cardapio!= null){
+        if (cardapio!= null && !cardapio.isEmpty()){
             for (MenuItem menuItem : cardapio) {
                 System.out.println("Id: "+menuItem.getId());
                 System.out.println("Nome: "+menuItem.getNome());
@@ -41,7 +41,9 @@ public class RealizarPedidoView {
                 System.out.println("Tempo de Preparo: "+menuItem.getTempoPreparo());
             }
         } else {
-            System.out.println("\nCardápio vazio.");
+            System.out.println("\nRestaurante Ainda não possui cardápio cadastrado.\n");
+            Thread.sleep(3000);
+            return;
         }
 
         int idItem = -1;
@@ -49,18 +51,19 @@ public class RealizarPedidoView {
             System.out.println("\n"+itensPedido.size()+" Itens adicionados ao Pedido.");
             System.out.print("\nEscolha uma opção (Digite: 0, para concluir o pedido):  ");
             String idItemPedido = ViewUtils.sc.nextLine();
-
+            boolean isValid = false;
 
             try {
                 idItem = Integer.parseInt(idItemPedido);
+                isValid = true;
             } catch (NumberFormatException e) {
                 System.out.println("\n[ERRO] Entrada inválida. Pressione ENTER para tentar novamente.");
                 ViewUtils.sc.nextLine();
             }
-
-            if (idItem>0 && idItem<=rs.getMenu(restaurante.getId()).size()){
+                
+            if (idItem>0 && idItem<=rs.getMenu(restaurante.getId()).size() && isValid){
                 itensPedido.add(rs.getItemPorId(restaurante,idItem));
-            } else if (idItem == 0) {
+            } else if (idItem == 0 && isValid) {
                 while (true) {
                     int locId;
                     System.out.print("\nSelecione o Local de Entrega: \n");
@@ -108,7 +111,7 @@ public class RealizarPedidoView {
                 System.out.printf("Preço Estimado: R$ %.2f\n", estimativaValor );
                 System.out.printf("Tempo de Entrega Estimado:  %d Minutos\n", ps.calcularTempoDeEntrega(restaurante.getEndereco(),destino, itensPedido));
 
-                System.out.print("\nDeseja prosseguir para o pagamento e solicitar a corrida? (S/N): ");
+                System.out.print("\nDeseja prosseguir para o pagamento e finalizar o pedido? (S/N): ");
 
                 if (ViewUtils.sc.nextLine().equalsIgnoreCase("S")) {
                     Pedido pedidoTemporario = new Pedido();
@@ -118,7 +121,7 @@ public class RealizarPedidoView {
 
                     if (formaPagamento != null) {
                         LocalDateTime dataAgendamento = null;
-                        System.out.println("\nDeseja agendar seu pedido? (S/N):");
+                        System.out.println("\nDeseja agendar o horario de entrega do seu pedido? (S/N):");
                         if (ViewUtils.sc.nextLine().equalsIgnoreCase("S")) {
                             while (true) {
                                 try {
@@ -154,6 +157,7 @@ public class RealizarPedidoView {
                     }
                 } else {
                     System.out.println("\nSolicitação cancelada.");
+                    return;
                 }
 
                 System.out.println("\nPressione ENTER para voltar ao menu.");

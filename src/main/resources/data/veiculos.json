@@ -154,5 +154,31 @@
     "numAssentos": 4,
     "premium": false,
     "categoria": "UBER_X"
+  },
+  {
+    "id": 13,
+    "marca": "Toyota",
+    "modelo": "ModeloX",
+    "placa": "ABC-1234",
+    "renavam": "123456789",
+    "anoFabricacao": 2020,
+    "cor": "Preto",
+    "capacidadeMala": 450.0,
+    "numAssentos": 4,
+    "premium": false,
+    "categoria": "UBER_X"
+  },
+  {
+    "id": 14,
+    "marca": "chevrolet",
+    "modelo": "onix",
+    "placa": "ABC1D23",
+    "renavam": "123456789",
+    "anoFabricacao": 2024,
+    "cor": "preto",
+    "capacidadeMala": 300.0,
+    "numAssentos": 5,
+    "premium": false,
+    "categoria": "UBER_COMFORT"
   }
 ]

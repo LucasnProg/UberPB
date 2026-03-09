@@ -13,6 +13,7 @@ public class Entregador extends Usuario {
     private EntregadorStatus status;
     private List<Pedido> entregasNotificadas = new ArrayList<>();
     private List<Pedido> entregasAceitas = new ArrayList<>();
+    private int idMotocicleta;
 
     /**
      * Construtor para a classe Entregador.
@@ -63,5 +64,13 @@ public class Entregador extends Usuario {
 
     public void adicionarPedidoNotificada(Pedido pedido) {
         this.entregasNotificadas.add(pedido);
+    }
+
+    public int getIdMotocicleta() {
+        return idMotocicleta;
+    }
+
+    public void setIdMotocicleta(int idMotocicleta) {
+        this.idMotocicleta = idMotocicleta;
     }
 }

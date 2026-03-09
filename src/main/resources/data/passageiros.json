@@ -15,7 +15,7 @@
     "corridasPendentes": [],
     "historicoCorridas": [
       {
-        "id": 22,
+        "id": 23,
         "passageiroId": 2,
         "motoristaId": 3,
         "origem": {
@@ -27,8 +27,8 @@
           "longitude": 5.0
         },
         "valor": 2166.48,
-        "horaInicio": "2026-02-23T18:36:18.3000341",
-        "horaFim": "2026-02-23T18:36:18.3171347",
+        "horaInicio": "2026-02-24T07:48:39.7948102",
+        "horaFim": "2026-02-24T07:48:39.8168124",
         "categoriaVeiculo": "UBER_X",
         "status": "FINALIZADA",
         "motoristasQueRejeitaram": [],
@@ -44,5 +44,99 @@
     "senha": "senha123",
     "cpf": "12345678900",
     "telefone": "11988888888"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [
+      {
+        "idPedido": 1,
+        "idCliente": 3,
+        "idRestaurante": 1,
+        "idEntregador": 0,
+        "itensPedidos": [],
+        "valor": 6093.157792270528,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": 0.0,
+          "longitude": 0.0
+        },
+        "horaInicio": "2026-03-09T12:16:16.3676928",
+        "precisaTroco": false
+      },
+      {
+        "idPedido": 2,
+        "idCliente": 3,
+        "idRestaurante": 1,
+        "idEntregador": 0,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha de frango",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 5
+          },
+          {
+            "id": 1,
+            "nome": "Coxinha de frango",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 5
+          }
+        ],
+        "valor": 6103.157792270528,
+        "formaPagamento": "DINHEIRO",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": 0.0,
+          "longitude": 0.0
+        },
+        "horaInicio": "2026-03-09T12:23:12.4095231",
+        "precisaTroco": false
+      },
+      {
+        "idPedido": 3,
+        "idCliente": 3,
+        "idRestaurante": 1,
+        "idEntregador": 0,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha de frango",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 5
+          }
+        ],
+        "valor": 14.097411781640378,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Bodocongó",
+          "latitude": -7.2235,
+          "longitude": -35.9142
+        },
+        "horaInicio": "2026-03-09T18:30:00",
+        "precisaTroco": false
+      }
+    ],
+    "historicoPedidos": [],
+    "id": 3,
+    "nome": "lucas ",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "111.222.333-44",
+    "telefone": "83988888888"
   }
 ]

@@ -85,7 +85,7 @@ public class CadastroRestauranteView {
 
         Localizacao localizacao = null;
         while (true) {
-            System.out.print("Selecione a Localização do Restaurante: ");
+            System.out.print("Selecione a Localização do Restaurante: \n");
             int i = 1;
             List<Localizacao> bairros = ls.carregarBairros();
             for (Localizacao local : bairros) {

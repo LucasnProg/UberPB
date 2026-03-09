@@ -2,10 +2,19 @@
   {
     "categoria": "Italiana",
     "endereco": {
-      "latitude": 0.0,
-      "longitude": 0.0
+      "descricao": "Bodocongó",
+      "latitude": -7.2235,
+      "longitude": -35.9142
     },
-    "menu": [],
+    "menu": [
+      {
+        "id": 1,
+        "nome": "Coxinha de frango",
+        "ingredientes": "Frango",
+        "preco": 5.0,
+        "tempoPreparo": 5
+      }
+    ],
     "pedidosNotificados": [],
     "pedidosAceitos": [],
     "id": 1,
@@ -14,5 +23,22 @@
     "senha": "senha123",
     "cpf": "1112223330001",
     "telefone": "11977777777"
+  },
+  {
+    "categoria": "Lanchonete",
+    "endereco": {
+      "descricao": "Bodocongó",
+      "latitude": -7.2235,
+      "longitude": -35.9142
+    },
+    "menu": [],
+    "pedidosNotificados": [],
+    "pedidosAceitos": [],
+    "id": 2,
+    "nome": "Tia Lu",
+    "email": "tialu@gmail.com",
+    "senha": "senha123",
+    "cpf": "12.123.123/1234-00",
+    "telefone": "987878787"
   }
 ]

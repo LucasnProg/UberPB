@@ -87,7 +87,6 @@ public class AvaliarExperienciaRestauranteView {
         String entregadorNome = (entregador != null) ? entregador.getNome() : ("Entregador #" + pedido.getIdEntregador());
         String clienteNome = (cliente != null) ? cliente.getNome() : ("Cliente #" + pedido.getIdCliente());
 
-        // 1) Avaliar Entregador
         if (pedido.getIdEntregador() > 0 && !avaliacaoRepository.existeAvaliacaoNoPedido(
                 pedido.getIdPedido(),
                 TipoParteAvaliacao.RESTAURANTE, restaurante.getId(),

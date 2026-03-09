@@ -3,11 +3,36 @@
     "status": "DISPONIVEL",
     "entregasNotificadas": [],
     "entregasAceitas": [],
+    "idMotocicleta": 0,
     "id": 1,
     "nome": "Pedro",
     "email": "pedro@email.com",
     "senha": "senha123",
     "cpf": "11122233344",
     "telefone": "11977777777"
+  },
+  {
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 2,
+    "nome": "Lucas",
+    "email": "lucas@gmail.com",
+    "senha": "senha123",
+    "cpf": "123.123.123-00",
+    "telefone": "988888800"
+  },
+  {
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 1,
+    "id": 3,
+    "nome": "Lucas Entregador",
+    "email": "lucas@teste.com",
+    "senha": "senha123",
+    "cpf": "123.123.123-11",
+    "telefone": "12345678"
   }
 ]

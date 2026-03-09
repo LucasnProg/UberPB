@@ -139,4 +139,8 @@ public class AvaliacaoRepository {
             }
         }
     }
+
+    public boolean existeAvaliacaoNoPedido(int idPedido, TipoParteAvaliacao tipoParteAvaliacao, int id, TipoParteAvaliacao tipoParteAvaliacao1, int idRestaurante) {
+        return true;
+    }
 }
