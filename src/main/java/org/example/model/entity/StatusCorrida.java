@@ -28,5 +28,8 @@ public enum StatusCorrida {
     FINALIZADA,
 
     // Cancelado(a)
-    CANCELADA
+    CANCELADA,
+
+    REJEITADA
+
 }

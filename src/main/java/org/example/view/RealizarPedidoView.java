@@ -86,12 +86,14 @@ public class RealizarPedidoView {
                         }
                     } catch (NumberFormatException nfe) {
                         System.out.println("\n[ERRO] Formato de entrada inválido.");
+                        Thread.sleep(2000);
+                        return;
                     }
                     break;
                 }
 
                 if(!ps.verificarEntregadoresDisponiveis()){
-                    System.out.println("\n[INFO] Desculpe, não há motoristas para esta categoria na sua região no momento.");
+                    System.out.println("\n[INFO] Desculpe, não há entregadores diponíveis na sua região no momento.");
                     System.out.println("Pressione ENTER para voltar.");
                     ViewUtils.sc.nextLine();
                     return;
@@ -149,9 +151,9 @@ public class RealizarPedidoView {
 
                         System.out.println("\nBuscando motoristas na sua região...");
                         Pedido pedidoSolicitado = ps.realizarPedido(passageiro.getId(), restaurante.getId(), restaurante.getEndereco(), destino, formaPagamento, itensPedido, dataAgendamento);
-                        if (pedidoSolicitado != null) {
-                            acompanharPedidoPassageiro(pedidoSolicitado);
-                        }
+
+
+
                     } else {
                         System.out.println("\nSolicitação cancelada.");
                     }
@@ -162,6 +164,7 @@ public class RealizarPedidoView {
 
                 System.out.println("\nPressione ENTER para voltar ao menu.");
                 ViewUtils.sc.nextLine();
+                return;
             }
         }
 

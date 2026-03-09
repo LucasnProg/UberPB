@@ -3,6 +3,8 @@ package org.example.model.service;
 import org.example.model.entity.*;
 import org.example.model.repository.*;
 
+import javax.xml.validation.TypeInfoProvider;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,8 +17,8 @@ import java.util.List;
 public class PedidoService {
 
     private final EntregadorRepository entregadorRepository = new EntregadorRepository();
-    private final PedidoRepository pedidoRepository = new PedidoRepository();
-    private final PassageiroRepository clienteRepository = new PassageiroRepository();
+    private static final PedidoRepository pedidoRepository = new PedidoRepository();
+    private static final PassageiroRepository clienteRepository = new PassageiroRepository();
     private final RestauranteRepository restauranteRepository = new RestauranteRepository();
 
     /**
@@ -35,6 +37,7 @@ public class PedidoService {
         novoPedido.setValor(valorEstimado);
         novoPedido.setFormaPagamento(formaPagamento);
         novoPedido.setStatusPedido(StatusCorrida.SOLICITADA);
+        novoPedido.setDestino(destino);
 
         // Para pedidos imediatos, registra o horário de criação. Para agendados, o
         // construtor já recebe 'horaInicio' com o horário.
@@ -86,6 +89,23 @@ public class PedidoService {
     }
 
     /**
+     * Remover um pedido, atualizando o status e removendo-a da lista de pendentes
+     * do passageiro.
+     *
+     * @param pedido    O pedido a ser cancelada.
+     */
+    public static void rejeitarPedido(Pedido pedido) {
+        pedido.setStatusPedido(StatusCorrida.REJEITADA);
+        pedidoRepository.atualizar(pedido);
+
+        Passageiro cliente = clienteRepository.buscarPorId(pedido.getIdCliente());
+        if (cliente != null) {
+            cliente.getPedidosPendentes().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+            clienteRepository.atualizar(cliente);
+        }
+    }
+
+    /**
      * Lógica principal de matchmaking: encontra o entregador elegível mais próximo.
      */
     public void encontrarProximoEntregadorDisponivel(Pedido pedido) {
@@ -103,50 +123,78 @@ public class PedidoService {
             System.out
                     .println("\n[INFO] Não há mais entregadores disponíveis para esta solicitação. Corrida cancelada.");
             pedido.setStatusPedido(StatusCorrida.CANCELADA);
-            pedidoRepository.atualizar(pedido);
+            atualizarPedidosCancelados(pedido);
             return;
         }
 
         Entregador entregadorMaisProximo = entregadoresElegiveis.getFirst();
 
         System.out.println("\nNotificando o Entregador mais próximo: " + entregadorMaisProximo.getNome());
+        pedido.setIdEntregador(entregadorMaisProximo.getId());
         entregadorMaisProximo.adicionarPedidoNotificada(pedido);
         Restaurante restaurante = restauranteRepository.buscarPorId(pedido.getIdRestaurante());
         restaurante.adicionarPedidoNotificado(pedido);
         restauranteRepository.atualizar(restaurante);
         entregadorRepository.atualizar(entregadorMaisProximo);
+        pedidoRepository.atualizar(pedido);
     }
 
     /**
      * Um entregador aceita uma corrida. A corrida é imediatamente iniciada.
      */
     public boolean aceitarPedido(Entregador entregador, Pedido pedido) {
-        Pedido pedidoAtual = pedidoRepository.buscarPorId(pedido.getIdPedido());
-        if (pedidoAtual.getStatusPedido() != StatusCorrida.SOLICITADA) {
-            System.out.println("\n[AVISO] Outro motorista já aceitou esta corrida.");
-            limparNotificacaoUnica(entregador, pedido);
+        if (pedido.getStatusPedido() != StatusCorrida.EM_PREPARO) {
+            System.out.println("\n[AVISO] O restaurante ainda não aceitou esse pedido, aguarde antes de confirmar a entrega.");
             return false;
         }
 
-        // Atualiza a corrida: define entregador, status e hora de início
-        pedidoAtual.setIdEntregador(entregador.getId());
-        pedidoAtual.setStatusPedido(StatusCorrida.ACEITA);
-        pedidoAtual.setHoraAceite(LocalDateTime.now()); // Momento do aceite (usado para evolução automática do status
-                                                        // no CLI)
-        if (pedidoAtual.getHoraInicio() == null) {
-            pedidoAtual.setHoraInicio(LocalDateTime.now()); // Hora de início (para pedidos imediatos)
-        }
-        pedidoRepository.atualizar(pedidoAtual);
+        pedido.setAceiteEntregador(true);
+        pedido.setHoraAceite(LocalDateTime.now());
+        pedido.setStatusPedido(StatusCorrida.EM_CURSO);
 
-        // Atualiza o entregador
-        Entregador entregadorAtualizado = entregadorRepository.buscarPorId(entregador.getId());
-        entregadorAtualizado.setStatus(EntregadorStatus.OCUPADO);
-        entregadorAtualizado.getEntregasAceitas().add(pedidoAtual);
-        entregadorAtualizado.getEntregasNotificadas().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
-        entregadorRepository.atualizar(entregadorAtualizado);
+        if (pedido.getHoraInicio() == null) {
+            pedido.setHoraInicio(LocalDateTime.now());
+        }
+
+        PedidoService pedidoService = new PedidoService();
+
+        pedidoService.corridaAceita(pedido);
 
         System.out.println("A Entrega será realizada em breve! Aguarde.");
         return true;
+    }
+
+    private void corridaAceita(Pedido pedido) {
+        Restaurante restaurante = restauranteRepository.buscarPorId(pedido.getIdRestaurante());
+        Entregador entregador = entregadorRepository.buscarPorId(pedido.getIdEntregador());
+        Passageiro cliente = clienteRepository.buscarPorId(pedido.getIdCliente());
+
+        cliente.getPedidosPendentes().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+        entregador.getEntregasNotificadas().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+        restaurante.getPedidosAceitos().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+
+        entregador.getEntregasAceitas().add(pedido);
+        restaurante.getPedidosAceitos().add(pedido);
+        cliente.getPedidosPendentes().add(pedido);
+
+        restauranteRepository.atualizar(restaurante);
+        entregadorRepository.atualizar(entregador);
+        pedidoRepository.atualizar(pedido);
+        clienteRepository.atualizar(cliente);
+    }
+
+    public void atualizarPedidosCancelados(Pedido pedido) {
+        Restaurante restaurante = restauranteRepository.buscarPorId(pedido.getIdRestaurante());
+        Entregador entregador = entregadorRepository.buscarPorId(pedido.getIdEntregador());
+        Passageiro cliente = clienteRepository.buscarPorId(pedido.getIdCliente());
+        entregador.getEntregasNotificadas().remove(pedido);
+        restaurante.getPedidosNotificados().remove(pedido);
+        cliente.getPedidosPendentes().remove(pedido);
+
+        clienteRepository.atualizar(cliente);
+        restauranteRepository.atualizar(restaurante);
+        entregadorRepository.atualizar(entregador);
+        pedidoRepository.atualizar(pedido);
     }
 
     /**
@@ -194,7 +242,6 @@ public class PedidoService {
 
             limparNotificacaoUnica(entregador, pedidoAtual);
 
-            System.out.println("\nBuscando outro entregador...");
             encontrarProximoEntregadorDisponivel(pedidoAtual);
         }
     }
@@ -309,7 +356,7 @@ public class PedidoService {
             return pedidoAtual;
         }
 
-        long segundos = java.time.Duration.between(pedidoAtual.getHoraAceite(), LocalDateTime.now()).getSeconds();
+        long segundos = Duration.between(pedidoAtual.getHoraAceite(), LocalDateTime.now()).getSeconds();
 
         if (pedidoAtual.getStatusPedido() == StatusCorrida.ACEITA && segundos >= 5) {
             pedidoAtual.setStatusPedido(StatusCorrida.EM_PREPARO);
@@ -347,7 +394,19 @@ public class PedidoService {
             case EM_CURSO -> "Entregador a caminho do seu endereço!";
             case FINALIZADA -> "Pedido entregue!";
             case CANCELADA -> "Pedido cancelado.";
+            case REJEITADA -> "Pedido foi rejeitado pelo Restaurante";
         };
+    }
+
+    public ArrayList<Pedido> pedidosPorEntregador(Entregador entregador){
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        for (Pedido p : pedidoRepository.carregar()){
+            if (p.getIdEntregador() == entregador.getId()){
+                pedidos.add(p);
+            }
+        }
+
+        return pedidos;
     }
 
     public void atualizarPedido(Pedido pedido) {

@@ -5,6 +5,7 @@ import org.example.model.entity.Pedido;
 import org.example.model.entity.Restaurante;
 import org.example.model.service.RestauranteService;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class GerenciarPedidosRestauranteView {
@@ -31,6 +32,9 @@ public class GerenciarPedidosRestauranteView {
                 System.out.println("ID Pedido: " + p.getIdPedido());
                 System.out.println("Cliente ID: " + p.getIdCliente());
                 System.out.println("Valor: R$ " + String.format("%.2f", p.getValor()));
+                if (p.isAgendamento()){
+                    System.out.println("Pedido agendado para: " + p.getHoraInicio().format(DateTimeFormatter.ofPattern("HH:mm")));
+                }
                 System.out.println("Itens:");
                 if (p.getItensPedidos() != null) {
                     for (MenuItem item : p.getItensPedidos()) {
@@ -87,12 +91,12 @@ public class GerenciarPedidosRestauranteView {
             switch (acao) {
                 case 1:
                     restauranteService.aceitarPedido(restaurante, pedidoSelecionado);
-                    System.out.println("\n✅ Pedido aceito e em preparo. Pressione ENTER para continuar.");
+                    System.out.println("\nPedido aceito e em preparo. Pressione ENTER para continuar.");
                     ViewUtils.sc.nextLine();
                     break;
                 case 2:
                     restauranteService.rejeitarPedido(restaurante, pedidoSelecionado);
-                    System.out.println("\n❌ Pedido rejeitado. Pressione ENTER para continuar.");
+                    System.out.println("\nPedido rejeitado. Pressione ENTER para continuar.");
                     ViewUtils.sc.nextLine();
                     break;
                 case 0:

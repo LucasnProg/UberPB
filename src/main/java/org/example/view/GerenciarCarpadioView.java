@@ -53,13 +53,13 @@ public class GerenciarCarpadioView {
                     case 1:
                         adicionarItensCardapio(restaurante);
                         ViewUtils.sc.nextLine();
-                        break;
+                        return;
                     case 2:
                         try{
                             rs.getMenu(restaurante.getId());
                             removerItemDoCardapio(restaurante);
                             ViewUtils.sc.nextLine();
-                            break;
+                            return;
                         } catch (NullPointerException e){
                             System.out.println("\nAinda não existem itens a serem removidos.");
                         }
@@ -156,5 +156,6 @@ public class GerenciarCarpadioView {
 
         System.out.println("\nPressione ENTER para continuar...");
         ViewUtils.sc.nextLine();
+        return;
     }
 }

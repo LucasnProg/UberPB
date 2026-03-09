@@ -1,38 +1,159 @@
 [
   {
+    "localizacaoAtual": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
     "status": "DISPONIVEL",
     "entregasNotificadas": [],
-    "entregasAceitas": [],
-    "idMotocicleta": 0,
+    "entregasAceitas": [
+      {
+        "idPedido": 1,
+        "idCliente": 1,
+        "idRestaurante": 1,
+        "idEntregador": 1,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          },
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 18.558717259176223,
+        "formaPagamento": "PIX",
+        "statusPedido": "EM_CURSO",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Universitário",
+          "latitude": -7.214,
+          "longitude": -35.909
+        },
+        "destino": {
+          "descricao": "Centro",
+          "latitude": -7.2241,
+          "longitude": -35.8834
+        },
+        "horaInicio": "2026-03-09T16:28:25.4737887",
+        "horaAceite": "2026-03-09T16:29:19.6844027",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": true,
+        "aceiteRestaurante": true
+      },
+      {
+        "idPedido": 1,
+        "idCliente": 1,
+        "idRestaurante": 1,
+        "idEntregador": 1,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          },
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 18.558717259176223,
+        "formaPagamento": "PIX",
+        "statusPedido": "EM_CURSO",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Universitário",
+          "latitude": -7.214,
+          "longitude": -35.909
+        },
+        "destino": {
+          "descricao": "Centro",
+          "latitude": -7.2241,
+          "longitude": -35.8834
+        },
+        "horaInicio": "2026-03-09T16:28:25.4737887",
+        "horaAceite": "2026-03-09T17:00:13.5643125",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": true,
+        "aceiteRestaurante": true
+      },
+      {
+        "idPedido": 2,
+        "idCliente": 1,
+        "idRestaurante": 1,
+        "idEntregador": 1,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          },
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          },
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 23.558717259176223,
+        "formaPagamento": "PIX",
+        "statusPedido": "EM_CURSO",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Universitário",
+          "latitude": -7.214,
+          "longitude": -35.909
+        },
+        "destino": {
+          "descricao": "Centro",
+          "latitude": -7.2241,
+          "longitude": -35.8834
+        },
+        "horaInicio": "2026-03-09T16:59:10.5967309",
+        "horaAceite": "2026-03-09T17:01:37.4466945",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": true,
+        "aceiteRestaurante": true
+      }
+    ],
+    "idMotocicleta": 1,
     "id": 1,
-    "nome": "Pedro",
-    "email": "pedro@email.com",
-    "senha": "senha123",
-    "cpf": "11122233344",
-    "telefone": "11977777777"
-  },
-  {
-    "status": "DISPONIVEL",
-    "entregasNotificadas": [],
-    "entregasAceitas": [],
-    "idMotocicleta": 0,
-    "id": 2,
-    "nome": "Lucas",
+    "nome": "lucas entregador",
     "email": "lucas@gmail.com",
     "senha": "senha123",
     "cpf": "123.123.123-00",
-    "telefone": "988888800"
-  },
-  {
-    "status": "DISPONIVEL",
-    "entregasNotificadas": [],
-    "entregasAceitas": [],
-    "idMotocicleta": 1,
-    "id": 3,
-    "nome": "Lucas Entregador",
-    "email": "lucas@teste.com",
-    "senha": "senha123",
-    "cpf": "123.123.123-11",
-    "telefone": "12345678"
+    "telefone": "123456789"
   }
 ]

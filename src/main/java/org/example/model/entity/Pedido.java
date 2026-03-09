@@ -22,6 +22,9 @@ public class Pedido {
     private LocalDateTime horaAceite;
     private LocalDateTime horaFim;
     private boolean precisaTroco;
+    private boolean agendamento = false;
+    private boolean aceiteEntregador = false;
+    private boolean aceiteRestaurante = false;
 
     public Pedido() {}
 
@@ -32,6 +35,7 @@ public class Pedido {
         this.origem = RestauranteService.getLocalizacaoPorID(idRestaurante);
         this.EntregadoresQueRejeitaram.add(0);
         this.horaInicio = horaInicio;
+        this.agendamento = true;
     }
 
     public Pedido(int idCliente, int idRestaurante, ArrayList<MenuItem> itensPedidos) {
@@ -161,5 +165,29 @@ public class Pedido {
 
     public void setPrecisaTroco(boolean precisaTroco) {
         this.precisaTroco = precisaTroco;
+    }
+
+    public boolean isAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(boolean agendamento) {
+        this.agendamento = agendamento;
+    }
+
+    public boolean isAceiteRestaurante() {
+        return aceiteRestaurante;
+    }
+
+    public void setAceiteRestaurante(boolean aceiteRestaurante) {
+        this.aceiteRestaurante = aceiteRestaurante;
+    }
+
+    public boolean isAceiteEntregador() {
+        return aceiteEntregador;
+    }
+
+    public void setAceiteEntregador(boolean aceiteEntregador) {
+        this.aceiteEntregador = aceiteEntregador;
     }
 }

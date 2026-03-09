@@ -4,12 +4,15 @@ import org.example.model.entity.Entregador;
 import org.example.model.entity.MenuItem;
 import org.example.model.entity.Pedido;
 import org.example.model.service.PedidoService;
+import org.example.model.service.RestauranteService;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class GerenciarPedidosEntregadorView {
 
     private static final PedidoService pedidoService = new PedidoService();
+    private static final RestauranteService restauranteService = new RestauranteService();
 
     public static void executar(Entregador entregador) {
         while (true) {
@@ -28,12 +31,17 @@ public class GerenciarPedidosEntregadorView {
             }
 
             for (Pedido p : pedidos) {
-                System.out.println("ID Pedido: " + p.getIdPedido());
-                System.out.println("Restaurante ID: " + p.getIdRestaurante());
-                System.out.println("Origem: " + p.getOrigem().getDescricao());
-                System.out.println("Destino: " + p.getDestino().getDescricao());
-                System.out.println("Valor da Entrega: R$ " + String.format("%.2f", p.getValor()));
-                System.out.println("-----------------------------------");
+                if(p.isAceiteRestaurante()) {
+                    System.out.println("ID Pedido: " + p.getIdPedido());
+                    System.out.println("Restaurante : " + restauranteService.buscarPorId(p.getIdRestaurante()).getNome());
+                    System.out.println("Origem: " + p.getOrigem().getDescricao());
+                    System.out.println("Destino: " + p.getDestino().getDescricao());
+                    System.out.println("Valor da Entrega: R$ " + String.format("%.2f", p.getValor()));
+                    if (p.isAgendamento()) {
+                        System.out.println("Pedido agendado para: " + p.getHoraInicio().format(DateTimeFormatter.ofPattern("HH:mm")));
+                    }
+                    System.out.println("-----------------------------------");
+                }
             }
 
             System.out.println("Digite o ID do pedido que deseja gerenciar (ou 0 para voltar):");
@@ -83,14 +91,14 @@ public class GerenciarPedidosEntregadorView {
                 case 1:
                     boolean aceito = pedidoService.aceitarPedido(entregador, pedidoSelecionado);
                     if (aceito) {
-                        System.out.println("\n✅ Pedido aceito! Vá para o restaurante.");
+                        System.out.println("\nPedido aceito! Vá para o restaurante.");
                     }
                     System.out.println("\nPressione ENTER para continuar.");
                     ViewUtils.sc.nextLine();
                     break;
                 case 2:
                     pedidoService.rejeitarPedidoEntregador(entregador, pedidoSelecionado);
-                    System.out.println("\n❌ Pedido rejeitado.");
+                    System.out.println("\nPedido rejeitado.");
                     System.out.println("\nPressione ENTER para continuar.");
                     ViewUtils.sc.nextLine();
                     break;

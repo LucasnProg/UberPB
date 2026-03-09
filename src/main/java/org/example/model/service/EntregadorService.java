@@ -1,10 +1,9 @@
 package org.example.model.service;
 
-import org.example.model.entity.Entregador;
-import org.example.model.entity.Localizacao;
-import org.example.model.entity.Motorista;
+import org.example.model.entity.*;
 import org.example.model.repository.EntregadorRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -13,7 +12,7 @@ import java.util.Random;
  */
 public class EntregadorService {
 
-    private final EntregadorRepository entregadorRepository = new EntregadorRepository();
+    private static final EntregadorRepository entregadorRepository = new EntregadorRepository();
     private LocalizacaoService ls = new LocalizacaoService();
     /**
      * Realiza o login do entregador.
@@ -25,6 +24,7 @@ public class EntregadorService {
     public Entregador login(String email, String senha) {
         Entregador entregador = entregadorRepository.buscarPorEmail(email);
         if (entregador != null && entregador.getSenha().equals(senha)) {
+            simularLocalizacaoInicial(entregador);
             return entregador;
         }
         System.out.println("\n[ERRO] E-mail ou senha inválidos.");
@@ -53,6 +53,7 @@ public class EntregadorService {
         Entregador novoEntregador = new Entregador(nome, email, senha, cpf, telefone);
         entregadorRepository.salvar(novoEntregador);
         System.out.println("\nEntregador cadastrado com sucesso!");
+        simularLocalizacaoInicial(novoEntregador);
         return novoEntregador;
     }
 
@@ -60,7 +61,7 @@ public class EntregadorService {
         return entregadorRepository.buscarPorId(id);
     }
 
-    public void atualizar(Entregador entregador) {
+    public static void atualizar(Entregador entregador) {
         entregadorRepository.atualizar(entregador);
     }
 
@@ -76,5 +77,16 @@ public class EntregadorService {
             entregador.setLocalizacaoAtual(localizacaoSimulada);
             entregadorRepository.atualizar(entregador);
         }
+    }
+
+    public static void atualizarPedidoNotificado(Pedido pedido) {
+        Entregador entregador = entregadorRepository.buscarPorId(pedido.getIdEntregador());
+        for (Pedido p : entregador.getEntregasNotificadas()){
+            if (p.getIdPedido() == pedido.getIdPedido()){
+                p.setAceiteRestaurante(true);
+                p.setStatusPedido(StatusCorrida.EM_PREPARO);
+            }
+        }
+        atualizar(entregador);
     }
 }

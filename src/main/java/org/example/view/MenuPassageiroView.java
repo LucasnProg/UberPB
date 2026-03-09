@@ -13,6 +13,7 @@ public class MenuPassageiroView {
             System.out.println("2 - Acompanhar Corridas Solicitadas");
             System.out.println("3 - Ver Histórico de Corridas");
             System.out.println("4 - Delivery");
+            System.out.println("5 - Acompanhar meus pedidos");
             System.out.println("0 - Logout");
             System.out.print("\nEscolha uma opção: ");
 
@@ -34,6 +35,9 @@ public class MenuPassageiroView {
                     break;
                 case 4:
                     EscolherRestaurantesView.executar(passageiro);
+                    break;
+                case 5:
+                    AcompanharPedidosClienteView.executar(passageiro);
                     break;
                 case 0:
                     System.out.println("\nFazendo logout...");

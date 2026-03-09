@@ -1,8 +1,6 @@
 package org.example.model.service;
 
-import org.example.model.entity.Localizacao;
-import org.example.model.entity.Passageiro;
-import org.example.model.entity.Restaurante;
+import org.example.model.entity.*;
 import org.example.model.repository.PassageiroRepository;
 
 /**
@@ -10,7 +8,7 @@ import org.example.model.repository.PassageiroRepository;
  */
 public class PassageiroService {
 
-    private final PassageiroRepository passageiroRepository = new PassageiroRepository();
+    private static final PassageiroRepository passageiroRepository = new PassageiroRepository();
 
     public Passageiro login(String email, String senha) {
         Passageiro passageiro = passageiroRepository.buscarPorEmail(email);
@@ -49,6 +47,17 @@ public class PassageiroService {
         Passageiro passageiro = ps.buscarPorId(idCliente);
 
         return passageiro.getLocalCasa();
+    }
+
+    public static void atualizarPedidoNotificado(Pedido pedido) {
+        Passageiro cliente = passageiroRepository.buscarPorId(pedido.getIdCliente());
+        for (Pedido p : cliente.getPedidosPendentes()){
+            if (p.getIdPedido() == pedido.getIdPedido()){
+                p.setAceiteRestaurante(true);
+                p.setStatusPedido(StatusCorrida.EM_PREPARO);
+            }
+        }
+        passageiroRepository.atualizar(cliente);
     }
 
 }

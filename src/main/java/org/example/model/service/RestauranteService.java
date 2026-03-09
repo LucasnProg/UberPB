@@ -1,8 +1,8 @@
 package org.example.model.service;
 
-import org.example.model.entity.Localizacao;
+import org.example.model.entity.*;
 import org.example.model.entity.MenuItem;
-import org.example.model.entity.Restaurante;
+import org.example.model.repository.PedidoRepository;
 import org.example.model.repository.RestauranteRepository;
 
 import java.awt.*;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class RestauranteService {
 
     private final RestauranteRepository restauranteRepository = new RestauranteRepository();
+    private final PedidoRepository pedidoRepository = new PedidoRepository();
 
     public Restaurante login(String email, String senha) {
         Restaurante restaurante = restauranteRepository.buscarPorEmail(email);
@@ -106,30 +107,19 @@ public class RestauranteService {
     }
 
     public void aceitarPedido(Restaurante restaurante, org.example.model.entity.Pedido pedido) {
-        restaurante.getPedidosNotificados().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
+        pedido.setAceiteRestaurante(true);
+        pedido.setStatusPedido(StatusCorrida.EM_PREPARO);
+
+        restaurante.getPedidosNotificados().removeIf(ped -> ped.getIdPedido() == pedido.getIdPedido());
         restaurante.getPedidosAceitos().add(pedido);
         atualizar(restaurante);
-
-        org.example.model.service.PedidoService ps = new org.example.model.service.PedidoService();
-        org.example.model.entity.Pedido p = ps.buscarPedidoPorId(pedido.getIdPedido());
-        if (p != null) {
-            if (p.getStatusPedido() == org.example.model.entity.StatusCorrida.SOLICITADA
-                    || p.getStatusPedido() == org.example.model.entity.StatusCorrida.ACEITA) {
-                p.setStatusPedido(org.example.model.entity.StatusCorrida.EM_PREPARO);
-                ps.atualizarPedido(p);
-            }
-        }
+        pedidoRepository.atualizar(pedido);
+        EntregadorService.atualizarPedidoNotificado(pedido);
+        PassageiroService.atualizarPedidoNotificado(pedido);
     }
 
     public void rejeitarPedido(Restaurante restaurante, org.example.model.entity.Pedido pedido) {
-        restaurante.getPedidosNotificados().removeIf(p -> p.getIdPedido() == pedido.getIdPedido());
-        atualizar(restaurante);
-
-        org.example.model.service.PedidoService ps = new org.example.model.service.PedidoService();
-        org.example.model.entity.Pedido p = ps.buscarPedidoPorId(pedido.getIdPedido());
-        if (p != null) {
-            p.setStatusPedido(org.example.model.entity.StatusCorrida.CANCELADA);
-            ps.atualizarPedido(p);
-        }
+        PedidoService pedidoService = new PedidoService();
+        pedidoService.atualizarPedidosCancelados(pedido);
     }
 }
