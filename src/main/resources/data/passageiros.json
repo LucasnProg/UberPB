@@ -1,7 +1,76 @@
 [
   {
-    "corridasPendentes": [],
-    "historicoCorridas": [],
+    "corridasPendentes": [
+      {
+        "id": 25,
+        "passageiroId": 1,
+        "motoristaId": 0,
+        "origem": {
+          "descricao": "Casa",
+          "latitude": -7.2192,
+          "longitude": -35.9034
+        },
+        "destino": {
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
+        },
+        "valor": 8.68,
+        "categoriaVeiculo": "UBER_X",
+        "status": "SOLICITADA",
+        "motoristasQueRejeitaram": [],
+        "formaPagamento": "CARTAO_CREDITO",
+        "precisaTroco": false
+      }
+    ],
+    "historicoCorridas": [
+      {
+        "id": 24,
+        "passageiroId": 1,
+        "motoristaId": 3,
+        "origem": {
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
+        },
+        "destino": {
+          "descricao": "Universidade Federal de Campina Grande (UFCG)",
+          "latitude": -7.2192,
+          "longitude": -35.9083
+        },
+        "valor": 8.27,
+        "horaInicio": "2026-03-11T09:32:36.923881",
+        "horaFim": "2026-03-11T09:33:19.4780387",
+        "categoriaVeiculo": "UBER_X",
+        "status": "FINALIZADA",
+        "motoristasQueRejeitaram": [],
+        "formaPagamento": "PIX",
+        "precisaTroco": false
+      },
+      {
+        "id": 25,
+        "passageiroId": 1,
+        "motoristaId": 3,
+        "origem": {
+          "descricao": "Casa",
+          "latitude": -7.2192,
+          "longitude": -35.9034
+        },
+        "destino": {
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
+        },
+        "valor": 8.68,
+        "horaInicio": "2026-03-11T13:15:28.724307",
+        "horaFim": "2026-03-11T13:16:16.2022575",
+        "categoriaVeiculo": "UBER_X",
+        "status": "FINALIZADA",
+        "motoristasQueRejeitaram": [],
+        "formaPagamento": "CARTAO_CREDITO",
+        "precisaTroco": false
+      }
+    ],
     "pedidosPendentes": [
       {
         "idPedido": 1,
@@ -144,6 +213,89 @@
         "agendamento": false,
         "aceiteEntregador": true,
         "aceiteRestaurante": true
+      },
+      {
+        "idPedido": 4,
+        "idCliente": 1,
+        "idRestaurante": 1,
+        "idEntregador": 1,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          },
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 18.558717259176223,
+        "formaPagamento": "PIX",
+        "statusPedido": "FINALIZADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Universitário",
+          "latitude": -7.214,
+          "longitude": -35.909
+        },
+        "destino": {
+          "descricao": "Centro",
+          "latitude": -7.2241,
+          "longitude": -35.8834
+        },
+        "horaInicio": "2026-03-10T16:36:58.4344153",
+        "horaAceite": "2026-03-10T16:38:56.4133489",
+        "horaFim": "2026-03-10T16:39:37.6473723",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": true,
+        "aceiteRestaurante": true
+      },
+      {
+        "idPedido": 5,
+        "idCliente": 1,
+        "idRestaurante": 1,
+        "idEntregador": 1,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 13.558717259176223,
+        "formaPagamento": "PIX",
+        "statusPedido": "FINALIZADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Universitário",
+          "latitude": -7.214,
+          "longitude": -35.909
+        },
+        "destino": {
+          "descricao": "Centro",
+          "latitude": -7.2241,
+          "longitude": -35.8834
+        },
+        "horaInicio": "2026-03-11T15:17:22.3016639",
+        "horaAceite": "2026-03-11T15:18:46.2705365",
+        "horaFim": "2026-03-11T15:19:32.4751565",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": true,
+        "aceiteRestaurante": true
       }
     ],
     "id": 1,
@@ -151,6 +303,7 @@
     "email": "lucas@gmail.com",
     "senha": "senha123",
     "cpf": "123.123.123-00",
-    "telefone": "123123123"
+    "telefone": "123123123",
+    "avaliacao": 5.0
   }
 ]

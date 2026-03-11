@@ -57,7 +57,7 @@ public class EntregadorService {
         return novoEntregador;
     }
 
-    public Entregador buscarPorId(int id) {
+    public static Entregador buscarPorId(int id) {
         return entregadorRepository.buscarPorId(id);
     }
 
@@ -88,5 +88,18 @@ public class EntregadorService {
             }
         }
         atualizar(entregador);
+    }
+
+    public static void receberAvaliacao(int idEntregador, Double avaliacao){
+        Entregador entregadorAvaliado = buscarPorId(idEntregador);
+
+        if (entregadorAvaliado.getAvaliacao() == null){
+            entregadorAvaliado.setAvaliacao(avaliacao);
+        } else {
+            Double novaAvaliacao = (entregadorAvaliado.getAvaliacao() + avaliacao)/2;
+            entregadorAvaliado.setAvaliacao(novaAvaliacao);
+        }
+
+        atualizar(entregadorAvaliado);
     }
 }

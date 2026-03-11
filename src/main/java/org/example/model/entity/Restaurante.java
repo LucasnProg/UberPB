@@ -89,4 +89,5 @@ public class Restaurante extends Usuario {
     public void adicionarPedidoNotificado(Pedido pedido) {
         this.pedidosNotificados.add(pedido);
     }
+
 }

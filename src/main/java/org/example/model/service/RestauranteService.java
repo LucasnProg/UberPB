@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class RestauranteService {
 
-    private final RestauranteRepository restauranteRepository = new RestauranteRepository();
+    private static final RestauranteRepository restauranteRepository = new RestauranteRepository();
     private final PedidoRepository pedidoRepository = new PedidoRepository();
 
     public Restaurante login(String email, String senha) {
@@ -53,11 +53,11 @@ public class RestauranteService {
         return novoRestaurante;
     }
 
-    public Restaurante buscarPorId(int id) {
+    public static Restaurante buscarPorId(int id) {
         return restauranteRepository.buscarPorId(id);
     }
 
-    public void atualizar(Restaurante restaurante) {
+    public static void atualizar(Restaurante restaurante) {
         restauranteRepository.atualizar(restaurante);
     }
 
@@ -121,5 +121,18 @@ public class RestauranteService {
     public void rejeitarPedido(Restaurante restaurante, org.example.model.entity.Pedido pedido) {
         PedidoService pedidoService = new PedidoService();
         pedidoService.atualizarPedidosCancelados(pedido);
+    }
+
+    public static void receberAvaliacao(int idRestaurante, Double avaliacao){
+        Restaurante restauranteAvaliado = buscarPorId(idRestaurante);
+
+        if (restauranteAvaliado.getAvaliacao() == null){
+            restauranteAvaliado.setAvaliacao(avaliacao);
+        } else {
+            Double novaAvaliacao = (restauranteAvaliado.getAvaliacao() + avaliacao)/2;
+            restauranteAvaliado.setAvaliacao(novaAvaliacao);
+        }
+
+        atualizar(restauranteAvaliado);
     }
 }

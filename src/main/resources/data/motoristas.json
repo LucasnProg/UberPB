@@ -24,28 +24,58 @@
     "telefone": "11920202020"
   },
   {
+    "localizacaoAtual": {
+      "descricao": "Açude Velho (Monumento Os Pioneiros)",
+      "latitude": -7.2301,
+      "longitude": -35.8896
+    },
     "idVeiculo": 13,
-    "status": "DISPONIVEL",
+    "status": "EM_CORRIDA",
     "corridasNotificadas": [],
     "corridasAceitas": [
       {
-        "id": 23,
-        "passageiroId": 2,
+        "id": 24,
+        "passageiroId": 1,
         "motoristaId": 3,
         "origem": {
-          "latitude": 0.0,
-          "longitude": 0.0
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
         },
         "destino": {
-          "latitude": 5.0,
-          "longitude": 5.0
+          "descricao": "Universidade Federal de Campina Grande (UFCG)",
+          "latitude": -7.2192,
+          "longitude": -35.9083
         },
-        "valor": 2166.48,
-        "horaInicio": "2026-02-24T07:48:39.7948102",
+        "valor": 8.27,
+        "horaInicio": "2026-03-11T09:32:36.923881",
         "categoriaVeiculo": "UBER_X",
         "status": "EM_CURSO",
         "motoristasQueRejeitaram": [],
         "formaPagamento": "PIX",
+        "precisaTroco": false
+      },
+      {
+        "id": 25,
+        "passageiroId": 1,
+        "motoristaId": 3,
+        "origem": {
+          "descricao": "Casa",
+          "latitude": -7.2192,
+          "longitude": -35.9034
+        },
+        "destino": {
+          "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+          "latitude": -7.2041,
+          "longitude": -35.9115
+        },
+        "valor": 8.68,
+        "horaInicio": "2026-03-11T13:15:28.724307",
+        "horaFim": "2026-03-11T13:16:16.2022575",
+        "categoriaVeiculo": "UBER_X",
+        "status": "FINALIZADA",
+        "motoristasQueRejeitaram": [],
+        "formaPagamento": "CARTAO_CREDITO",
         "precisaTroco": false
       }
     ],
@@ -54,7 +84,8 @@
     "email": "joao@email.com",
     "senha": "senha123",
     "cpf": "98765432100",
-    "telefone": "11999999999"
+    "telefone": "11999999999",
+    "avaliacao": 4.3125
   },
   {
     "idVeiculo": 14,

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class MotoristaService {
 
-    private final MotoristaRepository motoristaRepository = new MotoristaRepository();
+    private static final MotoristaRepository motoristaRepository = new MotoristaRepository();
     private final LocalizacaoService localizacaoService = new LocalizacaoService();
     private final CorridaRepository corridaRepository = new CorridaRepository();
 
@@ -63,7 +63,7 @@ public class MotoristaService {
      * Atualiza os dados de um motorista no repositório.
      * @param motorista O objeto Motorista com os dados atualizados.
      */
-    public void atualizar(Motorista motorista) {
+    public static void atualizar(Motorista motorista) {
         motoristaRepository.atualizar(motorista);
     }
 
@@ -72,7 +72,7 @@ public class MotoristaService {
      * @param id O ID do motorista.
      * @return O objeto Motorista encontrado, ou null.
      */
-    public Motorista buscarPorId(int id) {
+    public static Motorista buscarPorId(int id) {
         return motoristaRepository.buscarPorId(id);
     }
 
@@ -93,5 +93,18 @@ public class MotoristaService {
         System.out.println("\nMotorista " + motorista.getNome() + " recusou. Procurando o próximo...");
         CorridaService corridaService = new CorridaService();
         corridaService.encontrarProximoMotoristaDisponivel(corridaAtual);
+    }
+
+    public static void receberAvaliacao(int idMotorista, Double avaliacao){
+       Motorista motoristaAvaliado = buscarPorId(idMotorista);
+
+       if (motoristaAvaliado.getAvaliacao() == null){
+           motoristaAvaliado.setAvaliacao(avaliacao);
+       } else {
+           Double novaAvaliacao = (motoristaAvaliado.getAvaliacao() + avaliacao)/2;
+           motoristaAvaliado.setAvaliacao(novaAvaliacao);
+       }
+
+       atualizar(motoristaAvaliado);
     }
 }

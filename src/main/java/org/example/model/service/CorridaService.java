@@ -7,6 +7,7 @@ import org.example.model.repository.PassageiroRepository;
 import org.example.model.repository.VeiculoRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,10 +17,10 @@ import java.util.stream.Collectors;
  */
 public class CorridaService {
 
-    private final MotoristaRepository motoristaRepository = new MotoristaRepository();
+    private static final MotoristaRepository motoristaRepository = new MotoristaRepository();
     private final VeiculoRepository veiculoRepository = new VeiculoRepository();
-    private final CorridaRepository corridaRepository = new CorridaRepository();
-    private final PassageiroRepository passageiroRepository = new PassageiroRepository();
+    private static final CorridaRepository corridaRepository = new CorridaRepository();
+    private static final PassageiroRepository passageiroRepository = new PassageiroRepository();
 
     /**
      * Etapa 1 do Fluxo: Cria a corrida, adiciona à lista de pendentes do passageiro
@@ -237,4 +238,22 @@ public class CorridaService {
         corridaRepository.atualizar(corrida);
     }
 
+    public List<Corrida> getAll(){
+        return corridaRepository.getCorridas();
+    }
+
+    public static void corridaConcluida(Corrida corrida) {
+        Motorista motorista = motoristaRepository.buscarPorId(corrida.getMotoristaId());
+        Passageiro passageiro = passageiroRepository.buscarPorId(corrida.getPassageiroId());
+
+        passageiro.getHistoricoCorridas().removeIf(p -> p.getId() == corrida.getId());
+        motorista.getCorridasAceitas().removeIf(p -> p.getId() == corrida.getId());
+
+        motorista.getCorridasAceitas().add(corrida);
+        passageiro.getHistoricoCorridas().add(corrida);
+
+        motoristaRepository.atualizar(motorista);
+        passageiroRepository.atualizar(passageiro);
+        corridaRepository.atualizar(corrida);
+    }
 }

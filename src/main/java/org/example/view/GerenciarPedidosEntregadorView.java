@@ -100,7 +100,7 @@ public class GerenciarPedidosEntregadorView {
                     }
                     System.out.println("\nPressione ENTER para continuar.");
                     ViewUtils.sc.nextLine();
-                    break;
+                    return;
                 case 2:
                     pedidoService.rejeitarPedidoEntregador(entregador, pedidoSelecionado);
                     System.out.println("\nPedido rejeitado.");

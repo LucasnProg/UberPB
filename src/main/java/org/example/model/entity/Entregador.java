@@ -73,4 +73,5 @@ public class Entregador extends Usuario {
     public void setIdMotocicleta(int idMotocicleta) {
         this.idMotocicleta = idMotocicleta;
     }
+
 }

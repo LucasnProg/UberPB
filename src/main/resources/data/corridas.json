@@ -422,20 +422,22 @@
     "precisaTroco": false
   },
   {
-    "id": 21,
-    "passageiroId": 2,
+    "id": 24,
+    "passageiroId": 1,
     "motoristaId": 3,
     "origem": {
-      "latitude": 0.0,
-      "longitude": 0.0
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
     },
     "destino": {
-      "latitude": 5.0,
-      "longitude": 5.0
+      "descricao": "Universidade Federal de Campina Grande (UFCG)",
+      "latitude": -7.2192,
+      "longitude": -35.9083
     },
-    "valor": 2166.48,
-    "horaInicio": "2026-02-23T18:33:16.6372874",
-    "horaFim": "2026-02-23T18:33:16.6599281",
+    "valor": 8.27,
+    "horaInicio": "2026-03-11T09:32:36.923881",
+    "horaFim": "2026-03-11T09:33:19.4780387",
     "categoriaVeiculo": "UBER_X",
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
@@ -443,45 +445,26 @@
     "precisaTroco": false
   },
   {
-    "id": 22,
-    "passageiroId": 2,
+    "id": 25,
+    "passageiroId": 1,
     "motoristaId": 3,
     "origem": {
-      "latitude": 0.0,
-      "longitude": 0.0
+      "descricao": "Casa",
+      "latitude": -7.2192,
+      "longitude": -35.9034
     },
     "destino": {
-      "latitude": 5.0,
-      "longitude": 5.0
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
     },
-    "valor": 2166.48,
-    "horaInicio": "2026-02-23T18:36:18.3000341",
-    "horaFim": "2026-02-23T18:36:18.3171347",
+    "valor": 8.68,
+    "horaInicio": "2026-03-11T13:15:28.724307",
+    "horaFim": "2026-03-11T13:16:16.2022575",
     "categoriaVeiculo": "UBER_X",
     "status": "FINALIZADA",
     "motoristasQueRejeitaram": [],
-    "formaPagamento": "PIX",
-    "precisaTroco": false
-  },
-  {
-    "id": 23,
-    "passageiroId": 2,
-    "motoristaId": 3,
-    "origem": {
-      "latitude": 0.0,
-      "longitude": 0.0
-    },
-    "destino": {
-      "latitude": 5.0,
-      "longitude": 5.0
-    },
-    "valor": 2166.48,
-    "horaInicio": "2026-02-24T07:48:39.7948102",
-    "horaFim": "2026-02-24T07:48:39.8168124",
-    "categoriaVeiculo": "UBER_X",
-    "status": "FINALIZADA",
-    "motoristasQueRejeitaram": [],
-    "formaPagamento": "PIX",
+    "formaPagamento": "CARTAO_CREDITO",
     "precisaTroco": false
   }
 ]

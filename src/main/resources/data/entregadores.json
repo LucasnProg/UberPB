@@ -1,9 +1,9 @@
 [
   {
     "localizacaoAtual": {
-      "descricao": "Parque do Povo",
-      "latitude": -7.2255,
-      "longitude": -35.8842
+      "descricao": "Casa",
+      "latitude": -7.2192,
+      "longitude": -35.9034
     },
     "status": "DISPONIVEL",
     "entregasNotificadas": [],
@@ -191,6 +191,89 @@
         "agendamento": false,
         "aceiteEntregador": true,
         "aceiteRestaurante": true
+      },
+      {
+        "idPedido": 4,
+        "idCliente": 1,
+        "idRestaurante": 1,
+        "idEntregador": 1,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          },
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 18.558717259176223,
+        "formaPagamento": "PIX",
+        "statusPedido": "FINALIZADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Universitário",
+          "latitude": -7.214,
+          "longitude": -35.909
+        },
+        "destino": {
+          "descricao": "Centro",
+          "latitude": -7.2241,
+          "longitude": -35.8834
+        },
+        "horaInicio": "2026-03-10T16:36:58.4344153",
+        "horaAceite": "2026-03-10T16:38:56.4133489",
+        "horaFim": "2026-03-10T16:39:37.6473723",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": true,
+        "aceiteRestaurante": true
+      },
+      {
+        "idPedido": 5,
+        "idCliente": 1,
+        "idRestaurante": 1,
+        "idEntregador": 1,
+        "itensPedidos": [
+          {
+            "id": 1,
+            "nome": "Coxinha",
+            "ingredientes": "Frango",
+            "preco": 5.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 13.558717259176223,
+        "formaPagamento": "PIX",
+        "statusPedido": "FINALIZADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "descricao": "Universitário",
+          "latitude": -7.214,
+          "longitude": -35.909
+        },
+        "destino": {
+          "descricao": "Centro",
+          "latitude": -7.2241,
+          "longitude": -35.8834
+        },
+        "horaInicio": "2026-03-11T15:17:22.3016639",
+        "horaAceite": "2026-03-11T15:18:46.2705365",
+        "horaFim": "2026-03-11T15:19:32.4751565",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": true,
+        "aceiteRestaurante": true
       }
     ],
     "idMotocicleta": 1,
@@ -199,6 +282,7 @@
     "email": "lucas@gmail.com",
     "senha": "senha123",
     "cpf": "123.123.123-00",
-    "telefone": "123456789"
+    "telefone": "123456789",
+    "avaliacao": 5.0
   }
 ]

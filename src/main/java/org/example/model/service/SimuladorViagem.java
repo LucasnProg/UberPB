@@ -12,8 +12,8 @@ import java.util.Locale;
  */
 public class SimuladorViagem {
 
-    private static final int NUMERO_DE_PASSOS = 20;
-    private static final int INTERVALO_MS = 2000;
+    private static final int NUMERO_DE_PASSOS = 30;
+    private static final int INTERVALO_MS = 1500;
 
     /**
      * Prepara o arquivo de dados para a simulação, escrevendo o estado inicial.
@@ -62,6 +62,11 @@ public class SimuladorViagem {
             }
         }
         System.out.println("--- Simulação da viagem finalizada ---");
+
+        corrida.setStatus(StatusCorrida.FINALIZADA);
+        corrida.setHoraFim(LocalDateTime.now());
+
+        CorridaService.corridaConcluida(corrida);
     }
 
     /**

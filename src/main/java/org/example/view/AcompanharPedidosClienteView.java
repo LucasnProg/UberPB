@@ -45,7 +45,7 @@ public class AcompanharPedidosClienteView {
                     exibirPedidosPendentes(cliente);
                     return;
                 case 0:
-                    break;
+                    return;
                 default:
                     System.out.println("\n[ERRO] Opção inválida!");
                     ViewUtils.sc.nextLine();
@@ -80,10 +80,72 @@ public class AcompanharPedidosClienteView {
             System.out.println("-----------------------------------");
         }
 
-        System.out.println("\nPressione ENTER para voltar.");
-        ViewUtils.sc.nextLine();
+        while (true) {
+            System.out.print("\nDigite o ID do pedido para Avaliar (ou 0 para voltar): ");
+            String inputId = ViewUtils.sc.nextLine();
+
+            try {
+                int idPedido = Integer.parseInt(inputId);
+
+                if (idPedido == 0) return;
+
+                Pedido pedidoSelecionada = cliente.getHistoricoPedidos().stream()
+                        .filter(c -> c.getIdPedido() == idPedido)
+                        .findFirst()
+                        .orElse(null);
+
+                if (pedidoSelecionada != null) {
+                    processarAvaliacao(pedidoSelecionada);
+                    return;
+                } else {
+                    System.out.println("\n[ERRO] ID não encontrado no seu histórico.");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\n[ERRO] Digite um número de ID válido.");
+            }
+        }
     }
 
+    private static void processarAvaliacao(Pedido pedido) {
+        while (true) {
+            try {
+                System.out.print("\nDigite uma nota de 0 a 5 para o Entregador: ");
+                String notaInput = ViewUtils.sc.nextLine().replace(",", ".");
+                double nota = Double.parseDouble(notaInput);
+
+                if (nota < 0 || nota > 5) {
+                    System.out.println("\n[ERRO] A nota deve estar entre 0 e 5.");
+                } else {
+                    EntregadorService.receberAvaliacao(pedido.getIdEntregador(), nota);
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\n[ERRO] Formato de nota inválido. Use apenas números (ex: 4.5).");
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("\nDigite uma nota de 0 a 5 para o Restaurante: ");
+                String notaInput = ViewUtils.sc.nextLine().replace(",", ".");
+                double nota = Double.parseDouble(notaInput);
+
+                if (nota < 0 || nota > 5) {
+                    System.out.println("\n[ERRO] A nota deve estar entre 0 e 5.");
+                } else {
+                    RestauranteService.receberAvaliacao(pedido.getIdRestaurante(), nota);
+                    System.out.println("\nAvaliação enviada com sucesso!");
+                    System.out.println("Pressione ENTER para continuar...");
+                    ViewUtils.sc.nextLine();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\n[ERRO] Formato de nota inválido. Use apenas números (ex: 4.5).");
+            }
+        }
+
+    }
 
     private static void exibirPedidosPendentes(Passageiro cliente) throws InterruptedException {
         List<Pedido> pedidos = cliente.getPedidosPendentes();

@@ -1,11 +1,9 @@
 package org.example.view;
 
 import org.example.model.entity.*;
-import org.example.model.service.CorridaService;
-import org.example.model.service.LocalizacaoService;
-import org.example.model.service.MotoristaService;
-import org.example.model.service.SimuladorViagem;
+import org.example.model.service.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -25,11 +23,19 @@ public class CorridaView {
             }
 
             ViewUtils.limparConsole();
-            System.out.println("--- Menu do Motorista ---");
-            System.out.println("Olá, " + motoristaAtualizado.getNome() + "! Status: " + motoristaAtualizado.getStatus());
+
+            System.out.println("=== Menu Motorista ===");
+            System.out.println("Olá, " + motoristaAtualizado.getNome());
+            System.out.println("Status atual: " + motoristaAtualizado.getStatus());
+            if (motoristaAtualizado.getAvaliacao() != null){
+                System.out.printf("Avaliação: %.1f\n", motoristaAtualizado.getAvaliacao());
+            }else {
+                System.out.println("Avaliação: (Ainda não avaliado)");
+            }
             if (motoristaAtualizado.getLocalizacao() != null) {
                 System.out.println("Localização Atual: " + motoristaAtualizado.getLocalizacao().getDescricao());
             }
+            System.out.println("-----------------------");
 
             Corrida corridaAtiva = cs.buscarCorridaAtivaPorMotorista(motoristaAtualizado);
             if (corridaAtiva != null) {
@@ -39,6 +45,7 @@ public class CorridaView {
 
             System.out.println("\n1 - Ver Corridas Notificadas (" + motoristaAtualizado.getCorridasNotificadas().size() + ")");
             System.out.println("2 - Atualizar localização");
+            System.out.println("3 - Ver histórico de corridas");
             System.out.println("0 - Fazer Logout");
             System.out.print("\nEscolha uma opção: ");
 
@@ -49,6 +56,9 @@ public class CorridaView {
                     break;
                 case "2":
                     simularNovaLocalizacao(motoristaAtualizado);
+                    break;
+                case "3":
+                    verHistoricoMotorista(motoristaAtualizado);
                     break;
                 case "0":
                     System.out.println("\nFazendo logout...");
@@ -212,6 +222,82 @@ public class CorridaView {
             } catch (NumberFormatException e) {
                 System.out.println("\n[ERRO] Por favor, digite um número. Pressione ENTER.");
                 ViewUtils.sc.nextLine();
+            }
+        }
+    }
+
+    public static void verHistoricoMotorista(Motorista motorista) {
+        ViewUtils.limparConsole();
+        System.out.println("--- Seu Histórico de Corridas ---");
+
+        if (motorista.getCorridasAceitas().isEmpty()) {
+            System.out.println("\nVocê ainda não completou nenhuma corrida.");
+            System.out.println("Pressione ENTER para voltar.");
+            ViewUtils.sc.nextLine();
+            return;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+
+        for (Corrida corrida : motorista.getCorridasAceitas()) {
+            System.out.println("\n---------------------------------");
+            System.out.println("ID: " + corrida.getId());
+            String dataFim = (corrida.getHoraFim() != null) ? corrida.getHoraFim().format(formatter) : "N/A";
+            System.out.println("Data: " + dataFim);
+            System.out.println("Origem: " + corrida.getOrigem().getDescricao());
+            System.out.println("Destino: " + corrida.getDestino().getDescricao());
+            System.out.printf("Valor Recebido: R$ %.2f\n", corrida.getValor());
+            System.out.println("Passageiro ID: " + corrida.getPassageiroId());
+            Passageiro passageiro = cs.getPassageiroById(corrida.getPassageiroId());
+            System.out.println("Passageiro: " + passageiro.getNome());
+            System.out.println("---------------------------------");
+        }
+
+        while (true) {
+            System.out.print("\nDigite o ID da corrida para Avaliar o passageiro (ou 0 para voltar): ");
+            String inputId = ViewUtils.sc.nextLine();
+
+            try {
+                int idCorrida = Integer.parseInt(inputId);
+
+                if (idCorrida == 0) return;
+
+                Corrida corridaSelecionada = motorista.getCorridasAceitas().stream()
+                        .filter(c -> c.getId() == idCorrida)
+                        .findFirst()
+                        .orElse(null);
+
+                if (corridaSelecionada != null) {
+                    processarAvaliacao(corridaSelecionada);
+                    return;
+                } else {
+                    System.out.println("\n[ERRO] ID não encontrado no seu histórico.");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\n[ERRO] Digite um número de ID válido.");
+            }
+        }
+    }
+
+    private static void processarAvaliacao(Corrida corrida) {
+        while (true) {
+            try {
+                System.out.print("\nDigite uma nota de 0 a 5 para o Passageiro: ");
+                String notaInput = ViewUtils.sc.nextLine().replace(",", ".");
+                double nota = Double.parseDouble(notaInput);
+
+                if (nota < 0 || nota > 5) {
+                    System.out.println("\n[ERRO] A nota deve estar entre 0 e 5.");
+                } else {
+                    PassageiroService.receberAvaliacao(corrida.getPassageiroId(), nota);
+                    System.out.println("\nAvaliação enviada com sucesso!");
+                    System.out.println("Pressione ENTER para continuar...");
+                    ViewUtils.sc.nextLine();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\n[ERRO] Formato de nota inválido. Use apenas números (ex: 4.5).");
             }
         }
     }

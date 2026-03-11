@@ -34,11 +34,11 @@ public class PassageiroService {
         return passageiroRepository.buscarPorEmail(email);
     }
 
-    public Passageiro buscarPorId(int id) {
+    public static Passageiro buscarPorId(int id) {
         return passageiroRepository.buscarPorId(id);
     }
 
-    public void atualizar(Passageiro passageiro) {
+    public static void atualizar(Passageiro passageiro) {
         passageiroRepository.atualizar(passageiro);
     }
 
@@ -59,5 +59,19 @@ public class PassageiroService {
         }
         passageiroRepository.atualizar(cliente);
     }
+
+    public static void receberAvaliacao(int idPassageiro, Double avaliacao){
+        Passageiro passageiroAvaliado = buscarPorId(idPassageiro);
+
+        if (passageiroAvaliado.getAvaliacao() == null){
+            passageiroAvaliado.setAvaliacao(avaliacao);
+        } else {
+            Double novaAvaliacao = (passageiroAvaliado.getAvaliacao() + avaliacao)/2;
+            passageiroAvaliado.setAvaliacao(novaAvaliacao);
+        }
+
+        atualizar(passageiroAvaliado);
+    }
+
 
 }

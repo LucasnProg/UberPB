@@ -12,6 +12,7 @@ public abstract class Usuario {
     private String senha;
     private String cpf;
     private String telefone;
+    private Double avaliacao;
 
     /**
      * Construtor para a classe Usuario.
@@ -27,6 +28,7 @@ public abstract class Usuario {
         this.cpf = cpf;
         this.telefone = telefone;
         this.senha = senha;
+        this.avaliacao = null;
     }
 
 
@@ -76,5 +78,13 @@ public abstract class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public Double getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Double avaliacao) {
+        this.avaliacao = avaliacao;
     }
 }

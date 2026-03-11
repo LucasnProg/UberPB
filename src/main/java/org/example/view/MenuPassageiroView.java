@@ -8,7 +8,14 @@ public class MenuPassageiroView {
         int opcao = -1;
         while (opcao != 0) {
             ViewUtils.limparConsole();
-            System.out.println("--- Menu do Passageiro ---\nOlá, " + passageiro.getNome() + "!");
+            System.out.println("=== Menu Usuário ===");
+            System.out.println("Bem-vindo, " + passageiro.getNome());
+            if (passageiro.getAvaliacao() != null){
+                System.out.printf("Avaliação: %.1f\n", passageiro.getAvaliacao());
+            }else {
+                System.out.println("Avaliação: (Ainda não avaliado)");
+            }
+            System.out.println("-----------------------");
             System.out.println("\n1 - Solicitar uma Corrida");
             System.out.println("2 - Acompanhar Corridas Solicitadas");
             System.out.println("3 - Ver Histórico de Corridas");
