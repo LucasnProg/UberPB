@@ -687,5 +687,34 @@
     "senha": "velocidade10",
     "cpf": "555.444.629-10",
     "telefone": "83912345678"
+  },
+  {
+    "status": "OCUPADO",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 17,
+    "nome": "Entregador Veloz",
+    "email": "repo_entregador_1773341042415@delivery.com",
+    "senha": "senha123",
+    "cpf": "222.333.415-44",
+    "telefone": "83900000000"
+  },
+  {
+    "localizacaoAtual": {
+      "descricao": "Casa",
+      "latitude": -7.2192,
+      "longitude": -35.9034
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 18,
+    "nome": "Marcos Motoboy",
+    "email": "entregador_1773341042825@gmail.com",
+    "senha": "velocidade10",
+    "cpf": "555.444.825-10",
+    "telefone": "83912345678"
   }
 ]
