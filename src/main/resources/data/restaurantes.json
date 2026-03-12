@@ -1,252 +1,345 @@
 [
   {
-    "categoria": "Lanchonete",
+    "categoria": "Pizzaria",
     "endereco": {
-      "descricao": "Universitário",
-      "latitude": -7.214,
-      "longitude": -35.909
+      "latitude": 0.0,
+      "longitude": 0.0
     },
     "menu": [
       {
         "id": 1,
-        "nome": "Coxinha",
-        "ingredientes": "Frango",
-        "preco": 5.0,
-        "tempoPreparo": 10
+        "nome": "Pizza",
+        "ingredientes": "Massa",
+        "preco": 40.0,
+        "tempoPreparo": 20
       }
     ],
     "pedidosNotificados": [],
-    "pedidosAceitos": [
+    "pedidosAceitos": [],
+    "id": 1,
+    "nome": "Pizza Boa",
+    "email": "pizza@email.com",
+    "senha": "123",
+    "cpf": "000",
+    "telefone": "999"
+  },
+  {
+    "categoria": "Pizzaria",
+    "endereco": {
+      "latitude": -7.22,
+      "longitude": -35.88
+    },
+    "menu": [],
+    "pedidosNotificados": [],
+    "pedidosAceitos": [],
+    "id": 2,
+    "nome": "Pizzaria Central",
+    "email": "restaurante_1773258423126@food.com",
+    "senha": "senha123",
+    "cpf": "12.345.126/0001-90",
+    "telefone": "83900000000"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [
       {
-        "idPedido": 1,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 1,
+        "idPedido": 6,
+        "idCliente": 2,
+        "idRestaurante": 3,
+        "idEntregador": 2,
         "itensPedidos": [
           {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          },
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
+            "id": 0,
+            "nome": "Pizza",
+            "ingredientes": "Queijo",
+            "preco": 50.0,
+            "tempoPreparo": 20
           }
         ],
-        "valor": 18.558717259176223,
+        "valor": 65.74727345281752,
         "formaPagamento": "PIX",
-        "statusPedido": "EM_CURSO",
+        "statusPedido": "SOLICITADA",
         "EntregadoresQueRejeitaram": [
           0
         ],
         "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
+          "latitude": -7.2,
+          "longitude": -35.9
         },
         "destino": {
-          "descricao": "Centro",
-          "latitude": -7.2241,
-          "longitude": -35.8834
+          "latitude": -7.25,
+          "longitude": -35.95
         },
-        "horaInicio": "2026-03-09T16:28:25.4737887",
-        "horaAceite": "2026-03-09T17:00:13.5643125",
+        "horaInicio": "2026-03-11T16:47:03.416751",
         "precisaTroco": false,
         "agendamento": false,
-        "aceiteEntregador": true,
-        "aceiteRestaurante": true
-      },
-      {
-        "idPedido": 2,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 1,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          },
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          },
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 23.558717259176223,
-        "formaPagamento": "PIX",
-        "statusPedido": "EM_CURSO",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "destino": {
-          "descricao": "Centro",
-          "latitude": -7.2241,
-          "longitude": -35.8834
-        },
-        "horaInicio": "2026-03-09T16:59:10.5967309",
-        "horaAceite": "2026-03-09T17:01:37.4466945",
-        "precisaTroco": false,
-        "agendamento": false,
-        "aceiteEntregador": true,
-        "aceiteRestaurante": true
-      },
-      {
-        "idPedido": 3,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 1,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          },
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 17.64062614482343,
-        "formaPagamento": "CARTAO_CREDITO",
-        "statusPedido": "FINALIZADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "destino": {
-          "descricao": "Dinamérica",
-          "latitude": -7.235,
-          "longitude": -35.915
-        },
-        "horaInicio": "2026-03-09T18:44:20.5163784",
-        "horaAceite": "2026-03-09T18:47:41.6971849",
-        "horaFim": "2026-03-09T18:48:03.1795554",
-        "precisaTroco": false,
-        "agendamento": false,
-        "aceiteEntregador": true,
-        "aceiteRestaurante": true
-      },
-      {
-        "idPedido": 4,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 1,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          },
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 18.558717259176223,
-        "formaPagamento": "PIX",
-        "statusPedido": "FINALIZADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "destino": {
-          "descricao": "Centro",
-          "latitude": -7.2241,
-          "longitude": -35.8834
-        },
-        "horaInicio": "2026-03-10T16:36:58.4344153",
-        "horaAceite": "2026-03-10T16:38:56.4133489",
-        "horaFim": "2026-03-10T16:39:37.6473723",
-        "precisaTroco": false,
-        "agendamento": false,
-        "aceiteEntregador": true,
-        "aceiteRestaurante": true
-      },
-      {
-        "idPedido": 5,
-        "idCliente": 1,
-        "idRestaurante": 1,
-        "idEntregador": 1,
-        "itensPedidos": [
-          {
-            "id": 1,
-            "nome": "Coxinha",
-            "ingredientes": "Frango",
-            "preco": 5.0,
-            "tempoPreparo": 10
-          }
-        ],
-        "valor": 13.558717259176223,
-        "formaPagamento": "PIX",
-        "statusPedido": "FINALIZADA",
-        "EntregadoresQueRejeitaram": [
-          0
-        ],
-        "origem": {
-          "descricao": "Universitário",
-          "latitude": -7.214,
-          "longitude": -35.909
-        },
-        "destino": {
-          "descricao": "Centro",
-          "latitude": -7.2241,
-          "longitude": -35.8834
-        },
-        "horaInicio": "2026-03-11T15:17:22.3016639",
-        "horaAceite": "2026-03-11T15:18:46.2705365",
-        "horaFim": "2026-03-11T15:19:32.4751565",
-        "precisaTroco": false,
-        "agendamento": false,
-        "aceiteEntregador": true,
-        "aceiteRestaurante": true
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
       }
     ],
-    "id": 1,
-    "nome": "tialu@gmail.com",
-    "email": "tialu@gmail.com",
-    "senha": "senha123",
-    "cpf": "12.123.123/1234-00",
-    "telefone": "123456789",
-    "avaliacao": 4.5
+    "pedidosAceitos": [],
+    "id": 3,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [
+      {
+        "idPedido": 7,
+        "idCliente": 3,
+        "idRestaurante": 4,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Sushi",
+            "ingredientes": "Peixe",
+            "preco": 80.0,
+            "tempoPreparo": 25
+          }
+        ],
+        "valor": 107.49390000364095,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.5121507",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "pedidosAceitos": [],
+    "id": 4,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [
+      {
+        "idPedido": 8,
+        "idCliente": 4,
+        "idRestaurante": 5,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Hamburguer",
+            "ingredientes": "Carne",
+            "preco": 30.0,
+            "tempoPreparo": 15
+          }
+        ],
+        "valor": 45.74727345281752,
+        "formaPagamento": "DINHEIRO",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.25,
+          "longitude": -35.95
+        },
+        "horaInicio": "2026-03-11T16:47:03.5948357",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "pedidosAceitos": [],
+    "id": 5,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [
+      {
+        "idPedido": 9,
+        "idCliente": 5,
+        "idRestaurante": 6,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Taco",
+            "ingredientes": "Carne",
+            "preco": 25.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 52.493900003640945,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.6783237",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "pedidosAceitos": [],
+    "id": 6,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [],
+    "pedidosAceitos": [],
+    "id": 7,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [],
+    "pedidosAceitos": [],
+    "id": 8,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [],
+    "pedidosAceitos": [],
+    "id": 9,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
+  },
+  {
+    "categoria": "Comida",
+    "endereco": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "menu": [],
+    "pedidosNotificados": [
+      {
+        "idPedido": 10,
+        "idCliente": 9,
+        "idRestaurante": 10,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Lasanha",
+            "ingredientes": "Frango",
+            "preco": 40.0,
+            "tempoPreparo": 20
+          }
+        ],
+        "valor": 67.49390000364095,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.8150205",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "pedidosAceitos": [],
+    "id": 10,
+    "nome": "Restaurante Teste",
+    "email": "rest@test.com",
+    "senha": "123",
+    "cpf": "22222222222",
+    "telefone": "88888888"
   }
 ]

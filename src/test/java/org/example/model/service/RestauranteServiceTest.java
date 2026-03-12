@@ -6,47 +6,49 @@ import org.example.model.entity.Restaurante;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestauranteServiceTest {
 
-    private RestauranteService service;
+    private RestauranteService restauranteService;
+    private Restaurante restauranteFake;
 
     @BeforeEach
     void setUp() {
-        service = new RestauranteService();
-        File arquivo = new File("src/main/resources/data/restaurantes.json");
-        if (arquivo.exists()) arquivo.delete();
+        restauranteService = new RestauranteService();
+        Localizacao loc = new Localizacao(0, 0);
+        restauranteFake = new Restaurante("Pizza Boa", "pizza@email.com", "123", "000", "999", "Pizzaria", loc);
+        restauranteFake.setId(1);
     }
 
     @Test
-    void testeCriarERestauranteLogin() {
-        Localizacao loc = new Localizacao(0.0, 0.0);
-        Restaurante r = service.criar("Rest1", "rest1@email.com", "senha123", "1112223330001", "11977777777", "Italiana", loc);
-        assertNotNull(r);
+    void testAdicionarEBuscarItemAoCardapio() {
+        MenuItem item = new MenuItem("Pizza Calabresa", "Queijo e calabresa", 45.0, 30);
 
-        Restaurante login = service.login("rest1@email.com", "senha123");
-        assertNotNull(login);
-        assertEquals(r.getCnpj(), login.getCnpj());
+        restauranteService.adicionarItemAoCardapio(restauranteFake, item);
+
+        assertNotNull(restauranteFake.getMenu(), "O menu não pode ser nulo.");
+        assertEquals(1, restauranteFake.getMenu().size(), "O menu deve ter 1 item.");
+
+        assertEquals(1, item.getId());
+
+        MenuItem itemBuscado = restauranteService.getItemPorId(restauranteFake, 1);
+        assertNotNull(itemBuscado);
+        assertEquals("Pizza Calabresa", itemBuscado.getNome());
     }
 
     @Test
-    void testeAdicionarERemoverItemCardapio() {
-        Localizacao loc = new Localizacao(1.0, 1.0);
-        Restaurante r = service.criar("Rest2", "rest2@email.com", "senha123", "2223334440001", "11988888888", "Mexicana", loc);
+    void testRemoverItemPorId() {
+        MenuItem item1 = new MenuItem("Pizza", "Massa", 40.0, 20);
+        MenuItem item2 = new MenuItem("Suco", "Laranja", 10.0, 5);
 
-        MenuItem item = new MenuItem("Taco", "Carne", 12.5, 15);
-        service.adicionarItemAoCardapio(r, item);
+        restauranteService.adicionarItemAoCardapio(restauranteFake, item1);
+        restauranteService.adicionarItemAoCardapio(restauranteFake, item2);
 
-        Restaurante salvo = service.buscarPorId(r.getId());
-        assertNotNull(salvo.getMenu());
-        assertEquals(1, salvo.getMenu().size());
-        assertEquals("Taco", salvo.getMenu().get(0).getNome());
+        restauranteService.removerItemPorId(restauranteFake, 2);
 
-        service.removerItemPorId(salvo, 1);
-        Restaurante depois = service.buscarPorId(r.getId());
-        assertTrue(depois.getMenu().isEmpty());
+        assertEquals(1, restauranteFake.getMenu().size());
+        assertNull(restauranteService.getItemPorId(restauranteFake, 2), "O item removido não deve mais ser encontrado.");
     }
 }

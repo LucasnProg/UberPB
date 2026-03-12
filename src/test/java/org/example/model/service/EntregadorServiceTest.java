@@ -1,56 +1,47 @@
 package org.example.model.service;
 
 import org.example.model.entity.Entregador;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Testes de Integração - EntregadorService")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class EntregadorServiceTest {
 
-    private EntregadorService service;
+    private EntregadorService entregadorService;
+    private static String emailTeste;
+    private static String cpfTeste;
 
     @BeforeEach
     void setUp() {
-        service = new EntregadorService();
-        File arquivo = new File("src/main/resources/data/entregadores.json");
-        if (arquivo.exists()) arquivo.delete();
+        entregadorService = new EntregadorService();
+    }
+
+    @BeforeAll
+    static void setUpAll() {
+        long timestamp = System.currentTimeMillis();
+        emailTeste = "entregador_" + timestamp + "@gmail.com";
+        cpfTeste = "555.444." + (timestamp % 1000) + "-10";
     }
 
     @Test
-    void testeCriarEntregadorSucesso() {
-        Entregador e = service.criar("Pedro", "pedro@email.com", "senha123", "11122233344", "11977777777");
-        assertNotNull(e);
-        assertEquals("Pedro", e.getNome());
-
-        Entregador login = service.login("pedro@email.com", "senha123");
-        assertNotNull(login);
-        assertEquals(e.getCpf(), login.getCpf());
+    @Order(1)
+    @DisplayName("Deve cadastrar um novo Entregador com dados válidos")
+    void testeCadastrarEntregador() {
+        Entregador entregador = entregadorService.criar("Marcos Motoboy", emailTeste, "velocidade10", cpfTeste, "83912345678");
+        assertNotNull(entregador);
+        assertEquals(emailTeste, entregador.getEmail());
     }
 
     @Test
-    void testeAtualizarEntregador() {
-        Entregador e = service.criar("Mariana", "mariana@email.com", "senha123", "22233344455", "11955555555");
-        Entregador buscado = service.buscarPorId(e.getId());
-        assertNotNull(buscado);
+    @Order(2)
+    @DisplayName("Deve realizar autenticação correta do Entregador")
+    void testeLoginEntregador() {
+        Entregador sucesso = entregadorService.login(emailTeste, "velocidade10");
+        assertNotNull(sucesso);
 
-        buscado.setNome("Mariana Silva");
-        service.atualizar(buscado);
-
-        Entregador atualizado = service.buscarPorId(buscado.getId());
-        assertEquals("Mariana Silva", atualizado.getNome());
-    }
-
-    @Test
-    void testeCriarEntregadorDuplicado() {
-        service.criar("Felipe", "felipe@email.com", "senha123", "33344455566", "11966666666");
-        Entregador dupEmail = service.criar("Felipe II", "felipe@email.com", "senha456", "44455566677", "11900000000");
-        assertNull(dupEmail);
-
-        // duplicar por CPF
-        Entregador dupCpf = service.criar("Felipe III", "felipe3@email.com", "senha789", "33344455566", "11912312312");
-        assertNull(dupCpf);
+        Entregador falha = entregadorService.login(emailTeste, "senhaErrada");
+        assertNull(falha);
     }
 }

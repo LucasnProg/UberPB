@@ -180,5 +180,18 @@
     "numAssentos": 5,
     "premium": false,
     "categoria": "UBER_COMFORT"
+  },
+  {
+    "id": 15,
+    "marca": "Chevrolet",
+    "modelo": "Onix",
+    "placa": "AB1C22",
+    "renavam": "1526348",
+    "anoFabricacao": 2024,
+    "cor": "Preto",
+    "capacidadeMala": 500.0,
+    "numAssentos": 5,
+    "premium": false,
+    "categoria": "UBER_X"
   }
 ]

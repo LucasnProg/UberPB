@@ -1,46 +1,53 @@
 package org.example.model.entity;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Testes da Entidade Usuario (Abstrata)")
 class UsuarioTest {
 
-    // Classe concreta fake só para permitir instanciar Usuario
-    static class UsuarioFake extends Usuario {
-        public UsuarioFake(String nome, String email, String senha, String cpf, String telefone) {
-            super(nome, email, senha, cpf, telefone);
-        }
+    private Usuario usuario;
+
+    @BeforeEach
+    void setUp() {
+        usuario = new Usuario("João Silva", "joao@gmail.com", "senha123", "111.222.333-44", "83999999999") {};
     }
 
     @Test
-    void deveCriarUsuarioComConstrutor() {
-        Usuario usuario = new UsuarioFake("João", "joao@email.com", "1234", "11122233344", "999999999");
-
-        assertEquals("João", usuario.getNome());
-        assertEquals("joao@email.com", usuario.getEmail());
-        assertEquals("1234", usuario.getSenha());
-        assertEquals("11122233344", usuario.getCpf());
-        assertEquals("999999999", usuario.getTelefone());
-        assertEquals(0, usuario.getId()); // valor default de int
+    @DisplayName("Deve inicializar a entidade com os valores corretos no construtor")
+    void testeConstrutor() {
+        assertAll("Verificando construtor",
+                () -> assertEquals("João Silva", usuario.getNome()),
+                () -> assertEquals("joao@gmail.com", usuario.getEmail()),
+                () -> assertEquals("senha123", usuario.getSenha()),
+                () -> assertEquals("111.222.333-44", usuario.getCpf()),
+                () -> assertEquals("83999999999", usuario.getTelefone()),
+                () -> assertNull(usuario.getAvaliacao(), "Avaliação deve iniciar como nula")
+        );
     }
 
     @Test
-    void devePermitirAlterarValores() {
-        Usuario usuario = new UsuarioFake("Ana", "ana@email.com", "abc", "55566677788", "888888888");
-
+    @DisplayName("Deve validar todos os Getters e Setters corretamente")
+    void testeGettersESetters() {
         usuario.setId(10);
-        usuario.setNome("Maria");
-        usuario.setEmail("maria@email.com");
+        usuario.setNome("Maria Silva");
+        usuario.setEmail("maria@gmail.com");
         usuario.setSenha("novaSenha");
-        usuario.setCpf("99988877766");
-        usuario.setTelefone("777777777");
+        usuario.setCpf("000.000.000-00");
+        usuario.setTelefone("83888888888");
+        usuario.setAvaliacao(4.8);
 
-        assertEquals(10, usuario.getId());
-        assertEquals("Maria", usuario.getNome());
-        assertEquals("maria@email.com", usuario.getEmail());
-        assertEquals("novaSenha", usuario.getSenha());
-        assertEquals("99988877766", usuario.getCpf());
-        assertEquals("777777777", usuario.getTelefone());
+        assertAll("Verificando getters e setters",
+                () -> assertEquals(10, usuario.getId()),
+                () -> assertEquals("Maria Silva", usuario.getNome()),
+                () -> assertEquals("maria@gmail.com", usuario.getEmail()),
+                () -> assertEquals("novaSenha", usuario.getSenha()),
+                () -> assertEquals("000.000.000-00", usuario.getCpf()),
+                () -> assertEquals("83888888888", usuario.getTelefone()),
+                () -> assertEquals(4.8, usuario.getAvaliacao())
+        );
     }
 }

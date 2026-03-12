@@ -305,5 +305,253 @@
     "cpf": "123.123.123-00",
     "telefone": "123123123",
     "avaliacao": 5.0
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [
+      {
+        "idPedido": 6,
+        "idCliente": 2,
+        "idRestaurante": 3,
+        "idEntregador": 0,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Pizza",
+            "ingredientes": "Queijo",
+            "preco": 50.0,
+            "tempoPreparo": 20
+          }
+        ],
+        "valor": 65.74727345281752,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.25,
+          "longitude": -35.95
+        },
+        "horaInicio": "2026-03-11T16:47:03.416751",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "historicoPedidos": [],
+    "id": 2,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [
+      {
+        "idPedido": 7,
+        "idCliente": 3,
+        "idRestaurante": 4,
+        "idEntregador": 0,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Sushi",
+            "ingredientes": "Peixe",
+            "preco": 80.0,
+            "tempoPreparo": 25
+          }
+        ],
+        "valor": 107.49390000364095,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.5121507",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "historicoPedidos": [],
+    "id": 3,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
+    "id": 4,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [
+      {
+        "idPedido": 9,
+        "idCliente": 5,
+        "idRestaurante": 6,
+        "idEntregador": 0,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Taco",
+            "ingredientes": "Carne",
+            "preco": 25.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 52.493900003640945,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.6783237",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "historicoPedidos": [],
+    "id": 5,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
+    "id": 6,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
+    "id": 7,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
+    "id": 8,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [
+      {
+        "idPedido": 10,
+        "idCliente": 9,
+        "idRestaurante": 10,
+        "idEntregador": 0,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Lasanha",
+            "ingredientes": "Frango",
+            "preco": 40.0,
+            "tempoPreparo": 20
+          }
+        ],
+        "valor": 67.49390000364095,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.8150205",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "historicoPedidos": [],
+    "id": 9,
+    "nome": "Cliente Teste",
+    "email": "cliente@test.com",
+    "senha": "123",
+    "cpf": "11111111111",
+    "telefone": "99999999"
+  },
+  {
+    "corridasPendentes": [],
+    "historicoCorridas": [],
+    "pedidosPendentes": [],
+    "historicoPedidos": [],
+    "id": 10,
+    "nome": "Bruno Alves",
+    "email": "passageiro_1773258423907@email.com",
+    "senha": "senha123",
+    "cpf": "111.222.907-33",
+    "telefone": "83977777777"
   }
 ]

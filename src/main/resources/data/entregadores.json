@@ -284,5 +284,408 @@
     "cpf": "123.123.123-00",
     "telefone": "123456789",
     "avaliacao": 5.0
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [
+      {
+        "idPedido": 6,
+        "idCliente": 2,
+        "idRestaurante": 3,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Pizza",
+            "ingredientes": "Queijo",
+            "preco": 50.0,
+            "tempoPreparo": 20
+          }
+        ],
+        "valor": 65.74727345281752,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.25,
+          "longitude": -35.95
+        },
+        "horaInicio": "2026-03-11T16:47:03.416751",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      },
+      {
+        "idPedido": 7,
+        "idCliente": 3,
+        "idRestaurante": 4,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Sushi",
+            "ingredientes": "Peixe",
+            "preco": 80.0,
+            "tempoPreparo": 25
+          }
+        ],
+        "valor": 107.49390000364095,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.5121507",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      },
+      {
+        "idPedido": 8,
+        "idCliente": 4,
+        "idRestaurante": 5,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Hamburguer",
+            "ingredientes": "Carne",
+            "preco": 30.0,
+            "tempoPreparo": 15
+          }
+        ],
+        "valor": 45.74727345281752,
+        "formaPagamento": "DINHEIRO",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.25,
+          "longitude": -35.95
+        },
+        "horaInicio": "2026-03-11T16:47:03.5948357",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      },
+      {
+        "idPedido": 9,
+        "idCliente": 5,
+        "idRestaurante": 6,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Taco",
+            "ingredientes": "Carne",
+            "preco": 25.0,
+            "tempoPreparo": 10
+          }
+        ],
+        "valor": 52.493900003640945,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.6783237",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      },
+      {
+        "idPedido": 10,
+        "idCliente": 9,
+        "idRestaurante": 10,
+        "idEntregador": 2,
+        "itensPedidos": [
+          {
+            "id": 0,
+            "nome": "Lasanha",
+            "ingredientes": "Frango",
+            "preco": 40.0,
+            "tempoPreparo": 20
+          }
+        ],
+        "valor": 67.49390000364095,
+        "formaPagamento": "PIX",
+        "statusPedido": "SOLICITADA",
+        "EntregadoresQueRejeitaram": [
+          0
+        ],
+        "origem": {
+          "latitude": -7.2,
+          "longitude": -35.9
+        },
+        "destino": {
+          "latitude": -7.3,
+          "longitude": -36.0
+        },
+        "horaInicio": "2026-03-11T16:47:03.8150205",
+        "precisaTroco": false,
+        "agendamento": false,
+        "aceiteEntregador": false,
+        "aceiteRestaurante": false
+      }
+    ],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 2,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 3,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 4,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 5,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 6,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 7,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 8,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "latitude": -7.2,
+      "longitude": -35.9
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 9,
+    "nome": "Entregador Teste",
+    "email": "ent@test.com",
+    "senha": "123",
+    "cpf": "33333333333",
+    "telefone": "7777777"
+  },
+  {
+    "localizacaoAtual": {
+      "descricao": "Ponto Turístico 1773258424016",
+      "latitude": -7.22,
+      "longitude": -35.88
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 10,
+    "nome": "Marcos Motoboy",
+    "email": "entregador_1773258424203@delivery.com",
+    "senha": "velocidade10",
+    "cpf": "555.444.203-10",
+    "telefone": "83912345678"
+  },
+  {
+    "status": "OCUPADO",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 11,
+    "nome": "Entregador Veloz",
+    "email": "repo_entregador_1773337876953@delivery.com",
+    "senha": "senha123",
+    "cpf": "222.333.953-44",
+    "telefone": "83900000000"
+  },
+  {
+    "localizacaoAtual": {
+      "descricao": "Universidade Estadual da Paraíba (UEPB) - Campus I",
+      "latitude": -7.2041,
+      "longitude": -35.9115
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 12,
+    "nome": "Marcos Motoboy",
+    "email": "entregador_1773337877364@delivery.com",
+    "senha": "velocidade10",
+    "cpf": "555.444.364-10",
+    "telefone": "83912345678"
+  },
+  {
+    "status": "OCUPADO",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 13,
+    "nome": "Entregador Veloz",
+    "email": "repo_entregador_1773337900621@delivery.com",
+    "senha": "senha123",
+    "cpf": "222.333.621-44",
+    "telefone": "83900000000"
+  },
+  {
+    "localizacaoAtual": {
+      "descricao": "Universidade Federal de Campina Grande (UFCG)",
+      "latitude": -7.2192,
+      "longitude": -35.9083
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 14,
+    "nome": "Marcos Motoboy",
+    "email": "entregador_1773337901062@delivery.com",
+    "senha": "velocidade10",
+    "cpf": "555.444.62-10",
+    "telefone": "83912345678"
+  },
+  {
+    "status": "OCUPADO",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 15,
+    "nome": "Entregador Veloz",
+    "email": "repo_entregador_1773338492196@delivery.com",
+    "senha": "senha123",
+    "cpf": "222.333.196-44",
+    "telefone": "83900000000"
+  },
+  {
+    "localizacaoAtual": {
+      "descricao": "Casa",
+      "latitude": -7.2192,
+      "longitude": -35.9034
+    },
+    "status": "DISPONIVEL",
+    "entregasNotificadas": [],
+    "entregasAceitas": [],
+    "idMotocicleta": 0,
+    "id": 16,
+    "nome": "Marcos Motoboy",
+    "email": "entregador_1773338492629@gmail.com",
+    "senha": "velocidade10",
+    "cpf": "555.444.629-10",
+    "telefone": "83912345678"
   }
 ]

@@ -43,5 +43,25 @@
     "descricao": "Casa",
     "latitude": -7.2192,
     "longitude": -35.9034
+  },
+  {
+    "descricao": "Ponto Turístico 1773258424016",
+    "latitude": -7.22,
+    "longitude": -35.88
+  },
+  {
+    "descricao": "Ponto Turístico 1773337877513",
+    "latitude": -7.22,
+    "longitude": -35.88
+  },
+  {
+    "descricao": "Ponto Turístico 1773337901300",
+    "latitude": -7.22,
+    "longitude": -35.88
+  },
+  {
+    "descricao": "Ponto Turístico 1773338492844",
+    "latitude": -7.22,
+    "longitude": -35.88
   }
 ]
