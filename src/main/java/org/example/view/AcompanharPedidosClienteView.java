@@ -4,6 +4,7 @@ import org.example.model.entity.MenuItem;
 import org.example.model.entity.Passageiro;
 import org.example.model.entity.Pedido;
 import org.example.model.entity.StatusCorrida;
+import org.example.model.entity.Entregador;
 import org.example.model.service.EntregadorService;
 import org.example.model.service.PassageiroService;
 import org.example.model.service.RestauranteService;
@@ -68,7 +69,8 @@ public class AcompanharPedidosClienteView {
         for (Pedido p : pedidos) {
             System.out.println("ID Pedido: " + p.getIdPedido());
             System.out.println("Restaurante : " + restauranteService.buscarPorId(p.getIdRestaurante()).getNome());
-            System.out.println("Entregador : " + entregadorService.buscarPorId(p.getIdEntregador()).getNome());
+            Entregador entregador = entregadorService.buscarPorId(p.getIdEntregador());
+            System.out.println("Entregador : " + (entregador != null ? entregador.getNome() : "Não atribuído"));
             System.out.println("Valor: R$ " + String.format("%.2f", p.getValor()));
             System.out.println("Itens:");
             if (p.getItensPedidos() != null) {
@@ -160,7 +162,8 @@ public class AcompanharPedidosClienteView {
         for (Pedido p : pedidos) {
             System.out.println("ID Pedido: " + p.getIdPedido());
             System.out.println("Restaurante : " + restauranteService.buscarPorId(p.getIdRestaurante()).getNome());
-            System.out.println("Entregador : " + entregadorService.buscarPorId(p.getIdEntregador()).getNome());
+            Entregador entregador = entregadorService.buscarPorId(p.getIdEntregador());
+            System.out.println("Entregador : " + (entregador != null ? entregador.getNome() : "Aguardando Entregador"));
             System.out.println("Valor: R$ " + String.format("%.2f", p.getValor()));
             System.out.println("Itens:");
             if (p.getItensPedidos() != null) {
@@ -179,7 +182,7 @@ public class AcompanharPedidosClienteView {
             String escolha = ViewUtils.sc.nextLine();
 
             if (escolha.equalsIgnoreCase("Sim")){
-                System.out.println("ABRE O TRAJETO");
+                MapaView.abrirMapa();
             } else {
                 System.out.println("Voltando...");
                 Thread.sleep(2000);
